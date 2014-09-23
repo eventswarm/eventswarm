@@ -19,12 +19,12 @@ import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.CSVEvent;
 import com.eventswarm.events.Event;
-import com.eventswarm.events.jdo.JdoCSVArrayEvent;
+import com.eventswarm.events.jdo.JdoCSVEvent;
+import com.eventswarm.events.jdo.JdoCSVEvent;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,15 +33,15 @@ import java.util.*;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class CSVArrayChannelTest {
+public class CSVChannelTest {
     private InputStream stream;
-    private CSVArrayChannel instance;
+    private CSVChannel instance;
     private List<Event> events;
     private AddEventAction addEvent;
 
     @Before
     public void openFile() throws Exception {
-        stream = CSVArrayChannelTest.class.getClassLoader().getResourceAsStream("fixtures/SGB.csv");
+        stream = CSVChannelTest.class.getClassLoader().getResourceAsStream("fixtures/SGB.csv");
         events = new ArrayList<Event>();
         addEvent = new AddEventAction(){
             public void execute(AddEventTrigger trigger, Event event) {
@@ -52,13 +52,13 @@ public class CSVArrayChannelTest {
 
     @Test
     public void testConstructStreamOnly() throws Exception {
-        instance = new CSVArrayChannel(stream);
+        instance = new CSVChannel(stream);
         assertNotNull(instance);
     }
 
     @Test
     public void testSetupStreamOnly() throws Exception {
-        instance = new CSVArrayChannel(stream);
+        instance = new CSVChannel(stream);
         instance.setup();
         assertEquals(130, instance.getFieldNames().length);
         assertEquals(130, instance.getFieldMap().size());
@@ -71,7 +71,7 @@ public class CSVArrayChannelTest {
         for (int i=0; i<names.length; i++) {
             names[i] = Integer.toString(i);
         }
-        instance = new CSVArrayChannel(stream, names);
+        instance = new CSVChannel(stream, names);
         instance.setup();
         assertEquals(130, instance.getFieldNames().length);
         assertEquals(130, instance.getFieldMap().size());
@@ -86,7 +86,7 @@ public class CSVArrayChannelTest {
         fieldMap.put("#RIC", 0);
         fieldMap.put("Date[L]", 1);
         fieldMap.put("Type", 2);
-        instance = new CSVArrayChannel(stream, fieldMap);
+        instance = new CSVChannel(stream, fieldMap);
         instance.setup();
         assertEquals(130, instance.getFieldNames().length);
         assertEquals(3, instance.getFieldMap().size());
@@ -105,7 +105,7 @@ public class CSVArrayChannelTest {
             names[i] = "Column" + Integer.toString(i);
             fieldMap.put(names[i], i);
         }
-        instance = new CSVArrayChannel(stream, names, fieldMap);
+        instance = new CSVChannel(stream, names, fieldMap);
         instance.setup();
         assertEquals(130, instance.getFieldNames().length);
         assertEquals(130, instance.getFieldMap().size());
@@ -117,7 +117,7 @@ public class CSVArrayChannelTest {
 
     @Test
     public void testCreateEventDefaultNamesAndMap() throws Exception {
-        instance = new CSVArrayChannel(stream);
+        instance = new CSVChannel(stream);
         instance.setup();
         String[] values = new String[130];
         for(int i=0; i<values.length; i++) { values[i] = Integer.toString(i); }
@@ -132,7 +132,7 @@ public class CSVArrayChannelTest {
         fieldMap.put("#RIC", 0);
         fieldMap.put("Date[L]", 1);
         fieldMap.put("Type", 2);
-        instance = new CSVArrayChannel(stream, fieldMap);
+        instance = new CSVChannel(stream, fieldMap);
         instance.setup();
         String[] values = new String[130];
         for(int i=0; i<values.length; i++) { values[i] = Integer.toString(i); }
@@ -144,7 +144,7 @@ public class CSVArrayChannelTest {
 
     @Test
     public void testNextWithCompact() throws Exception {
-        instance = new CSVArrayChannel(stream);
+        instance = new CSVChannel(stream);
         instance.setup();
         CSVEvent event = (CSVEvent) instance.next();
         System.out.println("Compact doesn't work because opencsv does not create nulls");
@@ -155,9 +155,9 @@ public class CSVArrayChannelTest {
 
     @Test
     public void testNextWithoutCompact() throws Exception {
-        instance = new CSVArrayChannel(stream);
+        instance = new CSVChannel(stream);
         instance.setup();
-        JdoCSVArrayEvent event = (JdoCSVArrayEvent) instance.next();
+        JdoCSVEvent event = (JdoCSVEvent) instance.next();
         event.setCompact(false);
         System.out.println("Compact doesn't work because opencsv does not create nulls");
         //assertNull(event.get("Time[L]"));
@@ -171,7 +171,7 @@ public class CSVArrayChannelTest {
         fieldMap.put("#RIC", 0);
         fieldMap.put("Date[L]", 1);
         fieldMap.put("Type", 2);
-        instance = new CSVArrayChannel(stream, fieldMap);
+        instance = new CSVChannel(stream, fieldMap);
         instance.setup();
         CSVEvent event = (CSVEvent) instance.next();
         assertEquals("SGB.AX", event.get("#RIC"));
@@ -185,7 +185,7 @@ public class CSVArrayChannelTest {
         fieldMap.put("#RIC", 0);
         fieldMap.put("Date[L]", 1);
         fieldMap.put("Type", 2);
-        instance = new CSVArrayChannel(stream, fieldMap);
+        instance = new CSVChannel(stream, fieldMap);
         instance.registerAction(addEvent);
         instance.process();
         assertEquals(764L, instance.getCount());
@@ -198,7 +198,7 @@ public class CSVArrayChannelTest {
         for (int i=0; i<names.length; i++) {
             names[i] = Integer.toString(i);
         }
-        instance = new CSVArrayChannel(stream).setFieldNames(names);
+        instance = new CSVChannel(stream).setFieldNames(names);
         instance.setup();
         assertEquals(130, instance.getFieldNames().length);
         assertEquals(130, instance.getFieldMap().size());
@@ -213,7 +213,7 @@ public class CSVArrayChannelTest {
         fieldMap.put("#RIC", 0);
         fieldMap.put("Date[L]", 1);
         fieldMap.put("Type", 2);
-        instance = new CSVArrayChannel(stream).setFieldMap(fieldMap);
+        instance = new CSVChannel(stream).setFieldMap(fieldMap);
         instance.setup();
         assertEquals(130, instance.getFieldNames().length);
         assertEquals(3, instance.getFieldMap().size());
@@ -233,7 +233,7 @@ public class CSVArrayChannelTest {
             names[i] = "Column" + Integer.toString(i);
             fieldMap.put(names[i], i);
         }
-        instance = new CSVArrayChannel(stream).setFieldMap(fieldMap).setFieldNames(names);
+        instance = new CSVChannel(stream).setFieldMap(fieldMap).setFieldNames(names);
         instance.setup();
         assertEquals(130, instance.getFieldNames().length);
         assertEquals(130, instance.getFieldMap().size());
@@ -245,17 +245,17 @@ public class CSVArrayChannelTest {
 
     @Test
     public void testSetSourceName() throws Exception {
-        instance = new CSVArrayChannel(stream).setSourceName("CSVArrayChannelTest");
+        instance = new CSVChannel(stream).setSourceName("CSVChannelTest");
         instance.setup();
         String[] values = new String[130];
         for(int i=0; i<values.length; i++) { values[i] = Integer.toString(i); }
         CSVEvent event = instance.createEvent(values);
-        assertEquals("CSVArrayChannelTest", event.getHeader().getSource().getSourceId());
+        assertEquals("CSVChannelTest", event.getHeader().getSource().getSourceId());
     }
 
     @Test
     public void testSetSourceField() throws Exception {
-        instance = new CSVArrayChannel(stream).setSourceField("#RIC");
+        instance = new CSVChannel(stream).setSourceField("#RIC");
         instance.setup();
         String[] values = new String[130];
         for(int i=0; i<values.length; i++) { values[i] = Integer.toString(i); }
@@ -265,7 +265,7 @@ public class CSVArrayChannelTest {
 
     @Test
     public void testSetTimestampField() throws Exception {
-        instance = new CSVArrayChannel(stream).setTimestampField("Date[L]", new SimpleDateFormat("d-MMM-yy"));
+        instance = new CSVChannel(stream).setTimestampField("Date[L]", new SimpleDateFormat("d-MMM-yy"));
         instance.setup();
         String[] values = new String[130];
         Event event = instance.next();

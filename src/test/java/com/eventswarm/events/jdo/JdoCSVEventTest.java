@@ -29,11 +29,11 @@ import java.util.Map;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class JdoCSVArrayEventTest {
+public class JdoCSVEventTest {
     private Map<String,Integer> fieldMap;
-    private JdoCSVArrayEvent instance;
+    private JdoCSVEvent instance;
     private JdoHeader header;
-    private static JdoSource SOURCE = new JdoSource("JdoCSVArrayEventTest");
+    private static JdoSource SOURCE = new JdoSource("JdoCSVEventTest");
 
     @Before
     public void setup() throws Exception {
@@ -47,15 +47,14 @@ public class JdoCSVArrayEventTest {
     @Test
     public void testConstruct() throws Exception {
         String[] values = {"zero", "one", "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         assertNotNull(instance);
     }
-
 
     @Test
     public void testGet() throws Exception {
         String[] values = {"zero", "one", "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         assertEquals("zero", instance.get("Zero"));
         assertEquals("one", instance.get("One"));
         assertEquals("two", instance.get("Two"));
@@ -64,7 +63,7 @@ public class JdoCSVArrayEventTest {
     @Test
     public void testLessValues() throws Exception {
         String[] values = {"zero", "one"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         assertEquals("zero", instance.get("Zero"));
         assertEquals("one", instance.get("One"));
         assertNull(instance.get("Two"));
@@ -73,7 +72,7 @@ public class JdoCSVArrayEventTest {
     @Test
     public void testMoreValues() throws Exception {
         String[] values = {"zero", "one", "two", "three"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         assertEquals("zero", instance.get("Zero"));
         assertEquals("one", instance.get("One"));
         assertEquals("two", instance.get("Two"));
@@ -82,7 +81,7 @@ public class JdoCSVArrayEventTest {
     @Test
     public void testGetCsvMap() throws Exception {
         String[] values = {"zero", "one", "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         Map<String,String> map = instance.getCsvMap();
         assertEquals("zero", map.get("Zero"));
         assertEquals("one", map.get("One"));
@@ -92,7 +91,7 @@ public class JdoCSVArrayEventTest {
     @Test
     public void testGetCsvMapCompact() throws Exception {
         String[] values = {"zero", null, "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         Map<String,String> map = instance.getCsvMap();
         assertFalse(map.containsKey("One"));
         assertEquals("zero", map.get("Zero"));
@@ -102,7 +101,7 @@ public class JdoCSVArrayEventTest {
     @Test
     public void testGetCsvMapNotCompact() throws Exception {
         String[] values = {"zero", null, "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         instance.setCompact(false);
         Map<String,String> map = instance.getCsvMap();
         assertTrue(map.containsKey("One"));
@@ -113,7 +112,7 @@ public class JdoCSVArrayEventTest {
     public void testStringRetriever() throws Exception {
         ValueRetriever<String> retriever = new CSVEvent.CSVRetriever("One");
         String[] values = {"zero", "one", "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         assertEquals("one", retriever.getValue(instance));
     }
 
@@ -121,7 +120,7 @@ public class JdoCSVArrayEventTest {
     public void testLongRetriever() throws Exception {
         ValueRetriever<Number> retriever = new CSVEvent.CSVLongRetriever("One");
         String[] values = {"zero", "1", "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         assertEquals(1L, retriever.getValue(instance));
     }
 
@@ -129,7 +128,7 @@ public class JdoCSVArrayEventTest {
     public void testDoubleRetriever() throws Exception {
         ValueRetriever<Number> retriever = new CSVEvent.CSVDoubleRetriever("One");
         String[] values = {"zero", "1", "two"};
-        instance = new JdoCSVArrayEvent(header, fieldMap, values);
+        instance = new JdoCSVEvent(header, fieldMap, values);
         assertEquals(1.0, retriever.getValue(instance));
     }
 }

@@ -18,48 +18,81 @@ package com.eventswarm.events.jdo;
 import com.eventswarm.events.CSVEvent;
 import com.eventswarm.events.EventPart;
 import com.eventswarm.events.Header;
-import com.eventswarm.util.Sequencer;
 import org.apache.log4j.Logger;
 
-import java.lang.management.ManagementFactory;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Optimised implementation of a CSVEvent that uses an array to hold the values and a separate, re-usable map
+ * to map field names to array entries.
+ *
+ * Note that this Event does not put its components into EventParts: they are held as attributes on the class.
+ *
+ * By default, the getCsvMap method returns a compact map, that is, null values are not included in the map.
+ *
  * Created with IntelliJ IDEA.
  * User: andyb
  */
 public class JdoCSVEvent extends JdoEvent implements CSVEvent {
+    private Map<String, Integer> fields;
+    private String[] values;
+    private boolean compact = true;
+    private transient Map<String,String> csvMap;
 
-    protected transient Map<String,String> csvMap; // keep a copy at the Event level for convenience
     private static Logger logger = Logger.getLogger(JdoCSVEvent.class);
-
-    protected JdoCSVEvent() {
-        super();
-    }
-
-    public JdoCSVEvent(Header header, Map<String,String> csvMap) {
-        super();
-        this.setHeader(header);
-        logger.debug("Creating parts map");
-        Map<String, EventPart> parts = new HashMap<String, EventPart>();
-        this.setParts(parts);
-        setCsvMap(csvMap);
-    }
-
-    protected void setCsvMap(Map<String,String> csvMap) {
-        this.eventParts.put(MAPPART, new JdoCSVPart(csvMap));
-        this.csvMap = csvMap;
+    /**
+     *
+     * @param header EventSwarm header instance
+     * @param fields Mapping from field name to array index (e.g. Name => 0, Address1 => 1 etc)
+     * @param values Array containing values corresponding to field mapping
+     */
+    public JdoCSVEvent(Header header, Map<String, Integer> fields, String[] values) {
+        super(header, (Map<String,EventPart>) null);
+        this.fields = fields;
+        this.values = values;
+        if (this.fields.size() > this.values.length) {
+            logger.warn("More fields than values in record");
+        } else if (this.fields.size() < this.values.length) {
+            logger.warn("More values than fields in record");
+        }
     }
 
     @Override
     public String get(String field) {
-        return csvMap.get(field);
+        if (fields.containsKey(field)) {
+            Integer index = fields.get(field);
+            if (index == null || index >= values.length || index < 0) {
+                return null;
+            } else {
+                return values[fields.get(field)];
+            }
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Map<String,String> getCsvMap() {
+    public Map<String, String> getCsvMap() {
+        if (csvMap == null) {
+            csvMap = new HashMap<String,String>();
+            for (String field:fields.keySet()) {
+                String value = get(field);
+                if (compact && value == null) {
+                    // skip nulls if compact enabled
+                } else {
+                    csvMap.put(field, value);
+                }
+            }
+        }
         return csvMap;
+    }
+
+    public JdoCSVEvent setCompact(boolean compact) {
+        if (compact != this.compact) {
+            csvMap = null; // clear CSV map if we're changing this
+        }
+        this.compact = compact;
+        return this;
     }
 }
