@@ -51,15 +51,6 @@ So why might you want to use EventSwarm?
 
 -   **Familiar language and tools**
 
-    We’re not big fans of DSLs for heavy-duty programming tasks. CEP
-    DSLs are complex beasts and require a fully-fledged development
-    environment and robust build/test/deploy processes. DSLs require
-    that your developers learn a new language, perhaps learn a different
-    development toolchain and understand complex and sometimes arcane
-    runtime semantics. CEP is also an order of magnitude more complex
-    than SQL because you add a time dimension and distribution
-    semantics.
-
     With EventSwarm, simple things are simple. You can build incredibly
     complex processing graphs and rules, but the basic concepts are
     easily understood and programmed in a familiar language with
@@ -71,30 +62,33 @@ So why might you want to use EventSwarm?
 
     We’ve been building applications with EventSwarm for about 7 years.
     It’s changed a lot in that time and has a few warts to prove it, but
-    its proven to be a very stable platform. Our most mature application
-    [Note8](https://note8.com.au) is mostly only restarted for upgrades.
+    it has proven to be a very stable platform. Our most mature
+    application [Note8][] is mostly only restarted for upgrades.
     Sometimes when we’re tardy with our enhancements, this period is
     several months.
 
 ## So I’m sold, what next?
 
-For a quick start, read our [getting started](./GETTING\_STARTED.md)
-document.
+For a quick start, read our [getting started][] document.
 
-To better understand the EventSwarm concepts, read our [key
-concepts](./CONCEPTS.md) document. This is a must-read if you get
-serious about it.
+To better understand the EventSwarm concepts, read our [key concepts][]
+document. This is a must-read if you get serious about it.
 
 If you want to know more about the history of EventSwarm, read our
-[history](./HISTORY.md) document.
+[history][] document.
 
 To get down and dirty, "use the source Luke".
 
 To contribute, fork the repo and send us pull requests when you have
 something to share. We’ll ask you to sign a copy of our [contribution
-agreement](./CONTRIBUTORS\_AGREEMENT.txt) so that everyone can use your
-work freely (it’s the Apache one with the names changed).
+agreement][] so that everyone can use your work freely (it’s the Apache
+one with the names changed).
 
   [Esper]: http://esper.org
   [[Drools](http://drools.org).]: #
   [gem]: http://github.com/eventswarm/revs
+  [Note8]: https://note8.com.au
+  [getting started]: ./GETTING_STARTED.md
+  [key concepts]: ./CONCEPTS.md
+  [history]: ./HISTORY.md
+  [contribution agreement]: ./CONTRIBUTORS_AGREEMENT.txt
