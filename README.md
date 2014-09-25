@@ -9,8 +9,8 @@ compression applied.
 ## Why EventSwarm?
 
 There are some good, open source, complex event processing tools like
-[Esper][] and nowadays [[Drools](http://drools.org).][] These tools
-provide a domain specific language (DSL), runtime environment and many
+[Esper](http://esper.codehaus.org) and nowadays [Drools](http://drools.org).
+These tools provide a domain specific language (DSL), runtime environment and many
 capabilities out-of-the-box.
 
 So why might you want to use EventSwarm?
@@ -55,7 +55,7 @@ So why might you want to use EventSwarm?
     complex processing graphs and rules, but the basic concepts are
     easily understood and programmed in a familiar language with
     familiar tools. EventSwarm itself is Java but you can also use our
-    Ruby [gem][] or integrate with your favourite JVM-based scripting
+    Ruby gem or integrate with your favourite JVM-based scripting
     language.
 
 -   **Stability**
@@ -63,32 +63,23 @@ So why might you want to use EventSwarm?
     We’ve been building applications with EventSwarm for about 7 years.
     It’s changed a lot in that time and has a few warts to prove it, but
     it has proven to be a very stable platform. Our most mature
-    application [Note8][] is mostly only restarted for upgrades.
+    application [Note8](https://note8.com.au) is mostly only restarted for upgrades.
     Sometimes when we’re tardy with our enhancements, this period is
     several months.
 
 ## So I’m sold, what next?
 
-For a quick start, read our [getting started][] document.
+For a quick start, read our [getting started](./GETTING_STARTED.md) document.
 
-To better understand the EventSwarm concepts, read our [key concepts][]
+To better understand the EventSwarm concepts, read our [key concepts](./CONCEPTS.md)
 document. This is a must-read if you get serious about it.
 
 If you want to know more about the history of EventSwarm, read our
-[history][] document.
+[history](./HISTORY.md) document.
 
 To get down and dirty, "use the source Luke".
 
 To contribute, fork the repo and send us pull requests when you have
 something to share. We’ll ask you to sign a copy of our [contribution
-agreement][] so that everyone can use your work freely (it’s the Apache
-one with the names changed).
-
-  [Esper]: http://esper.org
-  [[Drools](http://drools.org).]: #
-  [gem]: http://github.com/eventswarm/revs
-  [Note8]: https://note8.com.au
-  [getting started]: ./GETTING_STARTED.md
-  [key concepts]: ./CONCEPTS.md
-  [history]: ./HISTORY.md
-  [contribution agreement]: ./CONTRIBUTORS_AGREEMENT.txt
+agreement](./CONTRIBUTORS_AGREEMENT.txt) so that everyone can use your
+work freely (it’s the Apache one with the names changed).
