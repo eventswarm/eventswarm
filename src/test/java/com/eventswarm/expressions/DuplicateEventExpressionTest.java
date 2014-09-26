@@ -17,6 +17,7 @@ package com.eventswarm.expressions;
 
 import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
+import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.events.Activity;
 import com.eventswarm.events.Event;
@@ -45,30 +46,36 @@ public class DuplicateEventExpressionTest {
 
     @Before
     public void setup() throws Exception {
-        events = new EventSet();
         singleComparator = new ValueEqualComparator<String>(retriever);
     }
 
     @Test
-    public void testConstruct() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
+    public void testConstructWithSet() throws Exception {
+        instance = new DuplicateEventExpression(singleComparator);
         assertNotNull(instance);
         assertEquals(singleComparator, instance.getComparator());
-        assertEquals(events, instance.getEvents());
+    }
+
+    @Test
+    public void testConstructNoSet() throws Exception {
+        instance = new DuplicateEventExpression(singleComparator);
+        assertNotNull(instance);
+        assertEquals(singleComparator, instance.getComparator());
+        assertNotNull(instance.getEvents());
     }
 
     @Test
     public void testFirstAdd() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
+        instance = new DuplicateEventExpression(singleComparator);
         instance.execute((AddEventTrigger) null, makeEvent("a","b"));
         assertEquals(0, instance.matches.size());
     }
 
     @Test
     public void testSingleMatch() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
+        instance = new DuplicateEventExpression(singleComparator);
         Event event = makeEvent("a","b");
-        events.execute((AddEventTrigger) null, makeEvent("a","c"));
+        instance.execute((AddEventTrigger) null, makeEvent("a","c"));
         instance.execute((AddEventTrigger) null, event);
         assertEquals(1, instance.matches.size());
         assertEquals(2, ((Activity) instance.matches.first()).getEvents().size());
@@ -77,31 +84,32 @@ public class DuplicateEventExpressionTest {
 
     @Test
     public void testDoubleMatch() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
+        instance = new DuplicateEventExpression(singleComparator);
+        instance.execute((AddEventTrigger) null, makeEvent("a","c"));
+        instance.execute((AddEventTrigger) null, makeEvent("a","d"));
         Event event = makeEvent("a","b");
-        events.execute((AddEventTrigger) null, makeEvent("a","c"));
-        events.execute((AddEventTrigger) null, makeEvent("a","d"));
         instance.execute((AddEventTrigger) null, event);
-        assertEquals(1, instance.matches.size());
-        assertEquals(3, ((Activity) instance.matches.first()).getEvents().size());
-        assertTrue(((Activity) instance.matches.first()).getEvents().contains(event));
+        assertEquals(2, instance.matches.size());
+        assertEquals(2, ((Activity) instance.matches.first()).getEvents().size());
+        assertEquals(3, ((Activity) instance.matches.last()).getEvents().size());
+        assertTrue(((Activity) instance.matches.last()).getEvents().contains(event));
     }
 
     @Test
     public void testNotMatched() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
+        instance = new DuplicateEventExpression(singleComparator);
         Event event = makeEvent("a","b");
-        events.execute((AddEventTrigger) null, makeEvent("b","c"));
+        instance.execute((AddEventTrigger) null, makeEvent("b","c"));
         instance.execute((AddEventTrigger) null, event);
         assertEquals(0, instance.matches.size());
     }
 
     @Test
     public void testOneMatchInMultiple() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
+        instance = new DuplicateEventExpression(singleComparator);
         Event event = makeEvent("a","b");
-        events.execute((AddEventTrigger) null, makeEvent("b","c"));
-        events.execute((AddEventTrigger) null, makeEvent("a","c"));
+        instance.execute((AddEventTrigger) null, makeEvent("b","c"));
+        instance.execute((AddEventTrigger) null, makeEvent("a","c"));
         instance.execute((AddEventTrigger) null, event);
         assertEquals(1, instance.matches.size());
         assertEquals(2, ((Activity) instance.matches.first()).getEvents().size());
@@ -110,30 +118,28 @@ public class DuplicateEventExpressionTest {
 
     @Test
     public void testIgnoreSelf() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
+        instance = new DuplicateEventExpression(singleComparator);
         Event event = makeEvent("a","b");
-        events.execute((AddEventTrigger) null, event);
+        instance.execute((AddEventTrigger) null, event);
         instance.execute((AddEventTrigger) null, event);
         assertEquals(0, instance.matches.size());
     }
 
     @Test
     public void testFirstDownstream() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
-        events.registerAction((AddEventAction) instance);
+        instance = new DuplicateEventExpression(singleComparator);
         Event event = makeEvent("a","b");
-        events.execute((AddEventTrigger) null, event);
+        instance.execute((AddEventTrigger) null, event);
         assertEquals(0, instance.matches.size());
     }
 
     @Test
     public void testMatchDownstream() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
-        events.registerAction((AddEventAction) instance);
+        instance = new DuplicateEventExpression(singleComparator);
         Event event1 = makeEvent("a","b");
         Event event2 = makeEvent("a","b");
-        events.execute((AddEventTrigger) null, event1);
-        events.execute((AddEventTrigger) null, event2);
+        instance.execute((AddEventTrigger) null, event1);
+        instance.execute((AddEventTrigger) null, event2);
         assertEquals(1, instance.matches.size());
         assertEquals(2, ((Activity) instance.matches.first()).getEvents().size());
         assertTrue(((Activity) instance.matches.first()).getEvents().contains(event1));
@@ -142,13 +148,22 @@ public class DuplicateEventExpressionTest {
 
     @Test
     public void testNonMatchDownstream() throws Exception {
-        instance = new DuplicateEventExpression(singleComparator, events);
-        events.registerAction((AddEventAction) instance);
+        instance = new DuplicateEventExpression(singleComparator);
         Event event1 = makeEvent("a","b");
         Event event2 = makeEvent("b","c");
-        events.execute((AddEventTrigger) null, event1);
-        events.execute((AddEventTrigger) null, event2);
+        instance.execute((AddEventTrigger) null, event1);
+        instance.execute((AddEventTrigger) null, event2);
         assertEquals(0, instance.matches.size());
+    }
+
+    @Test
+    public void testRemove() throws Exception {
+        instance = new DuplicateEventExpression(singleComparator);
+        Event event = makeEvent("a", "b");
+        instance.execute((AddEventTrigger) null, event);
+        assertEquals(1, instance.getEvents().size());
+        instance.execute((RemoveEventTrigger) null, event);
+        assertEquals(0, instance.getEvents().size());
     }
 
     Event makeEvent(String text1, String text2) {

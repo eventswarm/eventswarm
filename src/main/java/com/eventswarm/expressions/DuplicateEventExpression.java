@@ -27,20 +27,19 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Expression that if there are any events in an eventset that match a new event according to the supplied Comparator,
+ * Expression that if there are any preceding events that match a new event according to the supplied Comparator,
  * generating an activity event containing the new event and its duplicates.
  *
  * This Expression excludes the supplied event from matching (i.e. it won't match against itself) so the tested
- * event can already be in the eventset.
+ * event can be a duplicate. This class implements RemoveEventAction by removing the identified event from the
+ * (internal) EventSet that is being monitored.
  *
  * Since this expression generates new activity events for each match the 'hasMatched' method can only return
  * true for one of the activity events, not a source event.
  *
- * This class implements RemoveEventAction by removing the identified event from the EventSet that is being monitored.
- *
  * Caution: this expression is likely to be processor intensive and slow against large EventSet instances because
- * it compares each new event with all previous events. You should use upstream filters and powersets to minimise
- * the eventset size.
+ * it compares each new event with all preceding events. You should use upstream filters and powersets to minimise
+ * the number of preceding events held.
  *
  * Created with IntelliJ IDEA.
  * User: andyb
@@ -66,34 +65,20 @@ public class DuplicateEventExpression extends AbstractEventExpression implements
     }
 
     /**
-     * Create expression with supplied comparator and EventSet
-     *
-     * If this constructor is used, it is preferable not to connect the RemoveEventAction of this expression
-     * to a RemoveEventTrigger (assuming the EventSet is managed upstream).
-     *
-     * @param comparator
-     * @param events
-     */
-    public DuplicateEventExpression(Comparator comparator, EventSet events) {
-        this.comparator = comparator;
-        this.events = events;
-    }
-
-    /**
      * Create expression with supplied comparator and EventSet and match limit
      *
      * @param limit Maximum number of matches to hold
      * @param comparator
-     * @param events
      */
-    public DuplicateEventExpression(int limit, Comparator comparator, EventSet events) {
+    public DuplicateEventExpression(int limit, Comparator comparator) {
         super(limit);
         this.comparator = comparator;
-        this.events = events;
+        this.events = new EventSet();
     }
 
     @Override
     public void execute(AddEventTrigger trigger, Event event) {
+        this.events.execute(trigger, event);
         SortedSet<Event>  result = new TreeSet<Event>();
         for (Event compareTo: events) {
             logger.debug("Comparing");
