@@ -16,6 +16,7 @@
 package com.eventswarm.expressions;
 
 import com.eventswarm.AddEventTrigger;
+import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Activity;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.jdo.JdoActivity;
@@ -32,10 +33,14 @@ import java.util.TreeSet;
  * This Expression excludes the supplied event from matching (i.e. it won't match against itself) so the tested
  * event can already be in the eventset.
  *
- * Since this expression generates new activity events for each match, the RemoveEventTrigger will be ignored and
- * the 'hasMatched' method can only return true for one of the activity events, not a source event.
+ * Since this expression generates new activity events for each match the 'hasMatched' method can only return
+ * true for one of the activity events, not a source event.
  *
- * Caution: this expression is likely to be processor intensive and slow against large EventSet instances.
+ * This class implements RemoveEventAction by removing the identified event from the EventSet that is being monitored.
+ *
+ * Caution: this expression is likely to be processor intensive and slow against large EventSet instances because
+ * it compares each new event with all previous events. You should use upstream filters and powersets to minimise
+ * the eventset size.
  *
  * Created with IntelliJ IDEA.
  * User: andyb
@@ -47,7 +52,24 @@ public class DuplicateEventExpression extends AbstractEventExpression implements
     private static Logger logger = Logger.getLogger(DuplicateEventExpression.class);
 
     /**
+     * Create expression with supplied comparator creating an internal eventset to hold incoming
+     * events.
+     *
+     * To ensure this eventset is bounded, this component should be connected to both an AddEventTrigger and
+     * a RemoveEventTrigger associated with a bounded time or other window.
+     *
+     * @param comparator
+     */
+    public DuplicateEventExpression(Comparator comparator) {
+        this.comparator = comparator;
+        this.events = new EventSet();
+    }
+
+    /**
      * Create expression with supplied comparator and EventSet
+     *
+     * If this constructor is used, it is preferable not to connect the RemoveEventAction of this expression
+     * to a RemoveEventTrigger (assuming the EventSet is managed upstream).
      *
      * @param comparator
      * @param events
@@ -57,6 +79,13 @@ public class DuplicateEventExpression extends AbstractEventExpression implements
         this.events = events;
     }
 
+    /**
+     * Create expression with supplied comparator and EventSet and match limit
+     *
+     * @param limit Maximum number of matches to hold
+     * @param comparator
+     * @param events
+     */
     public DuplicateEventExpression(int limit, Comparator comparator, EventSet events) {
         super(limit);
         this.comparator = comparator;
@@ -79,6 +108,17 @@ public class DuplicateEventExpression extends AbstractEventExpression implements
             this.matches.execute(trigger,activity);
             fire(activity);
         }
+    }
+
+    /**
+     * Remove the supplied event from the monitored eventset
+     *
+     * @param trigger
+     * @param event
+     */
+    @Override
+    public void execute(RemoveEventTrigger trigger, Event event) {
+        this.events.execute(trigger, event);
     }
 
     public Comparator getComparator() {
