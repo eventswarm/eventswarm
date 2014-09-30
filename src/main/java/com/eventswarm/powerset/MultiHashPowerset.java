@@ -301,7 +301,7 @@ public class MultiHashPowerset<Keytype>
                         es.execute(trigger, event);
                         if (this.prune && es.size() == 0) {
                             // prune the subset if it is now empty
-                            log.info("Removing powerset for key: " + keys[i].toString());
+                            log.debug("Removing powerset for key: " + keys[i].toString());
                             this.remove(keys[i]);
                             for (RemoveSetAction<Keytype> action : this.removeSetActions) {
                                 action.execute(this, es, keys[i]);
