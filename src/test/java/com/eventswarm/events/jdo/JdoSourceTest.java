@@ -26,6 +26,7 @@ import junit.framework.*;
 import com.eventswarm.events.*;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -126,6 +127,10 @@ public class JdoSourceTest extends TestCase {
     public void testLocalHeader() throws Exception {
         JdoSource instance = JdoSource.getLocalSource();
         System.out.println("Local source is: " + instance.getId());
-        assertEquals(InetAddress.getLocalHost().getHostAddress(), instance.getId());
+        try {
+            assertEquals(InetAddress.getLocalHost().getHostAddress(), instance.getId());
+        } catch (UnknownHostException exc) {
+            assertTrue(UUID.class.isInstance(UUID.fromString(instance.getId())));
+        }
     }
 }

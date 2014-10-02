@@ -44,12 +44,7 @@ public class JsonEventFactory implements FromJson {
 
     public JsonEventFactory() {
         super();
-        try {
-            defaultSource = InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException exc) {
-            logger.warn("Host has no name");
-            defaultSource = DEFAULT_SOURCE;
-        }
+        defaultSource = JdoSource.getLocalSource().getSourceId();
     }
 
     public JsonEventFactory(String defaultSource) {

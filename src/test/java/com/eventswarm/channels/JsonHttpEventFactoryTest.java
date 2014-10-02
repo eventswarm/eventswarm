@@ -29,6 +29,7 @@ import org.junit.Test;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class JsonHttpEventFactoryTest {
     public void setup() throws Exception {
         String[] date = {"Fri, 16 Aug 2013 00:30:00 GMT"};
         headers.put(JdoHttpEventPart.DATE_HEADER, Arrays.asList(date));
-        address = new InetSocketAddress(InetAddress.getLocalHost(), 0);
+        address = new InetSocketAddress(InetAddress.getLoopbackAddress(), 0);
     }
 
     @Test

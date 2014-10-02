@@ -18,6 +18,7 @@ package com.eventswarm.channels;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.JsonEvent;
 import com.eventswarm.events.jdo.JdoPartWrapper;
+import com.eventswarm.events.jdo.JdoSource;
 import com.eventswarm.events.jdo.OrgJsonPart;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class JsonEventFactoryTest {
         JsonEventFactory instance = new JsonEventFactory();
         Event event = instance.fromJson(new JSONObject("{a: 1, b:2}"));
         assertTrue(JsonEvent.class.isInstance(event));
-        assertEquals(InetAddress.getLocalHost().getHostName(), event.getHeader().getSource().getSourceId());
+        assertEquals(JdoSource.getLocalSource().getSourceId(), event.getHeader().getSource().getSourceId());
     }
 
     @Test
