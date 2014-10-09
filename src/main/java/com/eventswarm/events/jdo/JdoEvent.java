@@ -238,7 +238,7 @@ public class JdoEvent implements Event {
         return parts;
     }
 
-    /** Events with same ID and timestamp are equal */
+    /** Events with same ID equal, log a warning if ID is equal but timestamp is different */
     @Override
     public boolean equals(Object obj) {
         // try a cast 
@@ -251,7 +251,7 @@ public class JdoEvent implements Event {
                             getHeader().getTimestamp().toString() + "," +
                             ((Event)obj).getHeader().getTimestamp().toString() +
                             ") but same id: " + header.madeId());
-                    return false;
+                    return true;
                 }
             } else {
                 return false;

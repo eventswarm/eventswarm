@@ -849,7 +849,7 @@ public class JdoEventTest extends TestCase {
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
         assertNotSame(event1, event2);
-        assertEquals(-1, event1.compareTo(event2));
+        assertEquals(0, event1.compareTo(event2));
     }
 
     public void testNotDupeIdWithSameTimestamp() {

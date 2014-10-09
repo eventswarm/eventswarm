@@ -491,7 +491,7 @@ public class EventSetTest extends TestCase {
     }
 
     /**
-     * Note that this test will generate log errors because we should never have this situation (dupe id, different timestamp)
+     * Note that this test will generate log warnings because we should never have this situation (dupe id, different timestamp)
      */
     public void testAddDupeIdDiffTimestamp() {
         Date ts = new Date();
@@ -499,9 +499,10 @@ public class EventSetTest extends TestCase {
         Event event2 = new JdoEvent(new JdoHeader(new Date(ts.getTime()+1), new JdoSource("EventSetTest"), "1"), TestEvents.partsSingleMap);
         events.execute((AddEventTrigger) null, event1);
         events.execute((AddEventTrigger) null, event2);
-        assertEquals(2, events.size());
-        assertTrue(events.contains(event1));
-        assertTrue(events.contains(event2));
+        assertEquals(1, events.size());
+        assertTrue("EventSet should contain event1", events.contains(event1));
+        assertTrue("EventSet should think it also contains event2, since it has the same id as event1", events.contains(event2));
+        assertNotSame(event2, events.first());
     }
 
     class SimpleAddEventAction implements AddEventAction {
