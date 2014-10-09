@@ -17,7 +17,6 @@ package com.eventswarm.channels;
 
 import com.eventswarm.events.Event;
 import org.apache.log4j.Logger;
-import sun.nio.cs.StandardCharsets;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;

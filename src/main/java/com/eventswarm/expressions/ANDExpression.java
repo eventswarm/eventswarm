@@ -26,7 +26,6 @@ import java.util.concurrent.locks.*;
 
 import java.util.*;
 import org.apache.log4j.Logger;
-import sun.tools.tree.AndExpression;
 
 /**
  * An AND expression at least one event against each component expression

@@ -16,7 +16,6 @@
 package com.eventswarm.abstractions;
 
 import com.eventswarm.events.Event;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
 
 import java.util.HashSet;
 import java.util.Set;
