@@ -238,20 +238,36 @@ public class JdoEvent implements Event {
         return parts;
     }
 
-    /** Events with same ID equal, log an INFO message if ID is equal but timestamp is different */
+    /**
+     * Only events with same ID, timestamp and sequence number are equal, otherwise our compareTo is dodgy
+     *
+     * Channels should filter duplicates if there is a risk of the same event having different timestamps.
+     * If sequence numbers are used, channels are responsible for ensuring the same event cannot be created
+     * with the same timestamp and different sequence numbers.
+     */
     @Override
     public boolean equals(Object obj) {
         // try a cast 
         try {
-            if (idEquals((Event)obj)) {
-                if (timeEquals((Event)obj)) {
-                    return true;
+            Event event = (Event) obj;
+            if (idEquals(event)) {
+                if (timeEquals(event)) {
+                    if (seqnrEquals(event)) {
+                        return true;
+                    } else {
+                        logger.error("Events have same id (" + header.getEventId() +
+                                ") and timestamp (" + getHeader().getTimestamp().toString() +
+                                ") but different sequence numbers: " +
+                                Integer.toString(getHeader().getSequenceNumber()) + "," +
+                                Integer.toString(event.getHeader().getSequenceNumber()));
+                        return false;
+                    }
                 } else {
-                    logger.info("Events have different timestamps (" +
+                    logger.info("Events have same id " + header.getEventId() +
+                            " but different timestamps: " +
                             getHeader().getTimestamp().toString() + "," +
-                            ((Event)obj).getHeader().getTimestamp().toString() +
-                            ") but same id: " + header.madeId());
-                    return true;
+                            event.getHeader().getTimestamp().toString());
+                    return false;
                 }
             } else {
                 return false;
@@ -259,6 +275,10 @@ public class JdoEvent implements Event {
         } catch (ClassCastException ex) {
             return false;
         }
+    }
+
+    private boolean seqnrEquals(Event event) {
+        return this.getHeader().getSequenceNumber() == event.getHeader().getSequenceNumber();
     }
 
     private boolean idEquals(Event event) {
@@ -348,15 +368,18 @@ public class JdoEvent implements Event {
     }
 
     /**
-      * Compare this event with another to define a total order based on causality.
-      * 
-      * Implements the compareTo<Event> method of Comparable.
-      */
+     * Compare this event with another to define a total order that is consistent with timestamps and (hopefully)
+     * causal order.
+     *
+     * Implements the compareTo<Event> method of Comparable, that is returns -1, 0, 1 if this event is before, equal
+     * or after.
+     */
     public int compareTo(Event other) {
         if (this.equals(other)) {
             // they're equal, return 0
             return 0; 
         } else {
+            // check if they are strictly ordered
             int order = this.order(other);
             if (order == 0) {
                 // concurrent, distinguish by other means
@@ -367,15 +390,22 @@ public class JdoEvent implements Event {
                     // If the other is an activity, return the negation of the activity specific method
                     return(-((Activity) other).compareTo(this));
                 } else {
+                    // it is possible that timestamps are not equal (if we're allowing for clock skew)
                     long thisTime = this.getHeader().getTimestamp().getTime();
                     long otherTime = other.getHeader().getTimestamp().getTime();
-                    if (thisTime < otherTime) {
-                        return -1;
-                    } else if (thisTime > otherTime) {
-                        return 1;
+                    if (thisTime == otherTime) {
+                        if (!header.getEventId().equals(other.getHeader().getEventId())) {
+                            // timestamps are equal too, so if IDs don't match use ID order
+                            return header.getEventId().compareTo(other.getHeader().getEventId());
+                        } else {
+                            // We really shouldn't get here unless we have same ID and timestamp but different sequence
+                            // numbers. Someone has been issuing dodgy sequence numbers it seems, so make them eat
+                            // their own dogfood and return sequence number order.
+                            return sequenceOrder(other);
+                        }
                     } else {
-                        // timestamps are equal, so return comparison of source identifiers
-                        return(this.header.getSource().getSourceId().compareTo(other.getHeader().getSource().getSourceId()));
+                        // different timestamps, so use their order
+                        return thisTime < otherTime ? -1 : 1;
                     }
                 }
             } else {
@@ -384,7 +414,22 @@ public class JdoEvent implements Event {
             }
         }
     }
-    
+
+    /**
+     * Implements compareTo based on sequence numbers
+     *
+     * @param other Other event to compare with
+     * @return -1, 0, 1 if this sequence number is before, same or after the other sequence number
+     */
+    private int sequenceOrder(Event other) {
+        int mySeq = header.getSequenceNumber();
+        int otherSeq = other.getHeader().getSequenceNumber();
+        if (mySeq < otherSeq) return -1;
+        if (mySeq == otherSeq) return 0;
+        return 1;
+    }
+
+
     /**
      * Method to convert a Set into a Map using position in set as key.
      * 

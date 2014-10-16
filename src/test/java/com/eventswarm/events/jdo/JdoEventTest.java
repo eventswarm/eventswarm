@@ -22,7 +22,11 @@
 
 package com.eventswarm.events.jdo;
 
-import junit.framework.*;
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import com.eventswarm.events.*;
 
 import java.util.*;
@@ -30,22 +34,21 @@ import java.util.Map;
 import java.util.Set;
 import java.net.URL;
 
+// TODO review these tests now that we use the ID as the deadlock breaker when ordering events with compareTo
+
 /**
  *
  * @author andyb
  */
-public class JdoEventTest extends TestCase {
+public class JdoEventTest {
     
     Header header, headerA1, headerA2, headerA3, headerB1, headerB2, headerB3;
     EventURL evUrl1, evUrl2;
     RejectEvent reject;
     Set<EventPart> partsEmpty, partsSingle, partsDiffTypes, partsSameTypes;
-    
-    public JdoEventTest(String testName) {
-        super(testName);
-    }
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         // Various sets of EventParts
         header = new JdoHeader(new Date(), 0, new JdoSource("A"));
         partsEmpty = new HashSet<EventPart>();
@@ -82,7 +85,8 @@ public class JdoEventTest extends TestCase {
         partsSameTypes.add(evUrl2);
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
 	// will call default tearDownOperation
         //databaseTester.onTearDown();
     }
@@ -91,6 +95,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeNull() {
         System.out.println("isBefore null");
         
@@ -110,6 +115,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeSameSourceSameTSTrue() {
         System.out.println("isBefore same source true");
         
@@ -122,6 +128,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeSameSourceEqual() {
         System.out.println("isBefore same source false");
         
@@ -134,6 +141,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeSameSourceSameTSFalse() {
         System.out.println("isBefore same source false");
         
@@ -147,6 +155,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeSameSourceDiffTSTrue() {
         System.out.println("isBefore same source true");
         
@@ -160,6 +169,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeSameSourceDiffTSFalse() {
         System.out.println("isBefore same source false");
         
@@ -173,6 +183,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeDiffSourceTrue() {
         System.out.println("isBefore different source true");
         
@@ -186,6 +197,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeDiffSourceAfter() {
         System.out.println("isBefore different source false (after)");
         
@@ -199,6 +211,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBeforeDiffSourceConcurrent() {
         System.out.println("isBefore different source false (concurrent)");
         
@@ -211,6 +224,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsAfterNull() {
         System.out.println("isAfter null");
         
@@ -230,6 +244,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testisAfterSameSourceSameTSTrue() {
         System.out.println("isAfter same source true");
         
@@ -242,6 +257,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testisAfterSameSourceEqual() {
         System.out.println("isAfter same source false (equal)");
         
@@ -254,6 +270,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testisAfterSameSourceSameTSFalse() {
         System.out.println("isAfter same source false (before)");
         
@@ -267,6 +284,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testisAfterSameSourceDiffTSTrue() {
         System.out.println("isAfter same source different timestamp true");
         
@@ -280,6 +298,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testisAfterSameSourceDiffTSFalse() {
         System.out.println("isAfter same source different timestamp false");
         
@@ -293,6 +312,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testisAfterDiffSourceTrue() {
         System.out.println("isAfter different source true");
         
@@ -306,6 +326,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testisAfterDiffSourceAfter() {
         System.out.println("isAfter different source false (after)");
         
@@ -318,6 +339,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsAfterDiffSourceConcurrent() {
         System.out.println("isAfter different source false (concurrent)");
         
@@ -330,6 +352,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isConcurrent method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsConcurrentNull() {
         System.out.println("isConcurrent null");
         
@@ -349,6 +372,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isConcurrent method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsConcurrentSameSourceFalse() {
         System.out.println("isConcurrent same source false");
         
@@ -362,6 +386,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isConcurrent method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsConcurrentEquals() {
         System.out.println("isConcurrent equals (true)");
         
@@ -375,6 +400,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isConcurrent method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsConcurrentDiffSourceFalse() {
         System.out.println("isConcurrent different source false");
         
@@ -389,6 +415,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isConcurrent method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsConcurrentDiffSourceTrue() {
         System.out.println("isConcurrent different source true");
         
@@ -403,6 +430,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of equals method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testEqualsNull() {
         System.out.println("equals null");
         
@@ -422,6 +450,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of equals method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testEqualsTrueSameObject() {
         System.out.println("equals true same object");
         
@@ -434,6 +463,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of equals method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testEqualsTrueDiffObject() {
         System.out.println("equals true different objects, same header");
         
@@ -446,6 +476,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of equals method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testEqualsFalseDiffObject() {
         System.out.println("equals false different objects, different header");
         
@@ -459,6 +490,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testCompareToNull() {
         System.out.println("compareTo null");
         
@@ -478,6 +510,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testCompareToEqual() {
         System.out.println("compareTo equal");
         
@@ -492,6 +525,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testCompareToSameSourceBefore() {
         System.out.println("compareTo same source before");
         
@@ -508,6 +542,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testCompareToSameSourceAfter() {
         System.out.println("compareTo same source after");
         
@@ -519,50 +554,34 @@ public class JdoEventTest extends TestCase {
         
         assertSame(expected, result);
     }
-
-            
-    /**
-     * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
-     */
-    public void testCompareToDiffSourceBefore() {
-        System.out.println("compareTo different source before");
-        
-        JdoEvent e1 = new JdoEvent(headerA1, partsEmpty);
-        JdoEvent e2 = new JdoEvent(headerB2, partsEmpty);
-
-        int expected = -1;
-        int result = e1.compareTo(e2);
-        
-        assertSame(expected, result);
-    }
-
         
     /**
      * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testCompareToDiffSourceAfter() {
-        System.out.println("compareTo different source after");
+        System.out.println("compareTo different id, otherwise the same");
         
         JdoEvent e1 = new JdoEvent(headerA1, partsEmpty);
         JdoEvent e2 = new JdoEvent(headerB2, partsEmpty);
 
-        int expected = 1;
         int result = e2.compareTo(e1);
         
-        assertSame(expected, result);
+        assertNotEquals(0, result);
     }
 
         
     /**
      * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testCompareToDiffSourceConcurrent() {
         System.out.println("compareTo different source concurrent");
         
         JdoEvent e1 = new JdoEvent(headerA1, partsEmpty);
         JdoEvent e2 = new JdoEvent(headerB2, partsEmpty);
 
-        int expected = "B".compareTo("A");
+        int expected = e2.getHeader().getEventId().compareTo(e1.getHeader().getEventId());
         int result = e2.compareTo(e1);
         
         assertSame(expected, result);
@@ -571,6 +590,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of getHttpHeader method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testGetNullHeader() {
         System.out.println("getHttpHeader null");
         
@@ -583,6 +603,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of getHttpHeader method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testGetHeader() {
         System.out.println("getHttpHeader not null");
         
@@ -595,6 +616,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of hashcode method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testHashcodeSameEvent() {
         System.out.println("hashcode same event");
         
@@ -606,6 +628,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of hashcode method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testHashcodeSameHeader() {
         System.out.println("hashcode same header");
         
@@ -618,6 +641,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of hashcode method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testHashcodeSameSource() {
         System.out.println("hashcode same source and timestamp");
         
@@ -631,6 +655,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of hashcode method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testHashcodeDiffSource() {
         System.out.println("hashcode different source, same timestamp");
         
@@ -643,6 +668,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of getParts method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testGetParts() {
         System.out.println("getParts");
         
@@ -656,6 +682,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isBefore method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsBefore() {
         System.out.println("isBefore");
         
@@ -684,6 +711,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isAfter method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsAfter() {
         System.out.println("isAfter");
         
@@ -712,6 +740,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of isConcurrent method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testIsConcurrent() {
         System.out.println("isConcurrent");
         
@@ -741,6 +770,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of hasPart method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testHasPart() {
         System.out.println("hasPart");
         
@@ -755,6 +785,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of equals method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testEquals() {
         System.out.println("equals");
         
@@ -769,11 +800,12 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of hashCode method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testHashCode() {
         System.out.println("hashCode");
-        
+
         JdoEvent instance = TestEvents.jdoEvent;
-        
+
         int expResult = instance.getHeader().madeId().hashCode();
         int result = instance.hashCode();
         assertEquals(expResult, result);
@@ -782,6 +814,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of toString method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testToString() {
         System.out.println("toString");
         
@@ -795,6 +828,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of setHeader method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testSetHeader() {
         System.out.println("setHeader");
         
@@ -813,6 +847,7 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of setParts method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testSetParts() {
         System.out.println("setParts");
         
@@ -826,10 +861,12 @@ public class JdoEventTest extends TestCase {
     /**
      * Test of compareTo method, of class com.eventswarm.events.jdo.JdoEvent.
      */
+    @Test
     public void testCompareTo() {
         System.out.println("Refer to compareTo methods for further tests");
     }
 
+    @Test
     public void testDupeIdWithSameTimestamp() {
         Date ts = new Date();
         Header header1 = new DupeHeader(ts, "1");
@@ -837,10 +874,24 @@ public class JdoEventTest extends TestCase {
         Map parts = new HashMap();
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
-        assertEquals(event1, event2);
+        assertThat(event1, is(not(equalTo(event2))));
+        // we have events with same id and timestamp but different sequence numbers, so the second event should be after
+        assertEquals(-1, event1.compareTo(event2));
+    }
+
+    @Test
+    public void testDupeIdWithSameTimestampAndSequenceNumber() {
+        Date ts = new Date();
+        Header header1 = new JdoHeader(ts, 0, Sources.cache.getSourceByName("JdoEventTestSource"), "id1");
+        Header header2 = new JdoHeader(ts, 0, Sources.cache.getSourceByName("JdoEventTestSource"), "id1");
+        Map parts = new HashMap();
+        Event event1 = new JdoEvent(header1, parts);
+        Event event2 = new JdoEvent(header2, parts);
+        assertThat(event1, is(equalTo(event2)));
         assertEquals(0, event1.compareTo(event2));
     }
 
+    @Test
     public void testDupeIdWithDifferentTimestamp() {
         Date ts = new Date();
         Header header1 = new DupeHeader(ts, "1");
@@ -848,10 +899,11 @@ public class JdoEventTest extends TestCase {
         Map parts = new HashMap();
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
-        assertNotSame(event1, event2);
-        assertEquals(0, event1.compareTo(event2));
+        assertThat(event1, is(not(equalTo(event2))));
+        assertEquals(-1, event1.compareTo(event2));
     }
 
+    @Test
     public void testNotDupeIdWithSameTimestamp() {
         Date ts = new Date();
         Header header1 = new DupeHeader(ts, "1");
