@@ -119,21 +119,21 @@ public class JsonEventTest {
     public void integerRetriever() throws Exception {
         JsonEvent.IntegerRetriever retriever = new JsonEvent.IntegerRetriever("a");
         JsonEvent<JSONObject> instance = new OrgJsonEvent(header, new JSONObject("{a:1, b: 2}"));
-        assertEquals(1, retriever.getValue(instance));
+        assertEquals(1, (int) retriever.getValue(instance));
     }
 
     @Test
     public void longRetriever() throws Exception {
         JsonEvent.LongRetriever retriever = new JsonEvent.LongRetriever("a");
         JsonEvent<JSONObject> instance = new OrgJsonEvent(header, new JSONObject("{a:1038401717746111341, b: 2}"));
-        assertEquals(1038401717746111341L, retriever.getValue(instance));
+        assertEquals(1038401717746111341L, (long) retriever.getValue(instance));
     }
 
     @Test
     public void doubleRetriever() throws Exception {
         JsonEvent.DoubleRetriever retriever = new JsonEvent.DoubleRetriever("b");
         JsonEvent<JSONObject> instance = new OrgJsonEvent(header, new JSONObject("{a:1, b: 3.14159}"));
-        assertEquals(3.14159, retriever.getValue(instance));
+        assertEquals(3.14159, (double) retriever.getValue(instance));
     }
 
     @Test

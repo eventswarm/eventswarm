@@ -61,7 +61,7 @@ public class RateAbstractionTest {
         Thread.sleep(1000); // make sure a full window of time has passed
         instance.execute(trigger, makeEvent());
         Thread.sleep(120);
-        assertEquals(1.0 / 1.0, instance.getRate());
+        assertEquals(1.0 / 1.0, (double) instance.getRate());
         instance.stop();
     }
 
@@ -72,7 +72,7 @@ public class RateAbstractionTest {
         instance.execute(trigger, makeEvent());
         instance.execute(trigger, makeEvent());
         Thread.sleep(120);
-        assertEquals(2.0/1.0, instance.getRate());
+        assertEquals(2.0/1.0, (double)instance.getRate());
         instance.stop();
     }
 
@@ -83,7 +83,7 @@ public class RateAbstractionTest {
         Thread.sleep(1000);
         instance.execute(trigger, makeEvent());
         Thread.sleep(200);
-        assertEquals(1.0 / 1.0, instance.getRate());
+        assertEquals(1.0 / 1.0, (double) instance.getRate());
         instance.stop();
     }
 
@@ -106,8 +106,8 @@ public class RateAbstractionTest {
         instance.execute(trigger, makeEvent());
         Thread.sleep(100);
         assertEquals(1, rateEvents.size());
-        assertEquals(2.0/1.0, instance.getRate());
-        assertEquals(2.0/1.0, ((RateEvent) rateEvents.get(0)).getRate());
+        assertEquals(2.0/1.0, (double)instance.getRate());
+        assertEquals(2.0/1.0, (double)((RateEvent) rateEvents.get(0)).getRate());
         instance.unregisterAction(catcher);
         instance.stop();
     }
@@ -122,9 +122,9 @@ public class RateAbstractionTest {
         instance.execute(trigger, makeEvent());
         Thread.sleep(100);
         assertEquals(2, rateEvents.size());
-        assertEquals(2.0 /1.0, instance.getRate());
-        assertEquals(1.0/1.0, ((RateEvent) rateEvents.get(0)).getRate());
-        assertEquals(2.0/1.0, ((RateEvent) rateEvents.get(1)).getRate());
+        assertEquals(2.0 /1.0, (double)instance.getRate());
+        assertEquals(1.0/1.0, (double)((RateEvent) rateEvents.get(0)).getRate());
+        assertEquals(2.0/1.0, (double)((RateEvent) rateEvents.get(1)).getRate());
         instance.unregisterAction(catcher);
         instance.stop();
     }
@@ -139,8 +139,8 @@ public class RateAbstractionTest {
         instance.execute(trigger, makeEvent());
         Thread.sleep(100);
         assertEquals(1, rateEvents.size());
-        assertEquals(2.0/1.0, instance.getRate());
-        assertEquals(2.0/1.0, ((RateEvent) rateEvents.get(0)).getRate());
+        assertEquals(2.0/1.0, (double)instance.getRate());
+        assertEquals(2.0/1.0, (double)((RateEvent) rateEvents.get(0)).getRate());
         instance.unregisterAction(catcher);
         instance.stop();
     }

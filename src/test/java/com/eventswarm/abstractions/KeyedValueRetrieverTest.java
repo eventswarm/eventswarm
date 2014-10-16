@@ -52,7 +52,7 @@ public class KeyedValueRetrieverTest {
         KeyedValueRetriever<String,Integer> instance =
                 new KeyedValueRetriever<String,Integer>(new Event.SourceRetriever(), map);
         Integer result = instance.getValue(makeEvent(SOURCE1, 1, 2));
-        assertEquals(1, result);
+        assertEquals(1, (int) result);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class KeyedValueRetrieverTest {
         KeyedValueRetriever<String,Integer> instance =
                 new KeyedValueRetriever<String,Integer>(new Event.SourceRetriever(), map);
         Integer result = instance.getValue(makeEvent(SOURCE2, 1, 2));
-        assertEquals(2, result);
+        assertEquals(2, (int) result);
     }
 
     @Test

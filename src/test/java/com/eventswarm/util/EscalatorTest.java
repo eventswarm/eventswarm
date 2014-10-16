@@ -99,7 +99,7 @@ public class EscalatorTest {
         SizeThresholdAction action = makeAction(1L);
         Escalator instance = new Escalator(null).addThresholdAction(1L, action);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(1, results.get(1L));
+        assertEquals(1, (long) results.get(1L));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class EscalatorTest {
         SizeThresholdAction action2 = makeAction(1L);
         Escalator instance = new Escalator(null).addThresholdAction(1L, action1).addThresholdAction(1L, action2);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(2, results.get(1L));
+        assertEquals(2, (long) results.get(1L));
     }
 
     @Test
@@ -117,7 +117,7 @@ public class EscalatorTest {
         actions.put(2L, makeAction(2L));
         Escalator instance = new Escalator(actions);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(1, results.get(1L));
+        assertEquals(1, (long) results.get(1L));
     }
 
     @Test
@@ -127,8 +127,8 @@ public class EscalatorTest {
         Escalator instance = new Escalator(actions);
         instance.execute((AddEventTrigger) null, jdoEvent);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(1, results.get(1L));
-        assertEquals(1, results.get(2L));
+        assertEquals(1, (long) results.get(1L));
+        assertEquals(1, (long) results.get(2L));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class EscalatorTest {
         instance.execute((AddEventTrigger) null, jdoEvent);
         instance.execute((RemoveEventTrigger) null, jdoEvent);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(2, results.get(1L));
+        assertEquals(2, (long) results.get(1L));
     }
 
     @Test
@@ -151,8 +151,8 @@ public class EscalatorTest {
         instance.execute((RemoveEventTrigger) null, jdoEvent);
         instance.execute((RemoveEventTrigger) null, jdoEvent);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(2, results.get(1L));
-        assertEquals(1, results.get(2L));
+        assertEquals(2, (long) results.get(1L));
+        assertEquals(1, (long) results.get(2L));
     }
 
     @Test
@@ -164,7 +164,7 @@ public class EscalatorTest {
         instance.reset();
         instance.execute((RemoveEventTrigger) null, jdoEvent);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(2, results.get(2L));
+        assertEquals(2, (long) results.get(2L));
     }
 
     @Test
@@ -183,12 +183,12 @@ public class EscalatorTest {
         Escalator instance = new Escalator(actions);
         instance.execute((AddEventTrigger) null, jdoEvent);
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(1, results.get(2L));
+        assertEquals(1, (long) results.get(2L));
         instance.clear();
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(1, results.get(2L));
+        assertEquals(1,(long)  results.get(2L));
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(2, results.get(2L));
+        assertEquals(2, (long) results.get(2L));
     }
     @Test
     public void testAddActionAfterStart() throws Exception {
@@ -197,8 +197,8 @@ public class EscalatorTest {
         instance.execute((AddEventTrigger) null, jdoEvent);
         instance.addThresholdAction(2L, makeAction(2L));
         instance.execute((AddEventTrigger) null, jdoEvent);
-        assertEquals(1, results.get(1L));
-        assertEquals(1, results.get(2L));
+        assertEquals(1, (long) results.get(1L));
+        assertEquals(1, (long) results.get(2L));
     }
 
     @Test
@@ -221,7 +221,7 @@ public class EscalatorTest {
         instance.execute((AddEventTrigger) null, jdoEvent);
         assertEquals(1, instance.getActions().size());
         assertEquals(1, instance.getMonitors().size());
-        assertEquals(1, results.get(1L));
+        assertEquals(1, (long) results.get(1L));
         assertFalse(instance.getActions().get(1L).contains(action1));
         assertTrue(instance.getActions().get(1L).contains(action2));
         assertEquals(1, instance.getMonitors().size());
@@ -237,7 +237,7 @@ public class EscalatorTest {
         instance.execute((AddEventTrigger) null, jdoEvent);
         assertEquals(1, instance.getActions().size());
         assertEquals(1, instance.getMonitors().size());
-        assertEquals(1, results.get(1L));
+        assertEquals(1, (long) results.get(1L));
         assertEquals(null, results.get(2L));
         assertTrue(instance.getActions().get(1L).contains(action1));
         assertNull(instance.getActions().get(2L));

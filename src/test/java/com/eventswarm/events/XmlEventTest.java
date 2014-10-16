@@ -106,21 +106,21 @@ public class XmlEventTest {
     public void integerRetriever() throws Exception {
         XmlEvent.IntegerRetriever retriever = new XmlEvent.IntegerRetriever("a");
         XmlEvent instance = new XmlEventImpl(header, parse("<a>1</a>"));
-        assertEquals(1, retriever.getValue(instance));
+        assertEquals(1, (int) retriever.getValue(instance));
     }
 
     @Test
     public void longRetriever() throws Exception {
         XmlEvent.LongRetriever retriever = new XmlEvent.LongRetriever("a");
         XmlEvent instance = new XmlEventImpl(header, parse("<a>1038401717746111341</a>"));
-        assertEquals(1038401717746111341L, retriever.getValue(instance));
+        assertEquals(1038401717746111341L, (long) retriever.getValue(instance));
     }
 
     @Test
     public void doubleRetriever() throws Exception {
         XmlEvent.DoubleRetriever retriever = new XmlEvent.DoubleRetriever("b");
         XmlEvent instance = new XmlEventImpl(header, parse("<b>3.14159</b>"));
-        assertEquals(3.14159, retriever.getValue(instance));
+        assertEquals(3.14159, (double) retriever.getValue(instance));
     }
 
     @Test

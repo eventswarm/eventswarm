@@ -92,9 +92,9 @@ public class CSVChannelTest {
         assertEquals(3, instance.getFieldMap().size());
         assertFalse(instance.isDefaultMap());
         assertNull(instance.getFieldMap().get("Currency"));
-        assertEquals(0, instance.getFieldMap().get("#RIC"));
-        assertEquals(1, instance.getFieldMap().get("Date[L]"));
-        assertEquals(2, instance.getFieldMap().get("Type"));
+        assertEquals(0, (int) instance.getFieldMap().get("#RIC"));
+        assertEquals(1, (int) instance.getFieldMap().get("Date[L]"));
+        assertEquals(2, (int) instance.getFieldMap().get("Type"));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class CSVChannelTest {
         assertFalse(instance.isDefaultMap());
         assertNull(instance.getFieldMap().get("Currency"));
         assertEquals("Column120", instance.getFieldNames()[120]);
-        assertEquals(120, instance.getFieldMap().get("Column120"));
+        assertEquals(120, (int) instance.getFieldMap().get("Column120"));
     }
 
     @Test
@@ -219,9 +219,9 @@ public class CSVChannelTest {
         assertEquals(3, instance.getFieldMap().size());
         assertFalse(instance.isDefaultMap());
         assertNull(instance.getFieldMap().get("Currency"));
-        assertEquals(0, instance.getFieldMap().get("#RIC"));
-        assertEquals(1, instance.getFieldMap().get("Date[L]"));
-        assertEquals(2, instance.getFieldMap().get("Type"));
+        assertEquals(0, (int) instance.getFieldMap().get("#RIC"));
+        assertEquals(1, (int) instance.getFieldMap().get("Date[L]"));
+        assertEquals(2, (int) instance.getFieldMap().get("Type"));
 
     }
 
@@ -240,7 +240,7 @@ public class CSVChannelTest {
         assertFalse(instance.isDefaultMap());
         assertNull(instance.getFieldMap().get("Currency"));
         assertEquals("Column120", instance.getFieldNames()[120]);
-        assertEquals(120, instance.getFieldMap().get("Column120"));
+        assertEquals(120, (int) instance.getFieldMap().get("Column120"));
     }
 
     @Test

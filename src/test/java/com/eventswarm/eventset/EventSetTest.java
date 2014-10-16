@@ -37,6 +37,7 @@ import com.eventswarm.events.jdo.TestEvents;
 import java.util.*;
 import java.util.concurrent.locks.*;
 import org.apache.log4j.Logger;
+import org.junit.Before;
 
 /**
  *
@@ -53,6 +54,7 @@ public class EventSetTest extends TestCase {
         super(testName);
     }
 
+    @Before
     protected void setUp() throws Exception {
         this.events = new EventSet();
         event1 = new JdoEvent(TestEvents.headerA1, TestEvents.partsEmpty);
@@ -481,13 +483,20 @@ public class EventSetTest extends TestCase {
 
     public void testAddDupeIdSameTimestamp() {
         Date ts = new Date();
-        Event event1 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "1"), TestEvents.partsSingleMap);
+        Event event1 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "http://myfeed.com#article?h=JYLo0gBdUjxlVvNGXjWYsnEwRXU="), TestEvents.partsSingleMap);
         Event event2 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "1"), TestEvents.partsSingleMap);
+        Event event3 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "2"), TestEvents.partsSingleMap);
+        Event event4 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "http://myfeed.com#article?h=JYLo0gBdUjxlVvNGXjWYsnEwRXU="), TestEvents.partsSingleMap);
         events.execute((AddEventTrigger) null, event1);
         events.execute((AddEventTrigger) null, event2);
-        assertEquals(1, events.size());
+        events.execute((AddEventTrigger) null, event3);
+        events.execute((AddEventTrigger) null, event4);
+        assertEquals(3, events.size());
         assertTrue(events.contains(event1));
         assertTrue(events.contains(event2));
+        assertTrue(events.contains(event3));
+        assertTrue(events.contains(event4));
+        assertNotSame(event4, events.first());
     }
 
     /**

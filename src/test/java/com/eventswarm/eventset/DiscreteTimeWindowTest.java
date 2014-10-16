@@ -319,7 +319,40 @@ public class DiscreteTimeWindowTest implements AddEventTrigger, RemoveEventActio
         assertTrue(instance.size() == 1);
     }
 
-    
+    @Test
+    public void testAddDupeIdSameTimestamp() {
+        Date ts = new Date();
+        Event event1 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "http://myfeed.com#article?h=JYLo0gBdUjxlVvNGXjWYsnEwRXU="), TestEvents.partsSingleMap);
+        Event event2 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "2"), TestEvents.partsSingleMap);
+        Event event3 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "http://myfeed.com#article?h=JYLo0gBdUjxlVvNGXjWYsnEwRXU="), TestEvents.partsSingleMap);
+        DiscreteTimeWindow events = new DiscreteTimeWindow(WINDOWSIZE);
+        events.execute((AddEventTrigger) null, event1);
+        events.execute((AddEventTrigger) null, event2);
+        events.execute((AddEventTrigger) null, event3);
+        assertEquals(2, events.size());
+        assertTrue(events.contains(event1));
+        assertTrue(events.contains(event2));
+        assertTrue(events.contains(event3));
+        assertNotSame(event3, events.first());
+    }
+
+    /**
+     * Note that this test will generate log warnings because we should never have this situation (dupe id, different timestamp)
+     */
+    @Test
+    public void testAddDupeIdDiffTimestamp() {
+        Date ts = new Date();
+        Event event1 = new JdoEvent(new JdoHeader(ts, new JdoSource("EventSetTest"), "1"), TestEvents.partsSingleMap);
+        Event event2 = new JdoEvent(new JdoHeader(new Date(ts.getTime()+1), new JdoSource("EventSetTest"), "1"), TestEvents.partsSingleMap);
+        DiscreteTimeWindow events = new DiscreteTimeWindow(WINDOWSIZE);
+        events.execute((AddEventTrigger) null, event1);
+        events.execute((AddEventTrigger) null, event2);
+        assertEquals(1, events.size());
+        assertTrue("EventSet should contain event1", events.contains(event1));
+        assertTrue("EventSet should think it also contains event2, since it has the same id as event1", events.contains(event2));
+        assertNotSame(event2, events.first());
+    }
+
     public void registerAction(AddEventAction action) {
         // implementation not required for testing
         throw new UnsupportedOperationException("Not supported yet.");
