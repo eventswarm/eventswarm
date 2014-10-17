@@ -17,6 +17,8 @@ package com.eventswarm.events;
 
 import com.eventswarm.abstractions.ValueRetriever;
 
+import java.util.Date;
+
 public interface Event extends Comparable<Event> {
 
       
@@ -44,6 +46,38 @@ public interface Event extends Comparable<Event> {
   
   public java.util.Set<EventPart> getParts(Class type);
 
+
+    // An id retriever is stateless, so can be a single, constant instance
+    public static final ValueRetriever<String> ID_RETRIEVER = new ValueRetriever<String>() {
+        @Override
+        public String getValue(Event event) {
+            return event.getHeader().getEventId();
+        }
+    };
+
+    // A source retriever is stateless, so can be a single, constant instance
+    public static final ValueRetriever<String> SOURCE_RETRIEVER = new ValueRetriever<String>() {
+        @Override
+        public String getValue(Event event) {
+            return event.getHeader().getSource().getSourceId();
+        }
+    };
+
+    // A timestamp retriever is stateless, so can be a single, constant instance
+    public static final ValueRetriever<Date> TIMESTAMP_RETRIEVER = new ValueRetriever<Date>() {
+        @Override
+        public Date getValue(Event event) {
+            return event.getHeader().getTimestamp();
+        }
+    };
+
+    // A millisecond timestamp retriever is stateless, so can be a single, constant instance
+    public static final ValueRetriever<Long> TIMESTAMP_RETRIEVER_MS = new ValueRetriever<Long>() {
+        @Override
+        public Long getValue(Event event) {
+            return event.getHeader().getTimestamp().getTime();
+        }
+    };
 
     public static class SourceRetriever implements ValueRetriever<String> {
         @Override
