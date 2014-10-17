@@ -79,13 +79,13 @@ public class OrgJsonHttpEventTest {
     @Test
     public void getDouble() throws Exception {
         JsonEvent<JSONObject> instance = new OrgJsonHttpEvent(header, new JSONObject("{a:1.15, b: 2}"), http);
-        assertEquals(1.15, instance.getDouble("a"));
+        assertEquals(1.15, instance.getDouble("a"), 0.0);
     }
 
     @Test
     public void getDoubleViaPath() throws Exception {
         JsonEvent<JSONObject> instance = new OrgJsonHttpEvent(header, new JSONObject("{a:{c:1.15}, b: 2}"), http);
-        assertEquals(1.15, instance.getDouble("a/c"));
+        assertEquals(1.15, instance.getDouble("a/c"), 0.0);
     }
 
     @Test
@@ -170,7 +170,7 @@ public class OrgJsonHttpEventTest {
     public void doubleRetriever() throws Exception {
         JsonEvent.DoubleRetriever retriever = new JsonEvent.DoubleRetriever("b");
         JsonEvent<JSONObject> instance = new OrgJsonHttpEvent(header, new JSONObject("{a:1, b: 3.14159}"), http);
-        assertEquals(3.14159, (double) retriever.getValue(instance));
+        assertEquals(3.14159, (double) retriever.getValue(instance), 0.0);
     }
 
     @Test

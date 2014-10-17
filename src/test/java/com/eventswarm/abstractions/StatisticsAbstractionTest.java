@@ -56,9 +56,9 @@ public class StatisticsAbstractionTest {
     public void test_construct() throws Exception {
         StatisticsAbstraction instance = new StatisticsAbstraction(retriever);
         Assert.assertEquals(0, instance.getCount());
-        Assert.assertEquals(0.0, instance.getMean());
-        Assert.assertEquals(0.0, instance.getVariance());
-        Assert.assertEquals(0.0, instance.getStdDev());
+        Assert.assertEquals(0.0, instance.getMean(), 0.0);
+        Assert.assertEquals(0.0, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -67,9 +67,9 @@ public class StatisticsAbstractionTest {
         StatisticsAbstraction instance = new StatisticsAbstraction(retriever);
         instance.execute((AddEventTrigger) null, event1);
         Assert.assertEquals(1, instance.getCount());
-        Assert.assertEquals(1.0, instance.getMean());
-        Assert.assertEquals(0.0, instance.getVariance());
-        Assert.assertEquals(0.0, instance.getStdDev());
+        Assert.assertEquals(1.0, instance.getMean(), 0.0);
+        Assert.assertEquals(0.0, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -80,9 +80,9 @@ public class StatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((AddEventTrigger) null, event2);
         Assert.assertEquals(2, instance.getCount());
-        Assert.assertEquals(1.5, instance.getMean());
-        Assert.assertEquals(0.25, instance.getVariance());
-        Assert.assertEquals(0.5, instance.getStdDev());
+        Assert.assertEquals(1.5, instance.getMean(), 0.0);
+        Assert.assertEquals(0.25, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.5, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -95,8 +95,8 @@ public class StatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event2);
         instance.execute((AddEventTrigger) null, event3);
         Assert.assertEquals(3, instance.getCount());
-        Assert.assertEquals(6.0 / 3.0, instance.getMean());
-        Assert.assertEquals(2.0 / 3.0, instance.getVariance());
+        Assert.assertEquals(6.0 / 3.0, instance.getMean(), 0.0);
+        Assert.assertEquals(2.0 / 3.0, instance.getVariance(), 0.0);
         Assert.assertTrue((instance.getStdDev()-0.8165) < 0.00005);
     }
 
@@ -110,9 +110,9 @@ public class StatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event2);
         instance.execute((AddEventTrigger) null, event3);
         Assert.assertEquals(3, instance.getCount());
-        Assert.assertEquals(6.0 / 3.0, instance.getMean());
-        Assert.assertEquals(0.0, instance.getVariance());
-        Assert.assertEquals(0.0, instance.getStdDev());
+        Assert.assertEquals(6.0 / 3.0, instance.getMean(), 0.0);
+        Assert.assertEquals(0.0, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -121,9 +121,9 @@ public class StatisticsAbstractionTest {
         StatisticsAbstraction instance = new StatisticsAbstraction(retriever);
         instance.execute((RemoveEventTrigger) null, event1);
         Assert.assertEquals(0, instance.getCount());
-        Assert.assertEquals(0.0, instance.getMean());
-        Assert.assertEquals(0.0, instance.getVariance());
-        Assert.assertEquals(0.0, instance.getStdDev());
+        Assert.assertEquals(0.0, instance.getMean(), 0.0);
+        Assert.assertEquals(0.0, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -133,9 +133,9 @@ public class StatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((RemoveEventTrigger) null, event1);
         Assert.assertEquals(0, instance.getCount());
-        Assert.assertEquals(0.0, instance.getMean());
-        Assert.assertEquals(0.0, instance.getVariance());
-        Assert.assertEquals(0.0, instance.getStdDev());
+        Assert.assertEquals(0.0, instance.getMean(), 0.0);
+        Assert.assertEquals(0.0, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
 
@@ -148,9 +148,9 @@ public class StatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event2);
         instance.execute((RemoveEventTrigger) null, event1);
         Assert.assertEquals(1, instance.getCount());
-        Assert.assertEquals(2.0, instance.getMean());
-        Assert.assertEquals(0.0, instance.getVariance());
-        Assert.assertEquals(0.0, instance.getStdDev());
+        Assert.assertEquals(2.0, instance.getMean(), 0.0);
+        Assert.assertEquals(0.0, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -164,9 +164,9 @@ public class StatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event3);
         instance.execute((RemoveEventTrigger) null, event1);
         Assert.assertEquals(2, instance.getCount());
-        Assert.assertEquals(2.5, instance.getMean());
-        Assert.assertEquals(0.25, instance.getVariance());
-        Assert.assertEquals(0.5, instance.getStdDev());
+        Assert.assertEquals(2.5, instance.getMean(), 0.0);
+        Assert.assertEquals(0.25, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.5, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -223,9 +223,9 @@ public class StatisticsAbstractionTest {
         StatisticsAbstraction instance = new StatisticsAbstraction(retriever);
         instance.execute((AddEventTrigger) null, event1);
         Assert.assertEquals(0, instance.getCount());
-        Assert.assertEquals(0.0, instance.getMean());
-        Assert.assertEquals(0.0, instance.getVariance());
-        Assert.assertEquals(0.0, instance.getStdDev());
+        Assert.assertEquals(0.0, instance.getMean(), 0.0);
+        Assert.assertEquals(0.0, instance.getVariance(), 0.0);
+        Assert.assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
 }

@@ -25,8 +25,8 @@
 package com.eventswarm.events.jdo;
 
 import java.util.*;
-import com.eventswarm.util.*;
 import com.eventswarm.events.*;
+import com.eventswarm.util.Sequencer;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.NameBasedGenerator;
 
@@ -37,8 +37,6 @@ import com.fasterxml.uuid.impl.NameBasedGenerator;
  * @author andyb
  */
 public class JdoHeader extends JdoEventPart implements Header {
-
-    public static final String BAD_LICENSE = "EventSwarm license has expired. Please contact Deontik at info@deontik.com";
 
     public static Random random = new Random();
     public static NameBasedGenerator generator = Generators.nameBasedGenerator();
@@ -54,14 +52,18 @@ public class JdoHeader extends JdoEventPart implements Header {
     protected UUID            uuid           = null;
 
     /**
-     * Create a header for error and other events using the default local source and the current time
+     * Create a header for error and other events using the default local source, the current time and an auto-incremented
+     * sequence number
      *
-     * Note that this is not a constructor because the default constructor is used by factories etc
+     * Note that this is not a constructor because the default constructor is used by factories etc. Note that because
+     * we assign auto-incremented sequence numbers, events created with these headers will <strong>always</strong>
+     * be ordered in order of header creation.
      *
-     * @return a new header with local source and current time
+     * @return a new header with local source, current time and an auto-incremented sequence number
      */
     public static JdoHeader getLocalHeader() {
-        return new JdoHeader(new Date(), JdoSource.getLocalSource());
+        Date ts = new Date();
+        return new JdoHeader(new Date(), Sequencer.getInstance().getNext(ts.getTime()), JdoSource.getLocalSource());
     }
 
     /**
@@ -97,50 +99,81 @@ public class JdoHeader extends JdoEventPart implements Header {
     }
     
     /**
-     * Creates a new instance of JdoHeader without all the mostly-unused attributes
+     * Creates a new instance of JdoHeader with a specific timestamp, sequence number and source
      *
-     * This is deprecated because we prefer to use the sequencer to generate sequence numbers unless the event
-     * comes from another source, in which case an ID is necessary.
+     * Note that allowing the ID to be automatically assigned increases the risk of duplicates (i.e. there
+     * is no easy way to detect duplicates. If you can extract an ID, then you should.
+     *
+     * Also note that sequence numbers are used to order events with the same timestamp in an EventSet, but events
+     * with the same source and timestamp are considered concurrent.
      */
-    @Deprecated
     public JdoHeader(Date timestamp, int sequenceNumber, Source source) {
         this(timestamp, sequenceNumber, source, null, null, null, null);
     }
 
     /**
-     * Further simplifies creation by automatically generating the sequence number and source
+     * Creates an event with the nominated millisecond timestamp and source, but using a default ID (UUID)
+     *
+     * An ID will be assigned using a UUID generator and a default sequence number of 0 will be assigned.
+     *
+     * Note that events created with the same timestamp and source using this header constructor will be
+     * considered concurrent and have an arbitrary but deterministic order in an EventSet.
      */
     public JdoHeader (long timestamp, String source) {
-        this(new Date(timestamp), Sequencer.getInstance().getNext(timestamp), new JdoSource(source));
+        this(new Date(timestamp), 0, new JdoSource(source));
     }
 
     /**
-     * Constructor that auto generates a sequence number
+     * Same as the previous constructor, but taking a Java Date instead of a millisecond timestamp.
      *
      * @param timestamp
      * @param source
      */
     public JdoHeader (Date timestamp, Source source) {
-        this(timestamp, Sequencer.getInstance().getNext(timestamp.getTime()), source, null, null, null, null);
+        this(timestamp, 0, source, null, null, null, null);
     }
 
     /**
-     * Constructor with an externally-provided id that auto generates a sequence number
+     * Constructor with an externally-provided id, timestamp and source identifier
      *
-     * IDs must be unique across all event sources: typically a fully qualified URL or UUID is required
+     * IDs must be unique across all event sources: typically a fully qualified URL or UUID is required.
+     *
+     * A sequence number of 0 will be assigned, so events with the same timestamp will be ordered using the
+     * lexical order of their IDs in an EventSet.
      *
      * @param timestamp
      * @param source
      * @param eventId
      */
     public JdoHeader (Date timestamp, Source source, String eventId) {
-        this(timestamp, Sequencer.getInstance().getNext(timestamp.getTime()), source, null, null, null, eventId);
+        this(timestamp, 0, source, null, null, null, eventId);
+    }
+
+    /**
+     * Construct an event with id, timestamp and source identifier that uses the supplied sequencer
+     * to assign sequence numbers.
+     *
+     * IDs must be unique across all event sources: typically a fully qualified URL or UUID is required. Since the
+     * Sequencer class is a singleton, there isn't much choice about which one to use unless you create a subclass.
+     *
+     * This constructor should only be used for events where there is no chance of duplicates or you want duplicates
+     * treated as distinct events, or you use a duplicate filter downstream.
+     *
+     * @param timestamp Event timestamp, indicating when the 'event' was observed
+     * @param source Source of the event, typically a domain name
+     * @param eventId A unique ID for the event, a UUID will be assigned if this is null
+     * @param sequencer A sequencer for assigning sequence numbers to events with the same timestamp
+     */
+    public JdoHeader (Date timestamp, Source source, String eventId, Sequencer sequencer) {
+        this(timestamp, sequencer.getNext(timestamp.getTime()), source, null, null, null, eventId);
     }
 
     /**
      * Constructor with an externally-provided id and sequence number
      *
-     * This constructor is primarily for reconstruction of events provided by another EventSwarm instance
+     * <strong>Do not</strong> use this constructor unless are sure that duplicates will <strong>always</strong>
+     * be assigned the same sequence number, or that there are no duplicates. Otherwise, you can end up with
+     * ordering anomalies.
      *
      * @param timestamp
      * @param source
@@ -189,7 +222,7 @@ public class JdoHeader extends JdoEventPart implements Header {
     /**
      * Generate a string representation of this event's ID
      *
-     * Now that we use UUIDs, this is just the UUID string.
+     * Now that we use UUIDs, this is just the UUID string or the eventId provided at construction
      *
      * @return
      */

@@ -105,7 +105,7 @@ public class StandardDeviationTest {
         StandardDeviation instance = new StandardDeviation(NAME);
         System.out.println("Standard Deviation is " + instance.getValue());
         assertEquals(0.0, instance.getValue());         // method from CalculationAbstraction
-        assertEquals(0.0, instance.mean);
+        assertEquals(0.0, instance.mean, 0.0);
         assertEquals(0, instance.n);
     }
 

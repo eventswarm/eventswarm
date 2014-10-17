@@ -60,13 +60,13 @@ public class JsonEventTest {
     @Test
     public void getDouble() throws Exception {
         JsonEvent<JSONObject> instance = new OrgJsonEvent(header, new JSONObject("{a:1.15, b: 2}"));
-        assertEquals(1.15, instance.getDouble("a"));
+        assertEquals(1.15, instance.getDouble("a"), 0.0);
     }
 
     @Test
     public void getDoubleViaPath() throws Exception {
         JsonEvent<JSONObject> instance = new OrgJsonEvent(header, new JSONObject("{a:{c:1.15}, b: 2}"));
-        assertEquals(1.15, instance.getDouble("a/c"));
+        assertEquals(1.15, instance.getDouble("a/c"), 0.0);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class JsonEventTest {
     public void doubleRetriever() throws Exception {
         JsonEvent.DoubleRetriever retriever = new JsonEvent.DoubleRetriever("b");
         JsonEvent<JSONObject> instance = new OrgJsonEvent(header, new JSONObject("{a:1, b: 3.14159}"));
-        assertEquals(3.14159, (double) retriever.getValue(instance));
+        assertEquals(3.14159, (double) retriever.getValue(instance), 0.0);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class JsonEventTest {
         JSONObject result = new JSONObject(retriever.getValue(instance));
         assertEquals(2, result.keySet().size());
         assertEquals(1, result.getInt("a"));
-        assertEquals(3.1415926536, result.getDouble("b"));
+        assertEquals(3.1415926536, result.getDouble("b"), 0.0);
     }
 
     @Test

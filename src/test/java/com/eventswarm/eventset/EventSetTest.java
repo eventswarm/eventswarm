@@ -508,10 +508,9 @@ public class EventSetTest extends TestCase {
         Event event2 = new JdoEvent(new JdoHeader(new Date(ts.getTime()+1), new JdoSource("EventSetTest"), "1"), TestEvents.partsSingleMap);
         events.execute((AddEventTrigger) null, event1);
         events.execute((AddEventTrigger) null, event2);
-        assertEquals(1, events.size());
+        assertEquals(2, events.size());
         assertTrue("EventSet should contain event1", events.contains(event1));
-        assertTrue("EventSet should think it also contains event2, since it has the same id as event1", events.contains(event2));
-        assertNotSame(event2, events.first());
+        assertTrue("EventSet should contain event2", events.contains(event2));
     }
 
     class SimpleAddEventAction implements AddEventAction {

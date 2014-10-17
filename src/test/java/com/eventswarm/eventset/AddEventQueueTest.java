@@ -119,7 +119,7 @@ public class AddEventQueueTest {
     public void testAddThreaded2() throws Exception {
         new Thread(new RunnableAdder(instance, 1)).start();
         new Thread(new RunnableAdder(instance, 1)).start();
-        Thread.sleep(100);
+        Thread.sleep(1000);
         assertEquals(0, instance.queue.size());
         assertEquals(2, adds.size());
     }
@@ -128,7 +128,7 @@ public class AddEventQueueTest {
     public void testAddThreadedMany() throws Exception {
         new Thread(new RunnableAdder(instance, 100)).start();
         new Thread(new RunnableAdder(instance, 100)).start();
-        Thread.sleep(100);
+        Thread.sleep(1000);
         assertEquals(0, instance.queue.size());
         assertEquals(200, adds.size());
     }

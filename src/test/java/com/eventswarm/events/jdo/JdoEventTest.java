@@ -731,7 +731,8 @@ public class JdoEventTest {
         assertEquals(false, instance.isAfter(TestEvents.eventAfterDiffSrcConcSeq));
         assertEquals(true, instance.isAfter(TestEvents.eventConcSameSrcBeforeSeq));
         assertEquals(false, instance.isAfter(TestEvents.eventConcSameSrcAfterSeq));
-        assertEquals(true, instance.isAfter(TestEvents.eventConcSameSrcConcSeq));
+        // This test no longer holds: if sequence number and timestamp are the same, they're concurrent.
+        //assertEquals(true, instance.isAfter(TestEvents.eventConcSameSrcConcSeq));
         assertEquals(false, instance.isAfter(TestEvents.eventConcDiffSrcBeforeSeq));
         assertEquals(false, instance.isAfter(TestEvents.eventConcDiffSrcAfterSeq));
         assertEquals(false, instance.isAfter(TestEvents.eventConcDiffSrcConcSeq));        
@@ -760,8 +761,9 @@ public class JdoEventTest {
         assertEquals(false, instance.isConcurrent(TestEvents.eventAfterDiffSrcConcSeq));
         assertEquals(false, instance.isConcurrent(TestEvents.eventConcSameSrcBeforeSeq));
         assertEquals(false, instance.isConcurrent(TestEvents.eventConcSameSrcAfterSeq));
-        // same source is never concurrent, if they have the same sequence number, we order them arbitrarily
-        assertEquals(false, instance.isConcurrent(TestEvents.eventConcSameSrcConcSeq));
+        // Originally, same source was never concurrent. We've changed that. We can only assert that they're
+        // not concurrent if the source has assigned sequence numbers, which we don't always get.
+        // assertEquals(false, instance.isConcurrent(TestEvents.eventConcSameSrcConcSeq));
         assertEquals(true, instance.isConcurrent(TestEvents.eventConcDiffSrcBeforeSeq));
         assertEquals(true, instance.isConcurrent(TestEvents.eventConcDiffSrcAfterSeq));
         assertEquals(true, instance.isConcurrent(TestEvents.eventConcDiffSrcConcSeq));        
@@ -874,9 +876,9 @@ public class JdoEventTest {
         Map parts = new HashMap();
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
-        assertThat(event1, is(not(equalTo(event2))));
+        assertThat(event1, is(equalTo(event2)));
         // we have events with same id and timestamp but different sequence numbers, so the second event should be after
-        assertEquals(-1, event1.compareTo(event2));
+        assertEquals(0, event1.compareTo(event2));
     }
 
     @Test
@@ -912,7 +914,7 @@ public class JdoEventTest {
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
         assertNotSame(event1, event2);
-        assertEquals(-1, event1.compareTo(event2));
+        assertEquals("1".compareTo("2"), event1.compareTo(event2));
     }
 
     /**

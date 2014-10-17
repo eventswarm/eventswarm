@@ -67,9 +67,9 @@ public class WeightedStatisticsAbstractionTest {
     public void test_construct() throws Exception {
         WeightedStatisticsAbstraction instance = new WeightedStatisticsAbstraction(valueRetriever, weightRetriever);
         assertEquals(0, instance.getCount());
-        assertEquals(0.0, instance.getMean());
-        assertEquals(0.0, instance.getVariance());
-        assertEquals(0.0, instance.getStdDev());
+        assertEquals(0.0, instance.getMean(), 0.0);
+        assertEquals(0.0, instance.getVariance(), 0.0);
+        assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -79,9 +79,9 @@ public class WeightedStatisticsAbstractionTest {
         WeightedStatisticsAbstraction instance = new WeightedStatisticsAbstraction(valueRetriever, weightRetriever);
         instance.execute((AddEventTrigger) null, event1);
         assertEquals(1, instance.getCount());
-        assertEquals(1.0, instance.getMean());
-        assertEquals(0.0, instance.getVariance());
-        assertEquals(0.0, instance.getStdDev());
+        assertEquals(1.0, instance.getMean(), 0.0);
+        assertEquals(0.0, instance.getVariance(), 0.0);
+        assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -91,9 +91,9 @@ public class WeightedStatisticsAbstractionTest {
         WeightedStatisticsAbstraction instance = new WeightedStatisticsAbstraction(valueRetriever, weightRetriever);
         instance.execute((AddEventTrigger) null, event1);
         assertEquals(2, instance.getCount());
-        assertEquals(1.0, instance.getMean());
-        assertEquals(0.0, instance.getVariance());
-        assertEquals(0.0, instance.getStdDev());
+        assertEquals(1.0, instance.getMean(), 0.0);
+        assertEquals(0.0, instance.getVariance(), 0.0);
+        assertEquals(0.0, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -106,9 +106,9 @@ public class WeightedStatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((AddEventTrigger) null, event2);
         assertEquals(2, instance.getCount());
-        assertEquals(1.5, instance.getMean());
-        assertEquals(0.25, instance.getVariance());
-        assertEquals(0.5, instance.getStdDev());
+        assertEquals(1.5, instance.getMean(), 0.0);
+        assertEquals(0.25, instance.getVariance(), 0.0);
+        assertEquals(0.5, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -121,9 +121,9 @@ public class WeightedStatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((AddEventTrigger) null, event2);
         assertEquals(4, instance.getCount());
-        assertEquals(1.5, instance.getMean());
-        assertEquals(0.25, instance.getVariance());
-        assertEquals(0.5, instance.getStdDev());
+        assertEquals(1.5, instance.getMean(), 0.0);
+        assertEquals(0.25, instance.getVariance(), 0.0);
+        assertEquals(0.5, instance.getStdDev(), 0.0);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class WeightedStatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((AddEventTrigger) null, event2);
         assertEquals(3, instance.getCount());
-        assertEquals(4.0/3.0, instance.getMean());
+        assertEquals(4.0/3.0, instance.getMean(), 0.0);
         assertTrue((instance.getVariance() - 0.2222) < 0.00005);
         assertTrue((instance.getStdDev() - 0.4714) < 0.00005);
     }
@@ -178,7 +178,7 @@ public class WeightedStatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event2);
         instance.execute((RemoveEventTrigger) null, event1);
         assertEquals(1, instance.getCount());
-        assertEquals(2.0, instance.getMean());
+        assertEquals(2.0, instance.getMean(), 0.0);
         assertTrue(instance.getVariance() < APPROACHING_ZERO);
         assertTrue(instance.getStdDev() < APPROACHING_ZERO);
     }
@@ -194,7 +194,7 @@ public class WeightedStatisticsAbstractionTest {
         instance.execute((AddEventTrigger) null, event2);
         instance.execute((RemoveEventTrigger) null, event1);
         assertEquals(2, instance.getCount());
-        assertEquals(2.0, instance.getMean());
+        assertEquals(2.0, instance.getMean(), 0.0);
         assertTrue(instance.getVariance() < APPROACHING_ZERO);
         assertTrue(Double.isNaN(instance.getStdDev()));
     }

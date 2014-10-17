@@ -68,7 +68,7 @@ public class XmlEventTest {
     @Test
     public void getDouble() throws Exception {
         XmlEvent instance = new XmlEventImpl(header, parse("<doc><a>1.15</a><b>true</b></doc>"));
-        assertEquals(1.15, instance.getDouble("doc/a"));
+        assertEquals(1.15, instance.getDouble("doc/a"), 0.0);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class XmlEventTest {
     public void doubleRetriever() throws Exception {
         XmlEvent.DoubleRetriever retriever = new XmlEvent.DoubleRetriever("b");
         XmlEvent instance = new XmlEventImpl(header, parse("<b>3.14159</b>"));
-        assertEquals(3.14159, (double) retriever.getValue(instance));
+        assertEquals(3.14159, (double) retriever.getValue(instance), 0.0);
     }
 
     @Test

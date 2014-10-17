@@ -180,6 +180,8 @@ public class EventSet implements MutablePassThru, Iterable<Event>, Clear {
                     log.debug("Executing registered action:" + action.toString());
                     action.execute(this, event);
                 }
+            } else {
+                log.debug("Duplicate detected, ignoring");
             }
         } finally {
             lock.writeLock().unlock();

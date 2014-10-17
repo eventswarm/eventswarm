@@ -129,7 +129,7 @@ public class JdoEvent implements Event {
             if (before) return -1;
             if (after) return 1;
             // same timestamp, compare sequence numbers
-            return ((this.header.getSequenceNumber() < event.getHeader().getSequenceNumber()) ? -1 : 1);
+            return sequenceOrder(event);
             
         } else {
             // different source. Should compare causality vectors, but for now, just use timestamp
@@ -384,9 +384,11 @@ public class JdoEvent implements Event {
             if (order == 0) {
                 // concurrent, distinguish by other means
                 if (Activity.class.isInstance(this)) {
+                    logger.debug("Using activity/activity order for compareTo");
                     // If we're an activity, return the result of the activity specific method
                     return((Activity) this).compareTo(other);
                 } else if (Activity.class.isInstance(other)) {
+                    logger.debug("Using event/activity order for compareTo");
                     // If the other is an activity, return the negation of the activity specific method
                     return(-((Activity) other).compareTo(this));
                 } else {
@@ -394,22 +396,25 @@ public class JdoEvent implements Event {
                     long thisTime = this.getHeader().getTimestamp().getTime();
                     long otherTime = other.getHeader().getTimestamp().getTime();
                     if (thisTime == otherTime) {
-                        if (!header.getEventId().equals(other.getHeader().getEventId())) {
-                            // timestamps are equal too, so if IDs don't match use ID order
+                        order = sequenceOrder(other);
+                        if (order == 0) {
+                            // sequence numbers don't help, so use ID order
+                            logger.debug("Using ID order for compareTo");
                             return header.getEventId().compareTo(other.getHeader().getEventId());
                         } else {
-                            // We really shouldn't get here unless we have same ID and timestamp but different sequence
-                            // numbers. Someone has been issuing dodgy sequence numbers it seems, so make them eat
-                            // their own dogfood and return sequence number order.
-                            return sequenceOrder(other);
+                            // these events are sequenced, so use the sequence order
+                            logger.debug("Using sequence order for compareTo");
+                            return order;
                         }
                     } else {
                         // different timestamps, so use their order
+                        logger.debug("Using timestamp order for compareTo");
                         return thisTime < otherTime ? -1 : 1;
                     }
                 }
             } else {
                 // not concurrent, so return order
+                logger.debug("Using result of concurrency order() for compareTo");
                 return(order);
             }
         }
