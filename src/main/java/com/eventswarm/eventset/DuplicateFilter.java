@@ -10,18 +10,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A duplicate filter watches for duplicates in a window based on matching values returned by a retriever
- * (e.g. an ID retriever) and only adds new events to the window.
+ * A duplicate filter watches for duplicates against a window based on matching values returned by a retriever
+ * (e.g. an ID retriever) and only adds non-matching events to the window.
  *
  * This class depends on having control over the events added to the window. Events added to the window by
  * any other source will not be filtered (i.e. pass all events through the filter). Downstream classes could,
- * however, safely subscribe to remove events from the window.
+ * however, safely subscribe to the remove trigger of the window (e.g. if the same window was used to manage
+ * memory usage).
  *
  * The creator supplies a window to constrain the window of time or N during which the filter should detect duplicates
  * (e.g. 1 week or the last 100 events). Those interested in the events that are discarded and the original event
- * that they duplicate can register against the DuplicateEventTrigger.
- *
- * Those
+ * that was duplicated can register against the DuplicateEventTrigger.
  *
  * Created with IntelliJ IDEA.
  * User: andyb
