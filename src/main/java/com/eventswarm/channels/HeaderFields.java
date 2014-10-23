@@ -4,6 +4,7 @@ import com.eventswarm.events.Header;
 import com.eventswarm.events.Sources;
 import com.eventswarm.events.jdo.JdoHeader;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Interface implemented by classes that know how to create EventSwarm header fields from parsed data items
@@ -33,18 +34,39 @@ public interface HeaderFields<T> {
      *
      * @param <T> Type of data items from which headers are constructed
      */
-    public static class HeaderFactory<T> {
-        HeaderFields<T> headers;
+    public static class HdrFactory<T> {
+        HeaderFields<T> extractor;
 
-        public HeaderFactory(HeaderFields<T> headers) {
-            this.headers = headers;
+        public HdrFactory(HeaderFields<T> extractor) {
+            this.extractor = extractor;
         }
 
         public Header create(T data) {
-            return new JdoHeader(headers.getTimestamp(data),
-                    headers.getSequenceNumber(data),
-                    Sources.cache.getSourceByName(headers.getSource(data)),
-                    headers.getId(data));
+            return new JdoHeader(extractor.getTimestamp(data),
+                    extractor.getSequenceNumber(data),
+                    Sources.cache.getSourceByName(extractor.getSource(data)),
+                    extractor.getId(data));
+        }
+    }
+
+    /**
+     * Slightly less simple header factory that accepts a discriminator to work out which HeaderFields implementation
+     * to use.
+     */
+    public static class DiscriminatedHdrFactory<D,T> {
+        Map<D,HeaderFields<T>> extractorMap;
+        Discriminator<D,T> discriminator;
+
+        public DiscriminatedHdrFactory(Map<D, HeaderFields<T>> extractorMap) {
+            this.extractorMap = extractorMap;
+        }
+
+        public Header create(T data) {
+            HeaderFields<T> extractor = extractorMap.get(discriminator.getDiscriminator(data));
+            return new JdoHeader(extractor.getTimestamp(data),
+                    extractor.getSequenceNumber(data),
+                    Sources.cache.getSourceByName(extractor.getSource(data)),
+                    extractor.getId(data));
         }
     }
 }
