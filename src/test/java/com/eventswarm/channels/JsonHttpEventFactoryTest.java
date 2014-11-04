@@ -51,7 +51,7 @@ public class JsonHttpEventFactoryTest {
     public void setup() throws Exception {
         String[] date = {"Fri, 16 Aug 2013 00:30:00 GMT"};
         headers.put(JdoHttpEventPart.DATE_HEADER, Arrays.asList(date));
-        address = new InetSocketAddress(InetAddress.getLoopbackAddress(), 0);
+        address = new InetSocketAddress("localhost", 3333);
     }
 
     @Test
