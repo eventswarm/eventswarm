@@ -63,7 +63,7 @@ public class HttpClientTest implements HttpContentHandler {
     public void testSimpleRequest() throws Exception {
         HttpClient instance = new HttpClient(this);
         String target = "http://deontik.com";
-        int result = instance.request("GET", new URL(target), null);
+        int result = instance.getRequest(new URL(target), null);
         assertThat(result, is(200));
         assertThat(subs_id, is("http://deontik.com"));
         assertNotNull(headers);
@@ -77,11 +77,11 @@ public class HttpClientTest implements HttpContentHandler {
         String target = "http://deontik.com/blog";
         Map<String,String> params = new HashMap();
         params.put("feed", "rss2");
-        int result = instance.request("GET", new URL(target), params);
+        int result = instance.getRequest(new URL(target), params);
         assertThat(result, is(200));
-        assertThat(subs_id, is("http://deontik.com/blog"));
+        assertThat(subs_id, is("http://deontik.com/blog?feed=rss2"));
         assertNotNull(headers);
-        assertThat(headers.get("Content-Type").get(0), is("text/html; charset=UTF-8"));
+        assertThat(headers.get("Content-Type").get(0), is("text/xml; charset=UTF-8"));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class HttpClientTest implements HttpContentHandler {
         params.put("hub.mode", "subscribe");
         params.put("hub.callback", "http://pubsub.eventswarm.com");
         params.put("hub.topic", "http://deontik.com/blog/?feed=rss2");
-        int result = instance.request("POST", new URL(target), params);
+        int result = instance.postRequest(new URL(target), params);
         assertThat(result, is(204));
     }
 

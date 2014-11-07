@@ -168,38 +168,26 @@ public class HttpClient {
     }
 
     /**
-     * Send a request to the specified URL with the supplied parameters
+     * Send a POST request to the specified URL with the supplied parameters as a form body
      *
-     * If the user has been set, HTTP basic authentication will be attempted.
+     * If the user has been set, HTTP basic authentication will be attempted. If providing parameters in the URL,
+     * make sure you use the encode method to encode them.
      *
-     * @param method -- HTTP method, either GET or POST
      * @param target -- Target URL for the request, excluding parameters
-     * @param params -- Parameters to encode in the body of the request (leave null if params are already in URL)
+     * @param params -- Parameters to encode in the body of the request (only works properly for POST, use URL params for GET)
      * @return true if successful, false otherwise
      * @throws HttpClientException
      */
-    public int request(String method, URL target, Map<String,String> params) throws HttpClientException {
+    public int postRequest(URL target, Map<String,String> params) throws HttpClientException {
         try {
             boolean doOutput = params != null && !params.isEmpty();
-            HttpURLConnection con = getConnection(method, target, doOutput);
+            HttpURLConnection con = getConnection("POST", target, doOutput);
             if (doOutput) {
                 OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
-                addParams(out, params);
+                out.write(makeParams(params));
                 out.close();
             }
-            int code = con.getResponseCode();
-            logger.info("Received HTTP response with code " + Integer.toString(code));
-            if (code > 299) {
-                // subscription and related requests should always return a 202, but this is not consistent
-                // so accept any 2XX response
-                InputStream in = con.getErrorStream();
-                if (in == null) in = con.getInputStream(); // might have returned the wrong code
-                logger.error("Error in response, content was: " + readStream(in));
-                return code;
-            } else {
-                handler.handle(target.toString(), con.getInputStream(), con.getHeaderFields());
-                return code;
-            }
+            return handleResponse(target.toString(), con);
         } catch (Exception exc) {
             String message = "Error sending request to " + target.toString();
             logger.error(message, exc);
@@ -207,24 +195,68 @@ public class HttpClient {
         }
     }
 
-
-    protected void addParams(OutputStreamWriter out, Map<String,String> params) throws IOException {
-        if (params != null) {
-            boolean first = true;
-            for(String key : params.keySet()) {
-                if (!first) {
-                    addParam(out, AMP + encode(key) + "=" + encode(params.get(key)));
-                } else {
-                    addParam(out, encode(key) + "=" + encode(params.get(key)));
-                    first = false;
-                }
+    /**
+     * Send a GET request to the specified URL
+     *
+     * If the user has been set, HTTP basic authentication will be attempted. If providing parameters in the URL,
+     * make sure you use the encode method to encode them.
+     *
+     * @param target -- target URL, preferably without parameters
+     * @param params -- Parameters to encode in the URL
+     * @return
+     * @throws HttpClientException
+     */
+    public int getRequest(URL target, Map<String,String> params) throws HttpClientException {
+        URL urlWithParams;
+        try {
+            if (params != null && params.size() > 0) {
+                urlWithParams = new URL(target.toString() + "?" + makeParams(params));
+            } else {
+                urlWithParams = target;
             }
+            HttpURLConnection con = getConnection("GET", urlWithParams, false);
+            return handleResponse(urlWithParams.toString(), con);
+        } catch (Exception exc) {
+            String message = "Error sending request to " + target.toString();
+            logger.error(message, exc);
+            throw new HttpClientException(message, exc);
         }
     }
 
-    protected void addParam(OutputStreamWriter out, String param) throws IOException {
-        logger.debug("Setting HTTP param: " + param);
-        out.write(param);
+    private int handleResponse(String id, HttpURLConnection con) throws Exception {
+        int code = con.getResponseCode();
+        logger.info("Received HTTP response with code " + Integer.toString(code));
+        if (code > 299) {
+            // subscription and related requests should always return a 202, but this is not consistent
+            // so accept any 2XX response
+            InputStream in = con.getErrorStream();
+            if (in == null) in = con.getInputStream(); // might have returned the wrong code
+            logger.error("Error in response, content was: " + readStream(in));
+            return code;
+        } else {
+            handler.handle(id, con.getInputStream(), con.getHeaderFields());
+            return code;
+        }
+    }
+
+
+    protected String makeParams(Map<String,String> params) throws IOException {
+        if (params != null) {
+            boolean first = true;
+            StringBuilder builder = new StringBuilder();
+            for(String key : params.keySet()) {
+                if (!first) {
+                    builder.append(AMP);
+                }
+                builder.append(encode(key));
+                builder.append("=");
+                builder.append(encode(params.get(key)));
+                first = false;
+            }
+            return builder.toString();
+        } else {
+            return "";
+        }
     }
 
     protected static String readStream(InputStream in) throws IOException {
