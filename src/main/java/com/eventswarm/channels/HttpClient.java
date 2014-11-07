@@ -174,16 +174,19 @@ public class HttpClient {
      *
      * @param method -- HTTP method, either GET or POST
      * @param target -- Target URL for the request, excluding parameters
-     * @param params -- Parameters to encode and append to the URL
+     * @param params -- Parameters to encode in the body of the request (leave null if params are already in URL)
      * @return true if successful, false otherwise
      * @throws HttpClientException
      */
     public int request(String method, URL target, Map<String,String> params) throws HttpClientException {
         try {
-            HttpURLConnection con = getConnection(method, target);
-            OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
-            addParams(out, params);
-            out.close();
+            boolean doOutput = params != null && !params.isEmpty();
+            HttpURLConnection con = getConnection(method, target, doOutput);
+            if (doOutput) {
+                OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
+                addParams(out, params);
+                out.close();
+            }
             int code = con.getResponseCode();
             logger.info("Received HTTP response with code " + Integer.toString(code));
             if (code > 299) {
@@ -239,14 +242,17 @@ public class HttpClient {
      * @return
      * @throws IOException
      */
-    protected HttpURLConnection getConnection(String method, URL url) throws IOException {
+    protected HttpURLConnection getConnection(String method, URL url, boolean body) throws IOException {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod(method);
         if (accept != null) {
             con.setRequestProperty("Accept", accept);
         }
         setHttpAuthorization(con);
-        con.setDoOutput(true);
+        if (body) {
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            con.setDoOutput(true);
+        }
         con.connect();
         return con;
     }

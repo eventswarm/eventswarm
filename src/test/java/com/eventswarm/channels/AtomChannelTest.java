@@ -16,9 +16,8 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -99,6 +98,27 @@ public class AtomChannelTest implements AddEventAction {
         assertThat(instance.getCount(), is(50L));
         assertThat(instance.getErrors(), is(0L));
     }
+
+    /**
+     * This is really an integration test, using our HttpClient class as the source
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testHandleWithHttpClient() throws Exception {
+        instance = new AtomChannel();
+        instance.registerAction(this);
+        HttpClient client = new HttpClient(instance, "*");
+        String target = "http://fhir-dev.healthintersections.com.au/open/Observation/_search?_count=5";
+        // TODO: work out why we get a 500 error when we try to send url-encoded parameters in the body
+        //Map<String,String> params = new HashMap();
+        //params.put("_count", "5");
+        int result = client.request("GET", new URL(target), null);
+        assertThat(result, is(200));
+        System.out.println("Received " + instance.getCount() + " entries");
+        assertThat(instance.getCount(), is(5L));
+    }
+
 
     @Override
     public void execute(AddEventTrigger trigger, Event event) {
