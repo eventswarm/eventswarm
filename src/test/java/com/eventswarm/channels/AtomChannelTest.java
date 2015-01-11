@@ -104,20 +104,20 @@ public class AtomChannelTest implements AddEventAction {
      *
      * @throws Exception
      */
-    @Test
-    public void testHandleWithHttpClient() throws Exception {
-        instance = new AtomChannel();
-        instance.registerAction(this);
-        HttpClient client = new HttpClient(instance, "*");
-        String target = "http://fhir-dev.healthintersections.com.au/open/Observation/_search";
-        // TODO: work out why we get a 500 error when we try to send url-encoded parameters in the body
-        Map<String,String> params = new HashMap();
-        params.put("_count", "5");
-        int result = client.getRequest(new URL(target), params);
-        assertThat(result, is(200));
-        System.out.println("Received " + instance.getCount() + " entries");
-        assertThat(instance.getCount(), is(5L));
-    }
+//    @Test
+//    public void testHandleWithHttpClient() throws Exception {
+//        instance = new AtomChannel();
+//        instance.registerAction(this);
+//        HttpClient client = new HttpClient(instance, "*");
+//        String target = "http://fhir-dev.healthintersections.com.au/open/Observation/_search";
+//        // TODO: work out why we get a 500 error when we try to send url-encoded parameters in the body
+//        Map<String,String> params = new HashMap();
+//        params.put("_count", "5");
+//        int result = client.getRequest(new URL(target), params);
+//        assertThat(result, is(200));
+//        System.out.println("Received " + instance.getCount() + " entries");
+//        assertThat(instance.getCount(), is(5L));
+//    }
 
 
     @Override
