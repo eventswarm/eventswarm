@@ -32,18 +32,13 @@ these implementations, but the business case was always lacking.
 In 2013, we built a media monitoring application called Note8 that
 focused on the needs of corporate compliance for listed companies in
 Australia. This has attracted some attention and is in trial with a
-number of customers, with a product launch expected in the near future
-(late 2014).
+number of customers (late 2014).
 
-[Adomita](http://adomita.com) is partnering with us in launching Note8
-and has big plans for EventSwarm, but since EventSwarm itself would be
-hard to sell as a product, we decided that open source was the best
-route. It means that regardless of how we get along with our new
-partner, EventSwarm will always be available to everyone, and
-fundamentally we’ve always wanted to put something back into the
+We recently decided that EventSwarm itself will be hard to sell as a product,
+and that making it open source would give others the opportunity to build
+great things with it, and hopefully contribute back or engage us to provide
+our expertise. Open source also means EventSwarm will always be available to
+everyone, and fundamentally we’ve always wanted to put something back into the
 community.
 
-Adomita is providing funding to support the open source project and keep
-us employed, so we’ve given them the naming rights. We encourage you to
-check out their products at http://adomita.com.
-
+Enjoy!

@@ -96,6 +96,20 @@ public class DuplicateEventExpressionTest {
     }
 
     @Test
+    public void testTripleMatch() throws Exception {
+        instance = new DuplicateEventExpression(singleComparator);
+        instance.execute((AddEventTrigger) null, makeEvent("a","c"));
+        instance.execute((AddEventTrigger) null, makeEvent("a","d"));
+        instance.execute((AddEventTrigger) null, makeEvent("a","e"));
+        Event event = makeEvent("a","b");
+        instance.execute((AddEventTrigger) null, event);
+        assertEquals(3, instance.matches.size());
+        assertEquals(2, ((Activity) instance.matches.first()).getEvents().size());
+        assertEquals(4, ((Activity) instance.matches.last()).getEvents().size());
+        assertTrue(((Activity) instance.matches.last()).getEvents().contains(event));
+    }
+
+    @Test
     public void testNotMatched() throws Exception {
         instance = new DuplicateEventExpression(singleComparator);
         Event event = makeEvent("a","b");
