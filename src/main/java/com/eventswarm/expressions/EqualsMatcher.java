@@ -39,8 +39,12 @@ public class EqualsMatcher<T> implements Matcher {
 
     @Override
     public boolean matches(Event event) {
-        logger.debug("Comparing comparison value " + value.toString() + " with event value " + retriever.getValue(event));
-        return value.equals(retriever.getValue(event));
+        logger.debug("Comparing comparison value " + value + " with event value " + retriever.getValue(event));
+        if (value == null) {
+            return retriever.getValue(event) == null;
+        } else {
+            return value.equals(retriever.getValue(event));
+        }
     }
 
     public T getValue() {

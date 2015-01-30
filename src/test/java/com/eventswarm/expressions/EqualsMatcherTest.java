@@ -53,7 +53,25 @@ public class EqualsMatcherTest {
         assertFalse(result);
     }
 
+    @Test
+    public void testFalseNullValueMatch() throws Exception {
+        EqualsMatcher instance = new EqualsMatcher(null, retriever);
+        boolean result = instance.matches(makeEvent("nope"));
+        assertFalse(result);
+    }
+
+    @Test
+    public void testTrueNullValueMatch() throws Exception {
+        EqualsMatcher instance = new EqualsMatcher(null, retriever);
+        boolean result = instance.matches(makeNullValueEvent());
+        assertFalse(result);
+    }
+
     Event makeEvent(String text) {
         return new OrgJsonEvent(JdoHeader.getLocalHeader(), new JSONObject("{'text':" + "'" + text + "'}"));
+    }
+
+    Event makeNullValueEvent() {
+        return new OrgJsonEvent(JdoHeader.getLocalHeader(), new JSONObject("{'text': null}"));
     }
 }

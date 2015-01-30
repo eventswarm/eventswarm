@@ -38,8 +38,13 @@ public class ValueEqualsMatcher implements Matcher {
 
     @Override
     public boolean matches(Event event) {
-        logger.debug("Comparing comparison value " + value.getValue() + " with event value " + retriever.getValue(event));
-        return value.getValue().equals(retriever.getValue(event));
+        Object compare = value.getValue();
+        logger.debug("Comparing comparison value " + compare + " with event value " + retriever.getValue(event));
+        if (compare == null) {
+            return retriever.getValue(event) == null;
+        } else {
+            return value.getValue().equals(retriever.getValue(event));
+        }
     }
 
     public Value getValue() {
