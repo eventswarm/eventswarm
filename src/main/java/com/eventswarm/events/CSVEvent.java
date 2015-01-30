@@ -90,7 +90,16 @@ public interface CSVEvent extends Event {
 
         @Override
         public Number getValue(Event event) {
-            return CSVEvent.class.isInstance(event) ? (Long.parseLong(((CSVEvent)event).get(key))) : null;
+            if (CSVEvent.class.isInstance(event)) {
+                String value = ((CSVEvent)event).get(key);
+                try {
+                    return Long.parseLong(value);
+                } catch (java.lang.NumberFormatException exc) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         }
     }
 
@@ -113,7 +122,16 @@ public interface CSVEvent extends Event {
 
         @Override
         public Number getValue(Event event) {
-            return CSVEvent.class.isInstance(event) ? (Double.parseDouble(((CSVEvent)event).get(key))) : null;
+            if (CSVEvent.class.isInstance(event)) {
+                String value = ((CSVEvent)event).get(key);
+                try {
+                    return Double.parseDouble(value);
+                } catch (java.lang.NumberFormatException exc) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         }
     }
 }
