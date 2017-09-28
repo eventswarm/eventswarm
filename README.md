@@ -44,7 +44,7 @@ So why might you want to use EventSwarm?
     Storm, Kafka). The key to processing scalability is partitioning,
     and EventSwarm has natural graph abstractions for partitioning. With
     a few exceptions, changing the graph segmentation does not change
-    the processing logic. Given it’s lightweight nature, EventSwarm
+    the processing logic. Given its lightweight nature, EventSwarm
     opens up the possibility of pushing your processing all the way out
     to the data sources. This means scale is only really limited by your
     ability to partition your application.
@@ -67,7 +67,7 @@ So why might you want to use EventSwarm?
     Sometimes when we’re tardy with our enhancements, this period is
     several months.
 
-## So I’m sold, what next?
+## I’m sold, what next?
 
 For a quick start, read our [getting started](./GETTING_STARTED.md) document.
 
