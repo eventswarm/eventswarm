@@ -15,8 +15,6 @@
 */
 package com.eventswarm.events.jdo;
 
-import com.eventswarm.events.ErrorEvent;
-
 /**
  * ExceptionEvent implementation for exceptions thrown during processing
  *
@@ -27,7 +25,7 @@ import com.eventswarm.events.ErrorEvent;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class ExceptionErrorEvent extends JdoErrorEvent implements ErrorEvent {
+public class ExceptionErrorEvent extends JdoErrorEvent {
     private Exception exception;
 
     public ExceptionErrorEvent(Exception exception) {

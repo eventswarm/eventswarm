@@ -80,7 +80,6 @@ public class TriggerDelegate<A> implements Iterable<A>{
         return(actions.iterator());
     }
 
-    @Override
     public Iterator<A> iterator() {
         return(actions.iterator());
     }

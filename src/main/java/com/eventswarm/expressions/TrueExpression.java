@@ -16,7 +16,6 @@
 package com.eventswarm.expressions;
 
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 
 /**

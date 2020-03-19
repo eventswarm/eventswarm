@@ -20,10 +20,8 @@
 
 package com.eventswarm.expressions;
 
-import com.eventswarm.events.Event;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Abstract parent class for multi-component event logical expressions to minimise

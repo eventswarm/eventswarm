@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class NumericValueExpression extends AbstractEventExpression implements EventExpression {
+public class NumericValueExpression extends AbstractEventExpression {
 
     public static enum Comparator {
         EQUAL,

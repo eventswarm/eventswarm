@@ -17,13 +17,9 @@ package com.eventswarm.abstractions;
 
 import com.eventswarm.*;
 import com.eventswarm.events.Event;
-import com.eventswarm.abstractions.SizeThresholdMonitor;
 import com.eventswarm.events.jdo.JdoEvent;
 import com.eventswarm.events.jdo.TestEvents;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 /**
@@ -175,12 +171,10 @@ public class SizeThresholdMonitorTest {
         }
     }
     class SimpleAddTrigger implements AddEventTrigger {
-        @Override
         public void registerAction(AddEventAction action) {
             //To change body of implemented methods use File | Settings | File Templates.
         }
 
-        @Override
         public void unregisterAction(AddEventAction action) {
             //To change body of implemented methods use File | Settings | File Templates.
         }

@@ -1,6 +1,5 @@
 package com.eventswarm.expressions;
 
-import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.JsonEvent;
 import com.eventswarm.events.jdo.JdoHeader;

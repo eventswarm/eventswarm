@@ -47,7 +47,6 @@ public class AddEventQueueTest {
         instance = new AddEventQueue();
         adds = new ArrayList<Event>();
         action = new AddEventAction() {
-            @Override
             public void execute(AddEventTrigger trigger, Event event) {
                 adds.add(event);
             }
@@ -101,7 +100,6 @@ public class AddEventQueueTest {
     @Test
     public void testMultipleActions() throws Exception {
         AddEventAction action2 = new AddEventAction() {
-            @Override
             public void execute(AddEventTrigger trigger, Event event) {
                 adds.add(event);
             }
@@ -172,7 +170,6 @@ public class AddEventQueueTest {
             return new OrgJsonEvent(JdoHeader.getLocalHeader(), new JSONObject("{'seqnr':" + Integer.toString(seqNr) + "}"));
         }
 
-        @Override
         public void run() {
             for (int i=0; i < count; i++) {
                 queue.add(makeEvent(i));

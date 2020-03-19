@@ -20,10 +20,8 @@ import com.eventswarm.events.Event;
 import com.eventswarm.events.JsonEvent;
 import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.events.jdo.OrgJsonEvent;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.junit.Before;
 import static org.junit.Assert.*;
 
 /**

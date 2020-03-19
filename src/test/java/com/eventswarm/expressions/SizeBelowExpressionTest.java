@@ -115,8 +115,7 @@ public class SizeBelowExpressionTest implements EventMatchAction {
         assertTrue(instance.isTrue());
     }
 
-    @Override
-    public void execute(EventMatchTrigger trigger, Event event) {
+        public void execute(EventMatchTrigger trigger, Event event) {
         events.add(event);
     }
 }

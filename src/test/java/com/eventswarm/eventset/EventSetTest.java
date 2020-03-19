@@ -35,8 +35,6 @@ import com.eventswarm.events.*;
 import com.eventswarm.events.jdo.JdoEvent;
 import com.eventswarm.events.jdo.TestEvents;
 import java.util.*;
-import java.util.concurrent.locks.*;
-import org.apache.log4j.Logger;
 import org.junit.Before;
 
 /**

@@ -24,7 +24,6 @@ import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.RemoveEventAction;
 import com.eventswarm.eventset.OutOfOrderAction;
-import com.eventswarm.eventset.OutOfOrderTrigger;
 import com.eventswarm.util.IntervalUnit;
 import java.util.Queue;
 import java.util.LinkedList;

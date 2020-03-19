@@ -36,20 +36,19 @@ public interface Event extends Comparable<Event> {
 
   public int order(Event event);
 
-  public boolean hasPart(Class type);
+  public boolean hasPart(Class<?> type);
   
   public boolean hasPart(String key);
 
-  public EventPart getPart(Class type);
+  public EventPart getPart(Class<?> type);
   
   public EventPart getPart(String key);
   
-  public java.util.Set<EventPart> getParts(Class type);
+  public java.util.Set<EventPart> getParts(Class<?> type);
 
 
     // An id retriever is stateless, so can be a single, constant instance
     public static final ValueRetriever<String> ID_RETRIEVER = new ValueRetriever<String>() {
-        @Override
         public String getValue(Event event) {
             return event.getHeader().getEventId();
         }
@@ -57,7 +56,6 @@ public interface Event extends Comparable<Event> {
 
     // A source retriever is stateless, so can be a single, constant instance
     public static final ValueRetriever<String> SOURCE_RETRIEVER = new ValueRetriever<String>() {
-        @Override
         public String getValue(Event event) {
             return event.getHeader().getSource().getSourceId();
         }
@@ -65,7 +63,6 @@ public interface Event extends Comparable<Event> {
 
     // A timestamp retriever is stateless, so can be a single, constant instance
     public static final ValueRetriever<Date> TIMESTAMP_RETRIEVER = new ValueRetriever<Date>() {
-        @Override
         public Date getValue(Event event) {
             return event.getHeader().getTimestamp();
         }
@@ -73,14 +70,12 @@ public interface Event extends Comparable<Event> {
 
     // A millisecond timestamp retriever is stateless, so can be a single, constant instance
     public static final ValueRetriever<Long> TIMESTAMP_RETRIEVER_MS = new ValueRetriever<Long>() {
-        @Override
         public Long getValue(Event event) {
             return event.getHeader().getTimestamp().getTime();
         }
     };
 
     public static class SourceRetriever implements ValueRetriever<String> {
-        @Override
         public String getValue(Event event) {
             return event.getHeader().getSource().getId();
         }

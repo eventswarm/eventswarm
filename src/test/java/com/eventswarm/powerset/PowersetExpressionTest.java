@@ -16,7 +16,6 @@
 package com.eventswarm.powerset;
 
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.ComplexExpressionMatchEvent;
 import com.eventswarm.events.Event;
 import static com.eventswarm.events.jdo.TestEvents.*;
@@ -26,7 +25,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.security.interfaces.RSAMultiPrimePrivateCrtKey;
 import java.util.ArrayList;
 
 /**
@@ -40,28 +38,24 @@ public class PowersetExpressionTest {
     private MutableComplexExpression cexpr = new MutableComplexExpression();
 
     public ExpressionCreator creator = new ExpressionCreator() {
-        @Override
         public Expression newExpression(PowersetExpression owner) {
             return expr;
         }
     };
 
     public ExpressionCreator cpxCreator = new ExpressionCreator() {
-        @Override
         public Expression newExpression(PowersetExpression owner) {
             return cexpr;
         }
     };
 
     private EventMatchAction eventAction = new EventMatchAction() {
-        @Override
         public void execute(EventMatchTrigger trigger, Event event) {
             eventMatches.add(event);
         }
     };
 
     private ComplexExpressionMatchAction complexAction = new ComplexExpressionMatchAction() {
-        @Override
         public void execute(ComplexExpressionMatchTrigger trigger, ComplexExpressionMatchEvent event) {
             complexMatches.add(event);
         }
@@ -191,7 +185,7 @@ public class PowersetExpressionTest {
         es.execute((AddEventTrigger) null, event2);
         instance.execute((PowersetAddEventTrigger) null, es, event2);
         assertTrue(instance.isRegistered(es));
-        instance.execute((RemoveSetTrigger) null, es, event1);
+        instance.execute((RemoveSetTrigger<?>) null, es, event1);
         assertFalse(instance.isRegistered(es));
     }
 

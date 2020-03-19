@@ -1,5 +1,7 @@
 package com.eventswarm.channels;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -11,6 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpExchange;
+import java.net.InetSocketAddress;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -24,6 +31,8 @@ public class HttpClientTest implements HttpContentHandler {
     String subs_id;
     Map<String,List<String>> headers;
     InputStream body;
+
+    static final String PATH="/index.html";
 
     @Before
     public void setup() throws Exception {
@@ -62,26 +71,29 @@ public class HttpClientTest implements HttpContentHandler {
     @Test
     public void testSimpleRequest() throws Exception {
         HttpClient instance = new HttpClient(this);
-        String target = "http://deontik.com";
+        HttpServer server = server();
+        String target = "http://localhost:" + Integer.toString(server.getAddress().getPort()) + PATH;
         int result = instance.getRequest(new URL(target), null);
         assertThat(result, is(200));
-        assertThat(subs_id, is("http://deontik.com"));
+        assertThat(subs_id, is(target));
         assertNotNull(headers);
-        Document doc = Jsoup.parse(body, null, target);
-        assertThat(doc.title(), is("Deontik"));
+        assert(new JSONObject(new JSONTokener(body)).getBoolean("success"));
+        server.stop(0);
     }
 
     @Test
     public void testRequestWithParams() throws Exception {
         HttpClient instance = new HttpClient(this);
-        String target = "http://deontik.com/blog";
-        Map<String,String> params = new HashMap();
+        HttpServer server = server();
+        String target = "http://localhost:" + Integer.toString(server.getAddress().getPort()) + PATH;
+        System.out.println(target);
+        Map<String,String> params = new HashMap<String,String>();
         params.put("feed", "rss2");
         int result = instance.getRequest(new URL(target), params);
         assertThat(result, is(200));
-        assertThat(subs_id, is("http://deontik.com/blog?feed=rss2"));
+        assertThat(subs_id, is(target + "?feed=rss2"));
         assertNotNull(headers);
-        assertThat(headers.get("Content-Type").get(0), is("text/xml; charset=UTF-8"));
+        server.stop(0);
     }
 
     @Test
@@ -90,7 +102,7 @@ public class HttpClientTest implements HttpContentHandler {
         props.load(this.getClass().getClassLoader().getResourceAsStream("superfeedr.properties"));
         HttpClient instance = new HttpClient(this, "*", props.getProperty("username"), props.getProperty("password"));
         String target = "https://push.superfeedr.com";
-        Map<String,String> params = new HashMap();
+        Map<String,String> params = new HashMap<String,String>();
         params.put("hub.mode", "subscribe");
         params.put("hub.callback", "http://pubsub.eventswarm.com");
         params.put("hub.topic", "http://deontik.com/blog/?feed=rss2");
@@ -98,10 +110,24 @@ public class HttpClientTest implements HttpContentHandler {
         assertThat(result, is(204));
     }
 
-    @Override
     public void handle(String subs_id, InputStream body, Map<String, List<String>> headers) {
         this.subs_id = subs_id;
         this.body = body;
         this.headers = headers;
     }
+
+    public HttpServer server() throws java.io.IOException {
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress(0), 0); 
+        httpServer.createContext(PATH, new HttpHandler() {
+            public void handle(HttpExchange exchange) throws java.io.IOException {
+                byte[] response = "{\"success\": true}".getBytes();
+                exchange.sendResponseHeaders(200, response.length);
+                exchange.getResponseBody().write(response);
+                exchange.close();
+            }
+        });
+        httpServer.start();
+        return httpServer;
+    }
+
 }

@@ -16,14 +16,12 @@
 package com.eventswarm.events.jdo;
 
 import com.eventswarm.events.Event;
-import com.eventswarm.events.EventPart;
 import com.eventswarm.events.HttpEventPart;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -75,7 +73,6 @@ public class JdoHttpEventPart implements HttpEventPart {
         this.event = event;
     }
 
-    @Override
     public InetSocketAddress getRemoteAddress() {
         return remoteAddress;
     }
@@ -84,7 +81,6 @@ public class JdoHttpEventPart implements HttpEventPart {
         this.remoteAddress = remoteAddress;
     }
 
-    @Override
     public String getRequestMethod() {
         return requestMethod;
     }
@@ -93,12 +89,10 @@ public class JdoHttpEventPart implements HttpEventPart {
         this.requestMethod = requestMethod;
     }
 
-    @Override
     public URI getRequestUri() {
         return requestUri;
     }
 
-    @Override
     public Date getRequestDate() {
         if (this.requestDate == null) {
             try {
@@ -115,7 +109,6 @@ public class JdoHttpEventPart implements HttpEventPart {
         this.requestUri = requestUri;
     }
 
-    @Override
     public Map<String,List<String>> getHeaders() {
         return headers;
     }
@@ -124,12 +117,10 @@ public class JdoHttpEventPart implements HttpEventPart {
         this.headers = headers;
     }
 
-    @Override
     public List<String> getHttpHeader(String name) {
         return headers.get(name);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public String getFirstHeaderValue(String name) {
         return headers.get(name).get(0);
     }

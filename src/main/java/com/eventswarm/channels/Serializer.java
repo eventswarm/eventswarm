@@ -19,7 +19,6 @@ import com.eventswarm.events.Event;
 import org.apache.log4j.Logger;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 
 /**
  * Interface for implementations that convert an event to a byte array and/or String for serialization purposes.
@@ -55,6 +54,8 @@ public interface Serializer {
     public static String DEFAULT_CHARSET = "UTF-8";
 
     public static class SerializeException extends Exception {
+        private static final long serialVersionUID = 0L;
+        
         public SerializeException() {
             super();
         }
@@ -88,7 +89,7 @@ public interface Serializer {
      */
     public static class StringToBytesSerializer implements Serializer {
         private static Logger logger = Logger.getLogger(StringToBytesSerializer.class);
-        @Override
+
         public byte[] toBytes(Event event) {
             try {
                 return event.toString().getBytes(DEFAULT_CHARSET);
@@ -99,7 +100,6 @@ public interface Serializer {
             }
         }
 
-        @Override
         public String toString(Event event) throws SerializeException {
             return event.toString();
         }

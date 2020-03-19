@@ -17,8 +17,6 @@ package com.eventswarm.util.actions;
 
 import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.MutableTarget;
-import com.eventswarm.events.Action;
 import com.eventswarm.events.Event;
 
 /**
@@ -48,7 +46,6 @@ public class QueuedAdd implements QueuedAction {
     /**
      * @return the object acted on by this add action
      */
-    @Override
     public Object getTarget() {
         return action;
     }

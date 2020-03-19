@@ -16,7 +16,6 @@
 package com.eventswarm.eventset;
 
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.MutablePassThru;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 
@@ -29,7 +28,7 @@ import com.eventswarm.events.Event;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class Wall extends MutablePassThruImpl implements MutablePassThru {
+public class Wall extends MutablePassThruImpl {
 
     @Override
     public void execute(RemoveEventTrigger trigger, Event event) {

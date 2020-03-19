@@ -42,7 +42,7 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 
 public abstract class AbstractTimeWindow 
-        extends AbstractFilter implements RemoveEventTrigger, WindowChangeTrigger
+        extends AbstractFilter implements WindowChangeTrigger
 {
 
     /* private logger for log4j */

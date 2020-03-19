@@ -28,7 +28,7 @@ package com.eventswarm;
  */
 public interface RemoveEventTrigger extends Trigger {
 
-    public static Class action = RemoveEventAction.class;
+    public static Class<?> action = RemoveEventAction.class;
 
     /**
      * Register an action against this trigger.

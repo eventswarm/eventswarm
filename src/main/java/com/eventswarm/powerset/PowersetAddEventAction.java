@@ -27,7 +27,7 @@ import com.eventswarm.eventset.EventSet;
  */
 public interface PowersetAddEventAction extends Action {
 
-    public static Class trigger = PowersetAddEventTrigger.class;
+    public static Class<?> trigger = PowersetAddEventTrigger.class;
 
     public void execute(PowersetAddEventTrigger trigger, EventSet set, Event event);
 

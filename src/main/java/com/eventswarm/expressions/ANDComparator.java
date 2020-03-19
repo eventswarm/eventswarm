@@ -22,7 +22,6 @@ public class ANDComparator implements Comparator {
         this.comparators = comparators;
     }
 
-    @Override
     public boolean matches(Event event1, Event event2) {
         for (Comparator comparator : comparators) {
             if (!comparator.matches(event1, event2)) {

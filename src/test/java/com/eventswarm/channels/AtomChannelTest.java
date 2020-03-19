@@ -16,7 +16,6 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -120,7 +119,6 @@ public class AtomChannelTest implements AddEventAction {
 //    }
 
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         if (XmlEvent.class.isInstance(event)) {
             events.add(event);

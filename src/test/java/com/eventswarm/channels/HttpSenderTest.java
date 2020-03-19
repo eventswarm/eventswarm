@@ -192,7 +192,6 @@ public class HttpSenderTest {
     @Test
     public void testWithRetriever() throws Exception {
         ValueRetriever<URL> retriever = new ValueRetriever<URL>() {
-            @Override
             public URL getValue(Event event) {
                 try {
                     return new URL(URL_STRING + "blah");

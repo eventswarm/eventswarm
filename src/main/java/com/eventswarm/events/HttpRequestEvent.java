@@ -45,7 +45,6 @@ public interface HttpRequestEvent extends HttpEventPart {
             this.key = key;
         }
 
-        @Override
         public String getValue(Event event) {
             return (HttpRequestEvent.class.isInstance(event) ? ((HttpRequestEvent) event).getFirstHeaderValue(key) : null);
         }
@@ -55,7 +54,6 @@ public interface HttpRequestEvent extends HttpEventPart {
      * Retriever instance to grab the request method
      */
     public static ValueRetriever<String> REQUEST_METHOD_RETRIEVER = new ValueRetriever<String>() {
-        @Override
         public String getValue(Event event) {
             return (HttpRequestEvent.class.isInstance(event) ? ((HttpRequestEvent) event).getRequestMethod() : null);
         }
@@ -65,7 +63,6 @@ public interface HttpRequestEvent extends HttpEventPart {
      * Retriever instance to grab the source hostname
      */
     public static ValueRetriever<String> SOURCE_HOST_RETRIEVER = new ValueRetriever<String>() {
-        @Override
         public String getValue(Event event) {
             return (HttpRequestEvent.class.isInstance(event) ? ((HttpRequestEvent) event).getRemoteAddress().getHostName() : null);
         }
@@ -75,7 +72,6 @@ public interface HttpRequestEvent extends HttpEventPart {
      * Retriever instance to grab the source IP address
      */
     public static ValueRetriever<String> SOURCE_IP_RETRIEVER = new ValueRetriever<String>() {
-        @Override
         public String getValue(Event event) {
             return (HttpRequestEvent.class.isInstance(event) ? ((HttpRequestEvent) event).getRemoteAddress().getAddress().getHostAddress() : null);
         }
@@ -85,7 +81,6 @@ public interface HttpRequestEvent extends HttpEventPart {
      * Retriever instance to grab the request date
      */
     public static ValueRetriever<Date> REQUEST_DATE_RETRIEVER = new ValueRetriever<Date>() {
-        @Override
         public Date getValue(Event event) {
             return (HttpRequestEvent.class.isInstance(event) ? ((HttpRequestEvent) event).getRequestDate() : null);
         }

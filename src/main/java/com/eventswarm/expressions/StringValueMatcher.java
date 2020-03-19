@@ -23,8 +23,6 @@ package com.eventswarm.expressions;
 import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.events.Event;
 
-import java.util.regex.Pattern;
-
 /**
  * Matcher to match a constant string with a string retrieved by a value retriever
  *

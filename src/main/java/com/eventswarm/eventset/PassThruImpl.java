@@ -24,7 +24,6 @@
 
 package com.eventswarm.eventset;
 import com.eventswarm.abstractions.IncrementalAbstractionImpl;
-import com.eventswarm.abstractions.Abstraction;
 import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.Event;
@@ -40,7 +39,7 @@ import org.apache.log4j.*;
  */
 public class PassThruImpl
         extends IncrementalAbstractionImpl
-        implements Abstraction, PassThru
+        implements PassThru
 {
     /* private logger for log4j */
     private static Logger log = Logger.getLogger(PassThruImpl.class);

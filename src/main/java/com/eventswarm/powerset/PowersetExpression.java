@@ -47,7 +47,7 @@ import java.util.*;
  * User: andyb
  */
 public class PowersetExpression
-        implements PowersetAddEventAction, PowersetRemoveEventAction, RemoveSetAction,
+        implements PowersetAddEventAction, PowersetRemoveEventAction, 
         EventMatchTrigger, ComplexExpressionMatchTrigger, Clear
 {
     private ExpressionFactory factory;
@@ -101,7 +101,6 @@ public class PowersetExpression
      * @param es EventSet to which the event was added (already containing the event)
      * @param event The event added
      */
-    @Override
     public void execute(PowersetAddEventTrigger trigger, EventSet es, Event event) {
         if (isRegistered(es)) {
             // ignore, we can stay out of this
@@ -184,7 +183,6 @@ public class PowersetExpression
      * @param es
      * @param event
      */
-    @Override
     public void execute(PowersetRemoveEventTrigger trigger, EventSet es, Event event) {
         if (isRegistered(es)) {
             // ignore, we can stay out of this
@@ -224,8 +222,7 @@ public class PowersetExpression
      * @param es The EventSet that has been created
      * @param key The key associated with the EventSet
      */
-    @Override
-    public void execute(RemoveSetTrigger trigger, EventSet es, Object key) {
+    public void execute(RemoveSetTrigger<?> trigger, EventSet es, Object key) {
         if (isRegistered(es)) {
             Expression expr = registered.get(es);
             registered.remove(es);
@@ -240,7 +237,6 @@ public class PowersetExpression
     /**
      * Since our pool of expressions is recycled, we only need to clear registered (permanent) expressions
      */
-    @Override
     public void clear() {
         for (Expression expr: this.registered.values()) {
             expr.clear();
@@ -261,22 +257,18 @@ public class PowersetExpression
         matchHandlers.get(expr).enable();
     }
 
-    @Override
     public void registerAction(ComplexExpressionMatchAction action) {
         complexActions.add(action);
     }
 
-    @Override
     public void unregisterAction(ComplexExpressionMatchAction action) {
         complexActions.remove(action);
     }
 
-    @Override
     public void registerAction(EventMatchAction action) {
         matchActions.add(action);
     }
 
-    @Override
     public void unregisterAction(EventMatchAction action) {
         matchActions.remove(action);
     }
@@ -285,6 +277,8 @@ public class PowersetExpression
      * Inner class to implement a simple expression factory
      */
     private class Pool extends LinkedList<Expression> implements ExpressionFactory {
+        private static final long serialVersionUID = 1L;
+
         private int max;
         private ExpressionCreator creator;
         private PowersetExpression owner;
@@ -356,7 +350,6 @@ public class PowersetExpression
          * @param trigger
          * @param event
          */
-        @Override
         public void execute(ComplexExpressionMatchTrigger trigger, ComplexExpressionMatchEvent event) {
             if (enabled) {
                 for (ComplexExpressionMatchAction action : complexActions) {
@@ -379,7 +372,6 @@ public class PowersetExpression
          * @param trigger
          * @param event
          */
-        @Override
         public void execute(EventMatchTrigger trigger, Event event) {
             if (enabled) {
                 for (EventMatchAction action : matchActions) {

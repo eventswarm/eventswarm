@@ -17,7 +17,6 @@ package com.eventswarm.eventset;
 
 import com.eventswarm.*;
 import com.eventswarm.events.Event;
-import com.eventswarm.powerset.ActionExecutor;
 import com.eventswarm.powerset.ThreadedActionExecutor;
 import com.eventswarm.util.TriggerDelegate;
 import com.eventswarm.util.actions.QueuedAdd;
@@ -101,7 +100,6 @@ public class ThreadingPassThru implements MutablePassThru {
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         if (!executor.isStopped()) {
             for(AddEventAction action : adds) {
@@ -119,7 +117,6 @@ public class ThreadingPassThru implements MutablePassThru {
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(RemoveEventTrigger trigger, Event event) {
         if (!executor.isStopped()) {
             for(RemoveEventAction action : removes) {
@@ -128,22 +125,18 @@ public class ThreadingPassThru implements MutablePassThru {
         }
     }
 
-    @Override
     public void registerAction(AddEventAction action) {
         adds.registerAction(action);
     }
 
-    @Override
     public void unregisterAction(AddEventAction action) {
         adds.unregisterAction(action);
     }
 
-    @Override
     public void registerAction(RemoveEventAction action) {
         removes.registerAction(action);
     }
 
-    @Override
     public void unregisterAction(RemoveEventAction action) {
         removes.unregisterAction(action);
     }

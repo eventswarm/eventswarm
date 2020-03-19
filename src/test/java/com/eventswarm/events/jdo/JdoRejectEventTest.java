@@ -23,7 +23,6 @@
 package com.eventswarm.events.jdo;
 
 import junit.framework.*;
-import com.eventswarm.events.RejectEvent;
 
 /**
  *

@@ -33,7 +33,7 @@ import com.eventswarm.*;
 
 public interface WindowChangeAction extends Action {
 
-    public static Class trigger = WindowChangeTrigger.class;
+    public static Class<?> trigger = WindowChangeTrigger.class;
     
     public void execute(WindowChangeTrigger trigger, EventSet set);
 

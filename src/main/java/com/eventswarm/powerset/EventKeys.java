@@ -22,7 +22,6 @@ package com.eventswarm.powerset;
 
 import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.events.Event;
-import java.util.Set;
 
 /**
  * Interface for classes providing the ability to extract a set (array) keys from an event.
@@ -41,7 +40,7 @@ public interface EventKeys<Keytype> {
      * @param event
      * @return A set of keys associated with the event
      */
-     public <Keytype> Keytype [] getKeys(Event event);
+     public Keytype[] getKeys(Event event);
 
     /**
      * Simple wrapper class that allows us to use a ValueRetriever that returns an array as an EventKeys instance
@@ -57,7 +56,6 @@ public interface EventKeys<Keytype> {
             this.retriever = retriever;
         }
 
-        @Override
         public Type[] getKeys(Event event) {
             return retriever.getValue(event);
         }

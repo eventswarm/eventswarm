@@ -34,7 +34,6 @@ import java.util.*;
  */
 public class EventSetSizeComparatorTest {
     private static Source SOURCE = new JdoSource("EventSetSizeComparatorTest");
-    private Map<String,EventSet> map = new HashMap<String,EventSet>();
 
     @Test
     public void compareSameSet() throws Exception {
@@ -132,7 +131,6 @@ public class EventSetSizeComparatorTest {
     }
 
     private static EventKey<String> KEYGETTER = new EventKey<String>() {
-        @Override
         public String getKey(Event event) {
             if (KeyedEvent.class.isInstance(event)) return ((KeyedEvent) event).getKey();
             else return null;

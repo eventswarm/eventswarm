@@ -25,7 +25,6 @@ import com.eventswarm.events.Event;
 // This is trivial and stateless so we now have a default implementation in the interface, that is Matcher.trueMatcher
 @Deprecated
 public class TrueMatcher implements Matcher{
-    @Override
     public boolean matches(Event event) {
         return true;
     }

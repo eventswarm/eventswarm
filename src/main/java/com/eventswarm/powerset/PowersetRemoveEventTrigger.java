@@ -25,7 +25,7 @@ import com.eventswarm.Trigger;
  */
 public interface PowersetRemoveEventTrigger extends Trigger {
 
-    public static Class action = PowersetRemoveEventAction.class;
+    public static Class<?> action = PowersetRemoveEventAction.class;
 
     /**
      * Register an action against this trigger.

@@ -28,7 +28,7 @@ package com.eventswarm;
  */
 public interface NumericValueRemoveTrigger extends Trigger {
 
-    public static Class action = NumericValueRemoveAction.class;
+    public static Class<?> action = NumericValueRemoveAction.class;
     
     /**
      * Register an action against this trigger.

@@ -20,14 +20,9 @@ import com.eventswarm.events.Header;
 import com.eventswarm.events.HttpEventPart;
 import com.eventswarm.events.Source;
 import com.eventswarm.events.jdo.*;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +49,6 @@ public class JsonHttpEventFactory implements FromJsonHttp {
      * @param json
      * @return
      */
-    @Override
     public Event fromJsonHttp(JSONObject json, HttpEventPart http) {
         String source = getSourceString(json, http);
         Header header = new JdoHeader(http.getRequestDate(), getSource(source));

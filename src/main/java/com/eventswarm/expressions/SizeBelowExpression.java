@@ -17,11 +17,7 @@ package com.eventswarm.expressions;
 
 import com.eventswarm.*;
 import com.eventswarm.events.Event;
-import com.eventswarm.eventset.ClockedDiscreteTimeWindow;
-import com.eventswarm.eventset.DiscreteTimeWindow;
 import com.eventswarm.eventset.EventSet;
-import com.eventswarm.util.Interval;
-import com.eventswarm.util.IntervalUnit;
 
 /**
  * Class to monitor the number of events in a nominated EventSet and generate a match whenever the number of
@@ -47,10 +43,9 @@ import com.eventswarm.util.IntervalUnit;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class SizeBelowExpression extends AbstractEventExpression implements EventExpression {
+public class SizeBelowExpression extends AbstractEventExpression {
     private int threshold;
     private EventSet events;
-    private int count=0;
 
     /**
      * Create a new SizeBelowExpression using a window of the specified Interval and the nominated threshold.

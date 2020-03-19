@@ -20,7 +20,6 @@ import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.Event;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Simple wrapper around ArrayList that adds events to a list when received via the AddEventAction.execute method
@@ -31,8 +30,9 @@ import java.util.List;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class EventList extends ArrayList<Event> implements List<Event>, AddEventAction {
-    @Override
+public class EventList extends ArrayList<Event> implements AddEventAction {
+    private static final long serialVersionUID = 1L;
+
     public void execute(AddEventTrigger trigger, Event event) {
         this.add(event);
     }

@@ -35,34 +35,34 @@ public class EqualsMatcherTest {
 
     @Test
     public void testConstruct() throws Exception {
-        EqualsMatcher instance = new EqualsMatcher("blah", retriever);
+        EqualsMatcher<String> instance = new EqualsMatcher<String>("blah", retriever);
         assertNotNull(instance);
     }
 
     @Test
     public void testTrueStringMatch() throws Exception {
-        EqualsMatcher instance = new EqualsMatcher("blah", retriever);
+        EqualsMatcher<String> instance = new EqualsMatcher<String>("blah", retriever);
         boolean result = instance.matches(makeEvent("blah"));
         assertTrue(result);
     }
 
     @Test
     public void testFalseStringMatch() throws Exception {
-        EqualsMatcher instance = new EqualsMatcher("blah", retriever);
+        EqualsMatcher<String> instance = new EqualsMatcher<String>("blah", retriever);
         boolean result = instance.matches(makeEvent("nope"));
         assertFalse(result);
     }
 
     @Test
     public void testFalseNullValueMatch() throws Exception {
-        EqualsMatcher instance = new EqualsMatcher(null, retriever);
+        EqualsMatcher<String> instance = new EqualsMatcher<String>(null, retriever);
         boolean result = instance.matches(makeEvent("nope"));
         assertFalse(result);
     }
 
     @Test
     public void testTrueNullValueMatch() throws Exception {
-        EqualsMatcher instance = new EqualsMatcher(null, retriever);
+        EqualsMatcher<String> instance = new EqualsMatcher<String>(null, retriever);
         boolean result = instance.matches(makeNullValueEvent());
         assertFalse(result);
     }

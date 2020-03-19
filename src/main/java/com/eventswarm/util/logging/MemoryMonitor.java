@@ -71,12 +71,10 @@ public class MemoryMonitor implements AddEventAction, TickAction {
     }
 
 
-    @Override
     public void execute(TickTrigger trigger, Date time) {
         logMemoryUsage(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage());
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         logMemoryUsage(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage());
     }

@@ -15,7 +15,6 @@
 */
 package com.eventswarm;
 
-import com.eventswarm.abstractions.Abstraction;
 import com.eventswarm.events.Event;
 
 /**
@@ -28,7 +27,7 @@ import com.eventswarm.events.Event;
  */
 public interface AbstractionRemoveAction {
 
-    public static Class trigger = AbstractionRemoveTrigger.class;
+    public static Class<?> trigger = AbstractionRemoveTrigger.class;
 
     public void execute(AbstractionRemoveTrigger trigger, Event event);
 

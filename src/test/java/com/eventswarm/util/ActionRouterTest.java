@@ -44,13 +44,13 @@ public class ActionRouterTest {
     static String TARGET2_KEY = "t2";
 
     Target target1, target2;
-    ActionRouter router;
+    ActionRouter<String> router;
 
     @Before
     public void setup() throws Exception {
         target1 = new Target();
         target2 = new Target();
-        router = new ActionRouter(new JsonEvent.StringRetriever(TARGET_FIELD));
+        router = new ActionRouter<String>(new JsonEvent.StringRetriever(TARGET_FIELD));
         router.put(TARGET1_KEY, target1);
         router.put(TARGET2_KEY, target2);
     }
@@ -123,12 +123,10 @@ public class ActionRouterTest {
         public List<Event> added = new ArrayList<Event>();
         public List<Event> removed = new ArrayList<Event>();
 
-        @Override
         public void execute(AddEventTrigger trigger, Event event) {
             added.add(event);
         }
 
-        @Override
         public void execute(RemoveEventTrigger trigger, Event event) {
             removed.add(event);
         }

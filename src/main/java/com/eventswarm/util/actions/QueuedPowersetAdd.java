@@ -15,7 +15,6 @@
 */
 package com.eventswarm.util.actions;
 
-import com.eventswarm.events.Action;
 import com.eventswarm.eventset.EventSet;
 import com.eventswarm.powerset.PowersetAddEventAction;
 import com.eventswarm.powerset.PowersetAddEventTrigger;
@@ -52,7 +51,6 @@ public class QueuedPowersetAdd implements QueuedAction {
      *
      * @return the eventset that has received the event
      */
-    @Override
     public Object getTarget() {
         return target;
     }

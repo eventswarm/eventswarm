@@ -68,8 +68,6 @@ public class EveryNFilterTest implements AddEventAction {
         assertEquals(1, results.size());
         assertEquals(jdoEventAfterDiffSrcAfterSeq, results.get(0));
     }
-
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         results.add(event);
     }

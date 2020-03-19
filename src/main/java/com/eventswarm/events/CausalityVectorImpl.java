@@ -25,7 +25,6 @@
 package com.eventswarm.events;
 
 import java.util.*;
-import com.eventswarm.eventset.*;
 
 /**
  * This is an implementation of causality vectors based on the identification

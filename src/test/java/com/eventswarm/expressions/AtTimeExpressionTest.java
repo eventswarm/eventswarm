@@ -23,8 +23,6 @@ import com.eventswarm.events.jdo.JdoEvent;
 import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.schedules.Schedule;
 import com.eventswarm.schedules.ScheduleTrigger;
-import com.eventswarm.schedules.TickAction;
-import com.eventswarm.schedules.TickTrigger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -38,7 +36,7 @@ import java.util.Map;
  */
 public class AtTimeExpressionTest {
     Event event;
-    Map parts = new HashMap<String, EventPart>();
+    Map<String, EventPart> parts = new HashMap<String, EventPart>();
     EventMatchActionImpl matches = new EventMatchActionImpl();
 
     @Test

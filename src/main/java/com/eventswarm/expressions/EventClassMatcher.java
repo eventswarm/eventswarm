@@ -25,14 +25,13 @@ import org.apache.log4j.Logger;
  * User: andyb
  */
 public class EventClassMatcher implements Matcher {
-    private Class clazz;
+    private Class<?> clazz;
     private static Logger logger = Logger.getLogger(EventClassMatcher.class);
 
-    public EventClassMatcher(Class clazz) {
+    public EventClassMatcher(Class<?> clazz) {
         this.clazz = clazz;
     }
 
-    @Override
     public boolean matches(Event event) {
         boolean result = clazz.isInstance(event);
         logger.debug("It is " + Boolean.toString(result) + " that the event " + event.toString() + " is a " + clazz.getName());

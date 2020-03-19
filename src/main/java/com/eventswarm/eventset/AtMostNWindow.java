@@ -35,8 +35,7 @@ import java.util.HashSet;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class AtMostNWindow extends AbstractFilter
-        implements RemoveEventTrigger, WindowChangeTrigger
+public class AtMostNWindow extends AbstractFilter implements WindowChangeTrigger
 {
 
     /* private logger for log4j */

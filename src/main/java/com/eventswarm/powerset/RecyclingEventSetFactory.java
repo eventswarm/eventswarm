@@ -19,8 +19,6 @@ import com.eventswarm.eventset.EventSet;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -46,7 +44,6 @@ public class RecyclingEventSetFactory<KeyType> implements EventSetFactory<KeyTyp
         this.max = max;
     }
 
-    @Override
     public EventSet createEventSet(Powerset<KeyType> pset, KeyType key) {
         try {
             lock.writeLock().lock();
@@ -60,7 +57,6 @@ public class RecyclingEventSetFactory<KeyType> implements EventSetFactory<KeyTyp
         }
     }
 
-    @Override
     public void recycle(EventSet es) {
         es.reset();
         try {

@@ -247,7 +247,6 @@ public class EscalatorTest {
 
     private SizeThresholdAction makeAction(long threshold) {
         return new SizeThresholdAction() {
-            @Override
             public void execute(SizeThresholdTrigger trigger, Event event, long size) {
                 addResult(size);
             }

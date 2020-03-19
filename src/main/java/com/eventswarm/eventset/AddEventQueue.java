@@ -67,7 +67,6 @@ public class AddEventQueue extends EventQueue implements PassThru {
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         add(event);
     }

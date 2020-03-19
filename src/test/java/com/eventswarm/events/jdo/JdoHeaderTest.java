@@ -24,7 +24,6 @@ package com.eventswarm.events.jdo;
 
 import junit.framework.*;
 import com.eventswarm.events.*;
-import org.json.JSONObject;
 
 import java.util.*;
 
@@ -104,7 +103,7 @@ public class JdoHeaderTest extends TestCase {
         
         JdoHeader instance1 = TestEvents.jdoHdr;
         Event result1 = instance1.getInReplyTo();
-        this.assertNull(result1);
+        assertNull(result1);
         
         JdoHeader instance2 = TestEvents.jdoHdrReply;
         Event expResult = TestEvents.event;

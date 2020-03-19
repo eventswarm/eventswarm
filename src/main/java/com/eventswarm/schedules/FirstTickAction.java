@@ -34,7 +34,7 @@ import java.util.Date;
 
 public interface FirstTickAction extends Action {
 
-    public static Class trigger = FirstTickTrigger.class;
+    public static Class<?> trigger = FirstTickTrigger.class;
     
     public void execute(FirstTickTrigger trigger, Date time);
 

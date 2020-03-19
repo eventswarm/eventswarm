@@ -40,7 +40,6 @@ public class MapValueRetriever<R, T> implements ValueRetriever<T> {
         this.retriever = retriever;
     }
 
-    @Override
     public T getValue(Event event) {
         return map.get(retriever.getValue(event));
     }

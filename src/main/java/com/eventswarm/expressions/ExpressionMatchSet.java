@@ -87,7 +87,6 @@ public class ExpressionMatchSet
         return this.buffer.iterator();
     }
 
-    @Override
     public void clear() {
         this.buffer.clear();
         this.count = 0;

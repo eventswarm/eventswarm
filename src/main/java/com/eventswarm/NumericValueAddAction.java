@@ -29,7 +29,7 @@ import com.eventswarm.events.Event;
 
 public interface NumericValueAddAction extends Action {
 
-    public static Class trigger = NumericValueAddTrigger.class;
+    public static Class<?> trigger = NumericValueAddTrigger.class;
 
     public void execute(NumericValueAddTrigger trigger, Event event, Number number);
 

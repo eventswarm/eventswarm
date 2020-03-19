@@ -21,7 +21,6 @@
 package com.eventswarm.eventset;
 
 import com.eventswarm.events.Event;
-import com.eventswarm.expressions.Matcher;
 import com.eventswarm.expressions.Scorer;
 
 /**

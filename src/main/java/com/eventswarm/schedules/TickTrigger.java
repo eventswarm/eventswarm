@@ -38,7 +38,7 @@ import com.eventswarm.schedules.TickAction;
 
 public interface TickTrigger extends Trigger {
 
-    public static Class action = TickAction.class;
+    public static Class<?> action = TickAction.class;
     
     /**
      * Register an action against this trigger.

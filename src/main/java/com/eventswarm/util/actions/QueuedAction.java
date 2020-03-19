@@ -15,9 +15,6 @@
 */
 package com.eventswarm.util.actions;
 
-import com.eventswarm.MutableTarget;
-import com.eventswarm.events.Action;
-
 /**
  * Interface for classes that hold an action and all of the parameters required to execute the action, then execute
  * the action when called.

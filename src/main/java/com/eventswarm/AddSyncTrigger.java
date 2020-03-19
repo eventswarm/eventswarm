@@ -11,7 +11,7 @@ import com.eventswarm.Trigger;
  */
 public interface AddSyncTrigger extends Trigger {
 
-    public static Class action = AddSyncAction.class;
+    public static Class<?> action = AddSyncAction.class;
     
     /**
      * Register an action against this trigger.

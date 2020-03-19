@@ -39,7 +39,6 @@ public class ValueLessMatcher implements Matcher {
      *
      * Note that the numeric values are converted to doubles for the comparison, thus may have be affected by rounding
      */
-    @Override
     public boolean matches(Event event) {
         return (retriever.getValue(event).doubleValue() < value.getValue().doubleValue());
     }

@@ -31,8 +31,6 @@ public class ValueMultiplier implements Value<Number> {
         this.multiplier = multiplier;
         this.value = value;
     }
-
-    @Override
     public Number getValue() {
         return value.getValue().doubleValue() * multiplier;
     }

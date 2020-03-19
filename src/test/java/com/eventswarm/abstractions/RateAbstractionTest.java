@@ -24,7 +24,6 @@ import com.eventswarm.events.jdo.JdoEvent;
 import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.util.Interval;
 import com.eventswarm.util.IntervalUnit;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -48,7 +47,6 @@ public class RateAbstractionTest {
     public void setup() throws Exception {
         rateEvents = new ArrayList<Event>();
         catcher = new AddEventAction() {
-            @Override
             public void execute(AddEventTrigger trigger, Event event) {
                 rateEvents.add(event);
             }

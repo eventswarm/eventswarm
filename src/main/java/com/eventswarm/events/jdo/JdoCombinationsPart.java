@@ -69,7 +69,6 @@ public class JdoCombinationsPart extends JdoEventPart implements CombinationsPar
      *
      * @return a set containing all Combination objects held by this object
      */
-    @Override
     public Set<Combination> getCombinations() {
         return this.combinations;
     }
@@ -82,7 +81,6 @@ public class JdoCombinationsPart extends JdoEventPart implements CombinationsPar
      *
      * @return number of combinations represented
      */
-    @Override
     public int count() {
         return this.combinations.size();
     }
@@ -95,7 +93,6 @@ public class JdoCombinationsPart extends JdoEventPart implements CombinationsPar
      *
      * @return Set of all events referenced by this object
      */
-    @Override
     public SortedSet<Event> getEvents() {
         SortedSet<Event> result = new TreeSet<Event>();
         for(Combination comb: this.combinations) {

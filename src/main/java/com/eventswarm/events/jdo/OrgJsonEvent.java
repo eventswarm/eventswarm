@@ -29,7 +29,7 @@ import java.util.*;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class OrgJsonEvent extends JdoEvent implements Event, JsonEvent<JSONObject> {
+public class OrgJsonEvent extends JdoEvent implements JsonEvent<JSONObject> {
     // maintain local pointers to parts for convenience
     protected transient JSONObject json;
 
@@ -74,7 +74,6 @@ public class OrgJsonEvent extends JdoEvent implements Event, JsonEvent<JSONObjec
         eventParts.put(JSON_PART_NAME, new JdoPartWrapper<JSONObject>(json));
     }
 
-    @Override
     public JSONObject getJsonObject(String path) {
         try {
             JSONObject last = navigatePath(path, json);
@@ -98,11 +97,11 @@ public class OrgJsonEvent extends JdoEvent implements Event, JsonEvent<JSONObjec
         return json.length();
     }
 
-    public Iterator keys() {
+    public Iterator<?> keys() {
         return json.keys();
     }
 
-    public Set keySet() {
+    public Set<?> keySet() {
         return json.keySet();
     }
 
@@ -163,7 +162,6 @@ public class OrgJsonEvent extends JdoEvent implements Event, JsonEvent<JSONObjec
         return json.toString();
     }
 
-    @Override
     public Object get(String path) {
         JSONObject last = navigatePath(path, json);
         return last == null ? null : last.opt(leafOf(path));

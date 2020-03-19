@@ -91,7 +91,6 @@ public class OrgJsonDeserializer implements Deserializer {
             }
         }
         return new OrgJsonEventFactory() {
-            @Override
             public Event create(Header header, JSONObject json) throws DeserializeException {
                 try {
                     return getConstructor(header).newInstance(header, json);
@@ -122,7 +121,6 @@ public class OrgJsonDeserializer implements Deserializer {
         }
     }
 
-    @Override
     public Event fromBytes(byte[] bytes) throws DeserializeException {
         JSONObject json;
         try {
@@ -133,7 +131,6 @@ public class OrgJsonDeserializer implements Deserializer {
         return construct(json);
     }
 
-    @Override
     public Event fromString(String string) throws DeserializeException {
         JSONObject json;
         try {

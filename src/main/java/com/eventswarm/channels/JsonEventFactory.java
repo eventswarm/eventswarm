@@ -17,13 +17,9 @@ package com.eventswarm.channels;
 
 import com.eventswarm.events.*;
 import com.eventswarm.events.jdo.*;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +54,6 @@ public class JsonEventFactory implements FromJson {
      * @param json
      * @return
      */
-    @Override
     public Event fromJson(JSONObject json) {
         Header header = new JdoHeader(new Date(), getSource(getSourceString(json)));
         return new OrgJsonEvent(header, json);

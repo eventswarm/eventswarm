@@ -29,14 +29,12 @@ package com.eventswarm.abstractions;
 import com.eventswarm.*;
 
 public interface MutableCalculationAbstraction 
-        extends IncrementalAbstraction,
-                ValueAddTrigger,
+        extends ValueAddTrigger,
                 NumericValueAddTrigger,
                 NumericValueAbstraction,
                 MutableAbstraction,
                 ValueRemoveTrigger,
-                NumericValueRemoveTrigger,
-                AbstractionRemoveTrigger
+                NumericValueRemoveTrigger
 {
 
 }

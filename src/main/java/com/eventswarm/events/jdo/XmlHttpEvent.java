@@ -16,7 +16,6 @@
 package com.eventswarm.events.jdo;
 
 import com.eventswarm.events.*;
-import org.json.JSONObject;
 import org.w3c.dom.Node;
 
 import java.net.InetSocketAddress;
@@ -29,7 +28,7 @@ import java.util.Map;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class XmlHttpEvent extends XmlEventImpl implements Event, HttpRequestEvent, XmlEvent {
+public class XmlHttpEvent extends XmlEventImpl implements HttpRequestEvent {
     // maintain local pointers to parts for convenience
     protected transient HttpEventPart http;
 
@@ -56,18 +55,14 @@ public class XmlHttpEvent extends XmlEventImpl implements Event, HttpRequestEven
     }
 
     // Just delegate all the methods to the respective parts
-
-    @Override
     public List<String> getHttpHeader(String name) {
         return http.getHeaders().get(name);
     }
 
-    @Override
     public String getFirstHeaderValue(String name) {
         return http.getFirstHeaderValue(name);
     }
 
-    @Override
     public Map<String, List<String>> getHeaders() {
         return http.getHeaders();
     }
@@ -80,22 +75,18 @@ public class XmlHttpEvent extends XmlEventImpl implements Event, HttpRequestEven
         this.http = http;
     }
 
-    @Override
     public InetSocketAddress getRemoteAddress() {
         return http.getRemoteAddress();
     }
 
-    @Override
     public String getRequestMethod() {
         return http.getRequestMethod();
     }
 
-    @Override
     public URI getRequestUri() {
         return http.getRequestUri();
     }
 
-    @Override
     public Date getRequestDate() {
         return http.getRequestDate();
     }

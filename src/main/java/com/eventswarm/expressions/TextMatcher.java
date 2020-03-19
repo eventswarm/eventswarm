@@ -20,7 +20,6 @@
 
 package com.eventswarm.expressions;
 
-import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.Text;
 /**
@@ -49,7 +48,6 @@ public class TextMatcher implements Matcher {
      * @param event
      * @return
      */
-    @Override
     public boolean matches(Event event) {
        return (Text.class.isInstance(event) &&
                ((Text) event).getText().contains(this.text));

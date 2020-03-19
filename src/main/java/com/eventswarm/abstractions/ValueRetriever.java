@@ -39,7 +39,6 @@ public interface ValueRetriever<T extends Object> {
      * Value retriever instance to return the string name of the event source
      */
     public static ValueRetriever<String>  sourceRetriever = new ValueRetriever<String>() {
-        @Override
         public String getValue(Event event) {
             return event.getHeader().getSource().getId();
         }
@@ -49,7 +48,6 @@ public interface ValueRetriever<T extends Object> {
      * Value retriever instance to return the event timestamp
      */
     public static ValueRetriever<Date>  timestampRetriever = new ValueRetriever<Date>() {
-        @Override
         public Date getValue(Event event) {
             return event.getHeader().getTimestamp();
         }

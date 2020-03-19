@@ -92,7 +92,6 @@ public class JdoCondensedCombinationsPart extends JdoEventPart implements Combin
      *
      * @return a set containing all Combination objects represented by this object
      */
-    @Override
     public Set<Combination> getCombinations() {
         if (this.combinations == null) {
             this.combinations = new HashSet<Combination>();
@@ -111,7 +110,6 @@ public class JdoCondensedCombinationsPart extends JdoEventPart implements Combin
      *
      * @return number of combinations represented
      */
-    @Override
     public int count() {
         return this.getCombinations().size();
     }
@@ -124,7 +122,6 @@ public class JdoCondensedCombinationsPart extends JdoEventPart implements Combin
      *
      * @return Set of all events referenced by this object
      */
-    @Override
     public SortedSet<Event> getEvents() {
         SortedSet<Event> result = new TreeSet<Event>();
         for(List<SortedSet<Event>> list: this.source) {

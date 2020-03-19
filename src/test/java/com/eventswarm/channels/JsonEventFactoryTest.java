@@ -19,11 +19,8 @@ import com.eventswarm.events.Event;
 import com.eventswarm.events.JsonEvent;
 import com.eventswarm.events.jdo.JdoPartWrapper;
 import com.eventswarm.events.jdo.JdoSource;
-import com.eventswarm.events.jdo.OrgJsonPart;
 import org.json.JSONObject;
 import org.junit.Test;
-
-import java.net.InetAddress;
 
 import static org.junit.Assert.*;
 
@@ -39,8 +36,8 @@ public class JsonEventFactoryTest {
         JsonEventFactory instance = new JsonEventFactory();
         Event event = instance.fromJson(new JSONObject("{a: 1, b:2}"));
         assertTrue(JsonEvent.class.isInstance(event));
-        assertEquals(1, ((JsonEvent) event).getInt("a"));
-        assertEquals(2, ((JsonEvent) event).getInt("b"));
+        assertEquals(1, ((JsonEvent<?>) event).getInt("a"));
+        assertEquals(2, ((JsonEvent<?>) event).getInt("b"));
         JSONObject part = ((JdoPartWrapper<JSONObject>)event.getPart(JsonEvent.JSON_PART_NAME)).getWrapped();
         assertEquals(2, part.length());
     }

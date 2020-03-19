@@ -42,7 +42,6 @@ import com.eventswarm.events.Event;
 import com.eventswarm.events.Header;
 import com.eventswarm.events.Source;
 import com.eventswarm.events.jdo.JdoCSVEvent;
-import com.eventswarm.events.jdo.JdoCSVEvent;
 import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.events.jdo.JdoSource;
 import org.apache.log4j.Logger;
@@ -180,7 +179,6 @@ public class CSVChannel extends AbstractChannel {
         if (fieldMap == null) {
             defaultMap = true;
             fieldMap = new HashMap<String,Integer>();
-            String name;
             for (int i=0; i<fieldNames.length; i++) {
                 if (fieldMap.containsKey(fieldNames[i])) {
                     logger.warn("Duplicate field name '" + fieldNames[i] + "'. Adding column number suffix.");

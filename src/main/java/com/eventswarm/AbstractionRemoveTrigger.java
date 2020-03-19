@@ -23,7 +23,7 @@ package com.eventswarm;
  */
 public interface AbstractionRemoveTrigger extends Trigger {
 
-    public static Class action = AbstractionRemoveAction.class;
+    public static Class<?> action = AbstractionRemoveAction.class;
 
     /**
      * Register an action against this trigger.

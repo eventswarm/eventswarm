@@ -27,7 +27,6 @@ package com.eventswarm.abstractions;
  * @author andyb
  */
 
-import com.eventswarm.AbstractionAddAction;
 import com.eventswarm.AbstractionRemoveAction;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;

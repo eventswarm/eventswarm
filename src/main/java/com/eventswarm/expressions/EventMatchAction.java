@@ -32,7 +32,7 @@ import com.eventswarm.events.Event;
 
 public interface EventMatchAction extends Action {
 
-    public static Class trigger = EventMatchTrigger.class;
+    public static Class<?> trigger = EventMatchTrigger.class;
     
     public void execute(EventMatchTrigger trigger, Event event);
 

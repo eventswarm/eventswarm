@@ -38,7 +38,7 @@ import java.util.HashMap;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class EventMap<T> extends MutableAbstractionImpl implements MutableAbstraction {
+public class EventMap<T> extends MutableAbstractionImpl {
     private ValueRetriever<T> keyRetriever;
     private HashMap<T,Event> map;
 
@@ -120,7 +120,6 @@ public class EventMap<T> extends MutableAbstractionImpl implements MutableAbstra
     /**
      * Clear the hash of map held in this abstraction
      */
-    @Override
     public void clear() {
         this.map.clear();
     }

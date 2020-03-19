@@ -28,7 +28,7 @@ package com.eventswarm;
  */
 public interface ValueAddTrigger extends Trigger {
 
-    public static Class action = ValueAddAction.class;
+    public static Class<?> action = ValueAddAction.class;
     
     /**
      * Register an action against this trigger.

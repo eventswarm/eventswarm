@@ -19,7 +19,6 @@ import com.eventswarm.events.EventPart;
 import com.eventswarm.events.Header;
 import com.eventswarm.events.NestedEvent;
 import com.eventswarm.events.SubEvent;
-import org.json.JSONObject;
 import org.w3c.dom.Node;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -98,12 +97,10 @@ public class XmlSubEvent extends XmlEventImpl implements SubEvent<Node> {
         return new JdoHeader(timestamp, parent.getHeader().getSource());
     }
 
-    @Override
     public XmlEventImpl getParent() {
         return this.parent;
     }
 
-    @Override
     public Node getSubordinate() {
         return this.xml;
     }

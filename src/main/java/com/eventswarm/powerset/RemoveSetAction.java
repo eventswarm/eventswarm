@@ -31,7 +31,7 @@ import com.eventswarm.eventset.EventSet;
 
 public interface RemoveSetAction<Keytype> extends Action {
 
-    public static Class trigger = RemoveSetTrigger.class;
+    public static Class<?> trigger = RemoveSetTrigger.class;
 
     /**
      * Action to execute when a new EventSet is added to the PowerSet.

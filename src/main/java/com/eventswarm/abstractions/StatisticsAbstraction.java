@@ -162,7 +162,6 @@ public class StatisticsAbstraction extends MutableAbstractionImpl implements Mut
      *
      * @return
      */
-    @Override
     public Map<String, Number> getValues() {
         values.put(COUNT, getCount());
         values.put(MEAN, getMean());

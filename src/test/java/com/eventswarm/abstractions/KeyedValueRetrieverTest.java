@@ -17,9 +17,7 @@ package com.eventswarm.abstractions;
 
 import com.eventswarm.events.Event;
 import com.eventswarm.events.JsonEvent;
-import com.eventswarm.events.Source;
 import com.eventswarm.events.jdo.JdoHeader;
-import com.eventswarm.events.jdo.JdoSource;
 import com.eventswarm.events.jdo.OrgJsonEvent;
 import org.json.JSONObject;
 import org.junit.Before;

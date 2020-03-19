@@ -31,7 +31,7 @@ import org.junit.Test;
 public class MatchCountExpressionTest extends TestCase {
     private EventMatchActionImpl action = new EventMatchActionImpl();
     private MutableExpression mutable_expr = new MutableExpression();
-    private Event event1, event2, event3, event4;
+    private Event event1, event2, event3;
 
     @Before
     public void setUp() throws Exception {

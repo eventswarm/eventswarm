@@ -40,8 +40,8 @@ public class JsonChannelTest implements FromJson {
         JsonChannel channel = new JsonChannel(stream);
         Event event = channel.next();
         assertTrue(JsonEvent.class.isInstance(event));
-        assertEquals(1, ((JsonEvent) event).getInt("a"));
-        assertEquals(2, ((JsonEvent) event).getInt("b"));
+        assertEquals(1, ((JsonEvent<?>) event).getInt("a"));
+        assertEquals(2, ((JsonEvent<?>) event).getInt("b"));
         JSONObject part =  ((JdoPartWrapper<JSONObject>)event.getPart(JsonEvent.JSON_PART_NAME)).getWrapped();
         assertEquals(2, part.length());
     }
@@ -53,8 +53,8 @@ public class JsonChannelTest implements FromJson {
         channel.next();
         Event event = channel.next();
         assertTrue(JsonEvent.class.isInstance(event));
-        assertEquals(2, ((JsonEvent) event).getInt("a"));
-        assertEquals(1, ((JsonEvent) event).getInt("b"));
+        assertEquals(2, ((JsonEvent<?>) event).getInt("a"));
+        assertEquals(1, ((JsonEvent<?>) event).getInt("b"));
         JSONObject part = ((JdoPartWrapper<JSONObject>)event.getPart(JsonEvent.JSON_PART_NAME)).getWrapped();
         assertEquals(2, part.length());
     }
@@ -77,8 +77,8 @@ public class JsonChannelTest implements FromJson {
         channel.setTokener(new StringBufferInputStream("{a:2, b:1}"));
         Event event = channel.next();
         assertTrue(JsonEvent.class.isInstance(event));
-        assertEquals(2, ((JsonEvent) event).getInt("a"));
-        assertEquals(1, ((JsonEvent) event).getInt("b"));
+        assertEquals(2, ((JsonEvent<?>) event).getInt("a"));
+        assertEquals(1, ((JsonEvent<?>) event).getInt("b"));
         JSONObject part = ((JdoPartWrapper<JSONObject>)event.getPart(JsonEvent.JSON_PART_NAME)).getWrapped();
         assertEquals(2, part.length());
     }
@@ -103,12 +103,11 @@ public class JsonChannelTest implements FromJson {
         channel.unregisterConstructor(TYPE_ID, this);
         Event event2 = channel.next();
         assertTrue(JsonEvent.class.isInstance(event2));
-        assertEquals(2, ((JsonEvent) event2).getInt("a"));
-        assertEquals(1, ((JsonEvent) event2).getInt("b"));
+        assertEquals(2, ((JsonEvent<?>) event2).getInt("a"));
+        assertEquals(1, ((JsonEvent<?>) event2).getInt("b"));
         assertFalse("JsonChannelTest".equals(event2.getHeader().getSource().getSourceId()));
     }
 
-    @Override
     public Event fromJson(JSONObject json) {
         return new OrgJsonEvent(new JdoHeader(new Date(), new JdoSource("JsonChannelTest")), json);
     }

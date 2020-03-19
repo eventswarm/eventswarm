@@ -18,8 +18,6 @@ package com.eventswarm.powerset;
 import com.eventswarm.events.Event;
 import com.eventswarm.expressions.Matcher;
 
-import java.util.List;
-
 /**
  * EventKey class that returns the first Matcher instance that matches the event or null if none match, allowing
  * powerset 'split' semantics to be based on more complex conditions than a simple key match.
@@ -48,7 +46,6 @@ public class MatcherEventKey implements EventKey<Matcher> {
      * @param event
      * @return
      */
-    @Override
     public Matcher getKey(Event event) {
         for (Matcher matcher : this.matchers) {
             if (matcher.matches(event)) return matcher;

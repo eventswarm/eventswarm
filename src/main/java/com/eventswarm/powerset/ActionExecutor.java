@@ -14,10 +14,6 @@
  * limitations under the License.
 */
 package com.eventswarm.powerset;
-
-import com.eventswarm.*;
-import com.eventswarm.events.Event;
-import com.eventswarm.eventset.EventSet;
 import com.eventswarm.util.actions.QueuedAction;
 
 /**

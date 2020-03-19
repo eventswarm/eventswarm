@@ -29,7 +29,7 @@ package com.eventswarm;
 
 public interface AddEventTrigger extends Trigger {
 
-    public static Class action = AddEventAction.class;
+    public static Class<?> action = AddEventAction.class;
     
     /**
      * Register an action against this trigger.

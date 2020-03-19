@@ -21,9 +21,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -137,7 +135,6 @@ public class KeywordSequenceMatcherTest {
             this.keywords = Arrays.asList(keywords);
         }
 
-        @Override
         public List<String> getOrderedKeywords() {
             return keywords;
         }

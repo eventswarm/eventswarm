@@ -31,14 +31,16 @@ import java.util.HashMap;
  * User: andyb
  */
 public class ActionRouter<T> extends HashMap<T,MutableTarget> implements MutableTarget {
+
+    private static final long serialVersionUID = 1L;
+
     ValueRetriever<T> retriever;
 
-    public ActionRouter(ValueRetriever retriever) {
+    public ActionRouter(ValueRetriever<T> retriever) {
         super();
         this.retriever = retriever;
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         AddEventAction action = get(retriever.getValue(event));
         if (action == null) {
@@ -50,7 +52,6 @@ public class ActionRouter<T> extends HashMap<T,MutableTarget> implements Mutable
         }
     }
 
-    @Override
     public void execute(RemoveEventTrigger trigger, Event event) {
         RemoveEventAction action = get(retriever.getValue(event));
         if (action == null) {

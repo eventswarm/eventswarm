@@ -31,7 +31,7 @@ import com.eventswarm.eventset.EventSet;
 
 public interface NewSetAction<Keytype> extends Action {
 
-    public static Class trigger = NewSetTrigger.class;
+    public static Class<?> trigger = NewSetTrigger.class;
 
     /**
      * Action to execute when a new EventSet is added to the PowerSet.

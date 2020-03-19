@@ -75,6 +75,8 @@ public class HashPowerset<Keytype>
     /** Default Size of each LastNWindow in the powerset */
     //private final static int SIZE=1;
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Eventset creation factory
      */
@@ -339,22 +341,18 @@ public class HashPowerset<Keytype>
         }
     }
 
-    @Override
     public void registerAction(PowersetAddEventAction action) {
         addEventActions.add(action);
     }
 
-    @Override
     public void unregisterAction(PowersetAddEventAction action) {
         addEventActions.remove(action);
     }
 
-    @Override
     public void registerAction(PowersetRemoveEventAction action) {
         removeEventActions.add(action);
     }
 
-    @Override
     public void unregisterAction(PowersetRemoveEventAction action) {
         removeEventActions.remove(action);
     }

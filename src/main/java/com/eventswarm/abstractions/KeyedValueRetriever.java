@@ -41,7 +41,6 @@ public class KeyedValueRetriever<K, T> implements ValueRetriever<T>{
         this.discriminator = discriminator;
     }
 
-    @Override
     public T getValue(Event event) {
         K key = discriminator.getValue(event);
         if (key != null) {

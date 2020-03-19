@@ -20,7 +20,6 @@ import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.jdo.TestEvents;
 import com.eventswarm.expressions.Value;
-import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
@@ -45,7 +44,6 @@ public class StatisticsAbstractionTest {
         event4 = TestEvents.eventAfterSameSrcAfterSeq;
         event5 = TestEvents.eventAfterDiffSrcAfterSeq;
         retriever = new ValueRetriever<Number>() {
-            @Override
             public Number getValue(Event event) {
                 return data.get(event);
             }

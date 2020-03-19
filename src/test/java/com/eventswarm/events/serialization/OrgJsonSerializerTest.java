@@ -15,15 +15,11 @@
 */
 package com.eventswarm.events.serialization;
 
-import com.eventswarm.channels.Deserializer;
 import com.eventswarm.channels.Serializer;
-import com.eventswarm.events.Event;
 import com.eventswarm.events.Header;
 import com.eventswarm.events.JsonEvent;
 import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.events.jdo.OrgJsonEvent;
-import com.eventswarm.events.serialization.OrgJsonDeserializer;
-import com.eventswarm.events.serialization.OrgJsonSerializer;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.Test;

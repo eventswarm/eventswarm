@@ -23,7 +23,7 @@ package com.eventswarm;
  */
 public interface AbstractionAddTrigger extends Trigger {
 
-    public static Class action = AbstractionAddAction.class;
+    public static Class<?> action = AbstractionAddAction.class;
 
     /**
      * Register an action against this trigger.

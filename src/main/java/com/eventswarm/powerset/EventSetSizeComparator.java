@@ -64,7 +64,6 @@ public class EventSetSizeComparator<KeyType> implements Comparator<Map.Entry<Key
      * @param events2
      * @return
      */
-    @Override
     public int compare(Map.Entry<KeyType,EventSet> events1, Map.Entry<KeyType,EventSet> events2) {
         int result;
         if (events1 == events2) {

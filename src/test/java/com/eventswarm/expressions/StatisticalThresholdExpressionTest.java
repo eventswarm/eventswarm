@@ -15,18 +15,18 @@
 */
 package com.eventswarm.expressions;
 
-import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.jdo.TestEvents;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static junit.framework.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,7 +45,6 @@ public class StatisticalThresholdExpressionTest {
         event4 = TestEvents.eventAfterSameSrcAfterSeq;
         event5 = TestEvents.eventAfterDiffSrcAfterSeq;
         retriever = new ValueRetriever<Number>() {
-            @Override
             public Number getValue(Event event) {
                 return data.get(event);
             }
@@ -55,38 +54,38 @@ public class StatisticalThresholdExpressionTest {
     @Test
     public void construct_default_min() throws Exception {
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0);
-        Assert.assertNotNull(instance);
-        Assert.assertEquals(StatisticalThresholdExpression.MINIMUM_COUNT, instance.getMinCount());
-        Assert.assertEquals(1.0, instance.getMultiple());
-        Assert.assertEquals(retriever, instance.getRetriever());
+        assertNotNull(instance);
+        assertEquals(StatisticalThresholdExpression.MINIMUM_COUNT, instance.getMinCount());
+        assertEquals(1.0, instance.getMultiple());
+        assertEquals(retriever, instance.getRetriever());
     }
 
     @Test
     public void construct_min0() throws Exception {
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0, 0);
-        Assert.assertNotNull(instance);
-        Assert.assertEquals(0, instance.getMinCount());
-        Assert.assertEquals(1.0, instance.getMultiple());
-        Assert.assertEquals(retriever, instance.getRetriever());
+        assertNotNull(instance);
+        assertEquals(0, instance.getMinCount());
+        assertEquals(1.0, instance.getMultiple());
+        assertEquals(retriever, instance.getRetriever());
     }
 
     @Test
     public void construct_min1() throws Exception {
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0, 1);
-        Assert.assertNotNull(instance);
-        Assert.assertEquals(1, instance.getMinCount());
-        Assert.assertEquals(1.0, instance.getMultiple());
-        Assert.assertEquals(retriever, instance.getRetriever());
+        assertNotNull(instance);
+        assertEquals(1, instance.getMinCount());
+        assertEquals(1.0, instance.getMultiple());
+        assertEquals(retriever, instance.getRetriever());
     }
 
     @Test
     public void construct_min1_limit1() throws Exception {
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0, 1, 1);
-        Assert.assertNotNull(instance);
-        Assert.assertEquals(1, instance.getMinCount());
-        Assert.assertEquals(1.0, instance.getMultiple());
-        Assert.assertEquals(retriever, instance.getRetriever());
-        Assert.assertEquals(1, instance.getLimit());
+        assertNotNull(instance);
+        assertEquals(1, instance.getMinCount());
+        assertEquals(1.0, instance.getMultiple());
+        assertEquals(retriever, instance.getRetriever());
+        assertEquals(1, instance.getLimit());
     }
 
     @Test
@@ -94,7 +93,7 @@ public class StatisticalThresholdExpressionTest {
         data.put(event1, 1.0);
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0, 1);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertFalse(instance.hasMatched(event1));
+        assertFalse(instance.hasMatched(event1));
     }
 
     @Test
@@ -104,11 +103,11 @@ public class StatisticalThresholdExpressionTest {
         data.put(event3, 2.0);
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0, 2);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertFalse(instance.hasMatched(event1));
+        assertFalse(instance.hasMatched(event1));
         instance.execute((AddEventTrigger) null, event2);
-        Assert.assertFalse(instance.hasMatched(event2));
+        assertFalse(instance.hasMatched(event2));
         instance.execute((AddEventTrigger) null, event3);
-        Assert.assertFalse(instance.hasMatched(event3));
+        assertFalse(instance.hasMatched(event3));
     }
 
     @Test
@@ -118,11 +117,11 @@ public class StatisticalThresholdExpressionTest {
         data.put(event3, 2.0);
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 0.9, 2);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertFalse(instance.hasMatched(event1));
+        assertFalse(instance.hasMatched(event1));
         instance.execute((AddEventTrigger) null, event2);
-        Assert.assertFalse(instance.hasMatched(event2));
+        assertFalse(instance.hasMatched(event2));
         instance.execute((AddEventTrigger) null, event3);
-        Assert.assertTrue(instance.hasMatched(event3));
+        assertTrue(instance.hasMatched(event3));
     }
 
     @Test
@@ -134,7 +133,7 @@ public class StatisticalThresholdExpressionTest {
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((AddEventTrigger) null, event2);
         instance.execute((AddEventTrigger) null, event3);
-        Assert.assertFalse(instance.hasMatched(event3));
+        assertFalse(instance.hasMatched(event3));
     }
 
     @Test
@@ -142,7 +141,7 @@ public class StatisticalThresholdExpressionTest {
         data.put(event1, 1.0);
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0, 1);
         instance.execute((RemoveEventTrigger) null, event1);
-        Assert.assertEquals(0, instance.getStats().getCount());
+        assertEquals(0, instance.getStats().getCount());
     }
 
     @Test
@@ -151,7 +150,7 @@ public class StatisticalThresholdExpressionTest {
         StatisticalThresholdExpression instance = new StatisticalThresholdExpression(retriever, 1.0, 1);
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((RemoveEventTrigger) null, event1);
-        Assert.assertEquals(0, instance.getStats().getCount());
+        assertEquals(0, instance.getStats().getCount());
     }
 
     @Test
@@ -162,9 +161,9 @@ public class StatisticalThresholdExpressionTest {
         instance.execute((AddEventTrigger) null, event1);
         instance.execute((AddEventTrigger) null, event2);
         instance.execute((RemoveEventTrigger) null, event1);
-        Assert.assertEquals(1, instance.getStats().getCount());
-        Assert.assertEquals(2.0, instance.getStats().getMean());
-        Assert.assertEquals(0.0, instance.getStats().getStdDev());
+        assertEquals(1, instance.getStats().getCount());
+        assertEquals(2.0, instance.getStats().getMean());
+        assertEquals(0.0, instance.getStats().getStdDev());
     }
 
 }

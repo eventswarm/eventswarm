@@ -26,7 +26,6 @@ import com.eventswarm.util.actions.QueuedAction;
  * User: andyb
  */
 public class SimpleActionExecutor implements ActionExecutor {
-    @Override
     public void add(QueuedAction action) {
         action.run();
     }

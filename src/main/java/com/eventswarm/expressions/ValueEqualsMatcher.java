@@ -26,17 +26,16 @@ import org.apache.log4j.Logger;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class ValueEqualsMatcher implements Matcher {
-    private Value value;
-    private ValueRetriever retriever;
+public class ValueEqualsMatcher<Type> implements Matcher {
+    private Value<Type> value;
+    private ValueRetriever<Type> retriever;
     private static Logger logger = Logger.getLogger(ValueEqualsMatcher.class);
 
-    public ValueEqualsMatcher(Value value, ValueRetriever retriever) {
+    public ValueEqualsMatcher(Value<Type> value, ValueRetriever<Type> retriever) {
         this.value = value;
         this.retriever = retriever;
     }
 
-    @Override
     public boolean matches(Event event) {
         Object compare = value.getValue();
         logger.debug("Comparing comparison value " + compare + " with event value " + retriever.getValue(event));
@@ -47,11 +46,11 @@ public class ValueEqualsMatcher implements Matcher {
         }
     }
 
-    public Value getValue() {
+    public Value<Type> getValue() {
         return value;
     }
 
-    public ValueRetriever getRetriever() {
+    public ValueRetriever<Type> getRetriever() {
         return retriever;
     }
 }

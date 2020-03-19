@@ -17,7 +17,6 @@ package com.eventswarm.expressions;
 
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.Combination;
-import com.eventswarm.RemoveEventAction;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.CombinationsPart;
 import com.eventswarm.events.Event;
@@ -56,7 +55,7 @@ import org.apache.log4j.Logger;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class SequenceExpression extends ANDExpression implements ComplexExpression, EventMatchTrigger, RemoveEventAction, EventMatchAction {
+public class SequenceExpression extends ANDExpression {
 
     private static Iterator<Event> EMPTY_ITER = new ArrayList<Event>(0).iterator();
     /* private logger for log4j */

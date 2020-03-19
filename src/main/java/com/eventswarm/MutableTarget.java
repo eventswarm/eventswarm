@@ -29,11 +29,9 @@ public interface MutableTarget extends AddEventAction, RemoveEventAction {
      * Simple MutableTarget that ignores any add/remove actions, i.e. a bit bucket
      */
     public static MutableTarget BITBUCKET = new MutableTarget() {
-        @Override
         public void execute(AddEventTrigger trigger, Event event) {
         }
 
-        @Override
         public void execute(RemoveEventTrigger trigger, Event event) {
         }
     };

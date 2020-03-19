@@ -83,10 +83,9 @@ public interface JsonEvent<Impl> extends Event {
             this.path = path;
         }
 
-        @Override
         public Integer getValue(Event event) {
             try {
-                return (JsonEvent.class.isInstance(event) ? ((JsonEvent) event).getInt(path) : null);
+                return (JsonEvent.class.isInstance(event) ? ((JsonEvent<?>) event).getInt(path) : null);
             } catch (Exception exc) {
                 logger.warn("Error retrieving value at path " + path, exc);
                 return null;
@@ -104,10 +103,9 @@ public interface JsonEvent<Impl> extends Event {
             this.path = path;
         }
 
-        @Override
         public Long getValue(Event event) {
             try {
-                return (JsonEvent.class.isInstance(event) ? ((JsonEvent) event).getLong(path) : null);
+                return (JsonEvent.class.isInstance(event) ? ((JsonEvent<?>) event).getLong(path) : null);
             } catch (Exception exc) {
                 logger.warn("Error retrieving value at path " + path, exc);
                 return null;
@@ -125,10 +123,9 @@ public interface JsonEvent<Impl> extends Event {
             this.path = path;
         }
 
-        @Override
         public String getValue(Event event) {
             try {
-                return (JsonEvent.class.isInstance(event) ? ((JsonEvent) event).getString(path) : null);
+                return (JsonEvent.class.isInstance(event) ? ((JsonEvent<?>) event).getString(path) : null);
             } catch (Exception exc) {
                 logger.warn("Error retrieving value at path " + path, exc);
                 return null;
@@ -146,10 +143,9 @@ public interface JsonEvent<Impl> extends Event {
             this.path = path;
         }
 
-        @Override
         public String getValue(Event event) {
             try {
-                return (JsonEvent.class.isInstance(event) ? ((JsonEvent) event).getString(path).toLowerCase() : null);
+                return (JsonEvent.class.isInstance(event) ? ((JsonEvent<?>) event).getString(path).toLowerCase() : null);
             } catch (Exception exc) {
                 logger.warn("Error retrieving value at path " + path, exc);
                 return null;
@@ -167,10 +163,9 @@ public interface JsonEvent<Impl> extends Event {
             this.path = path;
         }
 
-        @Override
         public Double getValue(Event event) {
             try {
-                return (JsonEvent.class.isInstance(event) ? ((JsonEvent) event).getDouble(path) : null);
+                return (JsonEvent.class.isInstance(event) ? ((JsonEvent<?>) event).getDouble(path) : null);
             } catch (Exception exc) {
                 logger.warn("Error retrieving value at path " + path, exc);
                 return null;
@@ -188,10 +183,9 @@ public interface JsonEvent<Impl> extends Event {
             this.path = path;
         }
 
-        @Override
         public Boolean getValue(Event event) {
             try {
-                return (JsonEvent.class.isInstance(event) ? ((JsonEvent) event).getBoolean(path) : null);
+                return (JsonEvent.class.isInstance(event) ? ((JsonEvent<?>) event).getBoolean(path) : null);
             } catch (Exception exc) {
                 logger.warn("Error retrieving value at path " + path, exc);
                 return null;
@@ -209,10 +203,9 @@ public interface JsonEvent<Impl> extends Event {
             this.path = path;
         }
 
-        @Override
         public String getValue(Event event) {
             try {
-                return (JsonEvent.class.isInstance(event) ? ((JsonEvent) event).get(path).toString() : null);
+                return (JsonEvent.class.isInstance(event) ? ((JsonEvent<?>) event).get(path).toString() : null);
             } catch (Exception exc) {
                 logger.warn("Error retrieving value at path " + path, exc);
                 return null;

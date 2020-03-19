@@ -96,7 +96,6 @@ public class StubAbstraction implements Abstraction {
         return keyString;
     }
 
-    @Override
     public void clear() {
         events.clear();
     }

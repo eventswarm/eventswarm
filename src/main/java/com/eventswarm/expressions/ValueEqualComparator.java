@@ -31,7 +31,6 @@ public class ValueEqualComparator<T> implements Comparator {
         this.retriever = retriever;
     }
 
-    @Override
     public boolean matches(Event event1, Event event2) {
         return retriever.getValue(event1).equals(retriever.getValue(event2));
     }

@@ -32,14 +32,15 @@ import java.util.HashMap;
  * User: andyb
  */
 public class AddActionRouter<T> extends HashMap<T,AddEventAction> implements AddEventAction {
+    private static final long serialVersionUID = 1L;
+
     ValueRetriever<T> retriever;
 
-    public AddActionRouter(ValueRetriever retriever) {
+    public AddActionRouter(ValueRetriever<T> retriever) {
         super();
         this.retriever = retriever;
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         AddEventAction action = get(retriever.getValue(event));
         if (action == null) {

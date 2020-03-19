@@ -58,7 +58,6 @@ public class JdoCSVEvent extends JdoEvent implements CSVEvent {
         }
     }
 
-    @Override
     public String get(String field) {
         if (fields.containsKey(field)) {
             Integer index = fields.get(field);
@@ -72,7 +71,6 @@ public class JdoCSVEvent extends JdoEvent implements CSVEvent {
         }
     }
 
-    @Override
     public Map<String, String> getCsvMap() {
         if (csvMap == null) {
             csvMap = new HashMap<String,String>();

@@ -28,7 +28,7 @@ package com.eventswarm;
  */
 public interface NumericValueAddTrigger extends Trigger {
 
-    public static Class action = NumericValueAddAction.class;
+    public static Class<?> action = NumericValueAddAction.class;
 
     /**
      * Register an action against this trigger.

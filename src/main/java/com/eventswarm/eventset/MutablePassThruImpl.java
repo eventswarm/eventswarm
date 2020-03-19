@@ -23,7 +23,6 @@
  */
 
 package com.eventswarm.eventset;
-import com.eventswarm.abstractions.Abstraction;
 import com.eventswarm.RemoveEventAction;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
@@ -39,7 +38,7 @@ import org.apache.log4j.*;
  */
 public class MutablePassThruImpl
         extends PassThruImpl
-        implements Abstraction, MutablePassThru
+        implements MutablePassThru
 {
 
     /* private logger for log4j */

@@ -36,7 +36,7 @@ import com.eventswarm.events.Event;
 
 public interface ValueRemoveAction extends Action {
 
-    public static Class trigger = ValueRemoveTrigger.class;
+    public static Class<?> trigger = ValueRemoveTrigger.class;
     
     public void execute(ValueRemoveTrigger trigger, Event event);
 }

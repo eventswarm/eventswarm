@@ -17,10 +17,7 @@ package com.eventswarm.events.jdo;
 
 
 import com.eventswarm.events.Event;
-import com.eventswarm.events.jdo.OrgJsonPart;
 import org.json.JSONObject;
-
-import java.io.InputStream;
 
 /**
  * Interface implemented by classes that can create event instances from a JSON object.

@@ -21,7 +21,6 @@ public class ValueListRetriever<T> implements ValueRetriever<List<T>> {
         this.retrievers = retrievers;
     }
 
-    @Override
     public List<T> getValue(Event event) {
         List<T> result = new ArrayList<T>(retrievers.size());
         for (ValueRetriever<T> r : retrievers) {

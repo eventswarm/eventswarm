@@ -88,7 +88,6 @@ public interface LogEvent extends Event, Text {
         public static final GetClassifier INSTANCE = new GetClassifier();
         public static final EventKey<String> EVENT_KEY = new EventKey.EventKeyRetriever<String>(INSTANCE);
 
-        @Override
         public String getValue(Event event) {
             if (LogEvent.class.isInstance(event)) {
                 return ((LogEvent) event).getClassifier();
@@ -105,7 +104,6 @@ public interface LogEvent extends Event, Text {
         public static final GetLevel INSTANCE = new GetLevel();
         public static final EventKey<Level> EVENT_KEY = new EventKey.EventKeyRetriever<Level>(INSTANCE);
 
-        @Override
         public Level getValue(Event event) {
             if (LogEvent.class.isInstance(event)) {
                 return ((LogEvent) event).getLevel();

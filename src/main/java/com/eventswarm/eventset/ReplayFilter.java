@@ -50,7 +50,6 @@ import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.AddSyncAction;
 import com.eventswarm.AddSyncTrigger;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 public class ReplayFilter extends PassThruImpl implements AddSyncAction

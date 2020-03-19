@@ -22,7 +22,6 @@ import com.eventswarm.events.Event;
  * User: andyb
  */
 public class FalseMatcher implements Matcher{
-    @Override
     public boolean matches(Event event) {
         return false;
     }

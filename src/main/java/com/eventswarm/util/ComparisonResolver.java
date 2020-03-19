@@ -15,8 +15,6 @@
 */
 package com.eventswarm.util;
 
-import com.eventswarm.eventset.EventSet;
-
 import java.util.WeakHashMap;
 
 /**

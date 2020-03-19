@@ -15,7 +15,6 @@
 */
 package com.eventswarm.events.jdo;
 
-import com.eventswarm.events.Event;
 import com.eventswarm.events.ExpressionPart;
 import com.eventswarm.expressions.Expression;
 
@@ -43,7 +42,6 @@ public class JdoExpressionPart extends JdoEventPart implements ExpressionPart {
         this.expression = expression;
     }
 
-    @Override
     public Expression getExpression() {
         return expression;  //To change body of implemented methods use File | Settings | File Templates.
     }

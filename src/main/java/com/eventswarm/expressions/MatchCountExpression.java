@@ -26,7 +26,6 @@ import com.eventswarm.eventset.EventSet;
 import org.apache.log4j.Logger;
 
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * This class implements a wrapper around an EventExpression that counts the number of matches and becomes true
@@ -129,7 +128,6 @@ public class MatchCountExpression extends AbstractEventExpression implements Eve
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(EventMatchTrigger trigger, Event event) {
         this.exprMatches.execute(addTrigger, event);
         if (this.isTrue()) {

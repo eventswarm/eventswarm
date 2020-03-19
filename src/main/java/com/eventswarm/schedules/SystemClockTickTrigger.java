@@ -36,7 +36,6 @@ import java.util.*;
  *
  */
 public class SystemClockTickTrigger extends TimerTask implements TickTrigger {
-    private static Calendar calendar = Calendar.getInstance();
     private long interval;
     private Timer timer;
     private Set<TickAction> actions;
@@ -85,7 +84,6 @@ public class SystemClockTickTrigger extends TimerTask implements TickTrigger {
      *
      * @param action Action to be executed when trigger fires.
      */
-    @Override
     public void registerAction(TickAction action) {
         actions.add(action);
     }
@@ -95,7 +93,6 @@ public class SystemClockTickTrigger extends TimerTask implements TickTrigger {
      *
      * @param action Action to be removed from registered list.
      */
-    @Override
     public void unregisterAction(TickAction action) {
         actions.remove(action);
     }

@@ -36,7 +36,6 @@ public class LevelThresholdMatcher implements Matcher {
         this.level = level;
     }
 
-    @Override
     public boolean matches(Event event) {
         logger.debug("Checking level threshold on " + event.toString());
         if (LogEvent.class.isInstance(event)) {

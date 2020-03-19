@@ -17,8 +17,6 @@ package com.eventswarm.util;
 
 import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.MutableTarget;
-import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.JsonEvent;
 import com.eventswarm.events.jdo.JdoHeader;
@@ -45,13 +43,13 @@ public class AddActionRouterTest {
     static String TARGET2_KEY = "t2";
 
     Target target1, target2;
-    ActionRouter router;
+    AddActionRouter<String> router;
 
     @Before
     public void setup() throws Exception {
         target1 = new Target();
         target2 = new Target();
-        router = new ActionRouter(new JsonEvent.StringRetriever(TARGET_FIELD));
+        router = new AddActionRouter<String>(new JsonEvent.StringRetriever(TARGET_FIELD));
         router.put(TARGET1_KEY, target1);
         router.put(TARGET2_KEY, target2);
     }
@@ -99,7 +97,6 @@ public class AddActionRouterTest {
     public static class Target implements AddEventAction {
         public List<Event> added = new ArrayList<Event>();
 
-        @Override
         public void execute(AddEventTrigger trigger, Event event) {
             added.add(event);
         }

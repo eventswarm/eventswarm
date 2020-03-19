@@ -40,7 +40,6 @@ public class KeywordSequenceMatcher implements Matcher {
         }
     }
 
-    @Override
     public boolean matches(Event event) {
         if (keywords.length == 0) {
             return true; // empty always matches

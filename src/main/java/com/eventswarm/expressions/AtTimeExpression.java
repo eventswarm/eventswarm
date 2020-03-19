@@ -35,7 +35,7 @@ import java.util.Date;
  * Created with IntelliJ IDEA
  * User: andyb
  */
-public class AtTimeExpression extends AbstractEventExpression implements Expression, ScheduleAction, EventMatchAction {
+public class AtTimeExpression extends AbstractEventExpression implements ScheduleAction, EventMatchAction {
     private Expression expr;
     private Event lastMatch = null;
     private boolean state = false;
@@ -100,7 +100,6 @@ public class AtTimeExpression extends AbstractEventExpression implements Express
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(EventMatchTrigger trigger, Event event) {
         lastMatch = event;
     }
@@ -111,7 +110,6 @@ public class AtTimeExpression extends AbstractEventExpression implements Express
      * @param trigger
      * @param time
      */
-    @Override
     public void execute(ScheduleTrigger trigger, Schedule schedule, Date time) {
         lastTick = time;
         if (expr.isTrue()) {

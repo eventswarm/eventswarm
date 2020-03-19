@@ -44,7 +44,7 @@ import java.util.Map;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class XmlEventImpl extends JdoEvent implements Event, XmlEvent {
+public class XmlEventImpl extends JdoEvent implements XmlEvent {
     // maintain local pointers to parts for convenience
     protected transient Node xml;
     private transient XPath xpath;
@@ -81,7 +81,6 @@ public class XmlEventImpl extends JdoEvent implements Event, XmlEvent {
         return xpath;
     }
 
-    @Override
     public Node getRoot() {
         return xml;
     }
@@ -94,24 +93,20 @@ public class XmlEventImpl extends JdoEvent implements Event, XmlEvent {
         this.xml = xml;
     }
 
-    @Override
     public int getInt(String path) throws XPathExpressionException, ClassCastException {
         return Integer.parseInt(getXPath().compile(path).evaluate(xml));
     }
 
-    @Override
     public boolean getBoolean(String path) throws XPathExpressionException, ClassCastException {
         Boolean result = (Boolean) getXPath().evaluate(path, xml, XPathConstants.BOOLEAN);
         return result;
     }
 
-    @Override
     public Node getNode(String path) throws XPathExpressionException, ClassCastException {
         Node result = (Node) getXPath().evaluate(path, xml, XPathConstants.NODE);
         return result;
     }
 
-    @Override
     public NodeList getNodeList(String path) throws XPathExpressionException, ClassCastException {
         NodeList result = (NodeList) getXPath().evaluate(path, xml, XPathConstants.NODESET);
         return result;
@@ -149,7 +144,6 @@ public class XmlEventImpl extends JdoEvent implements Event, XmlEvent {
         return result;
     }
 
-    @Override
     public String getXmlString() {
         try {
             return nodeToString(xml);

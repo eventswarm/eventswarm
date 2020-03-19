@@ -24,7 +24,7 @@ package com.eventswarm.expressions;
  */
 public interface ComplexExpressionMatchTrigger {
 
-    public static Class action = ComplexExpressionMatchAction.class;
+    public static Class<?> action = ComplexExpressionMatchAction.class;
 
     /**
      * Register an action against this trigger.

@@ -15,19 +15,17 @@
 */
 package com.eventswarm.expressions;
 
-import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.expressions.NumericValueExpression.Comparator;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.jdo.TestEvents;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,7 +42,6 @@ public class NumericValueExpressionTest {
         event2 = TestEvents.event;
         event3 = TestEvents.eventAfterDiffSrcAfterSeq;
         retriever = new ValueRetriever<Number>() {
-            @Override
             public Number getValue(Event event) {
                 return data.get(event);
             }
@@ -55,7 +52,7 @@ public class NumericValueExpressionTest {
     public void construct() throws Exception {
         Value<Number> value = new ConstantValue<Number>(1);
         NumericValueExpression instance = new NumericValueExpression(Comparator.EQUAL, value, retriever);
-        Assert.assertNotNull(instance);
+        assertNotNull(instance);
     }
 
     @Test
@@ -64,7 +61,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(1);
         NumericValueExpression instance = new NumericValueExpression(Comparator.EQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -73,7 +70,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(2);
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESS, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -82,7 +79,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(2);
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -91,7 +88,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(2);
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -100,7 +97,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(1);
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATER, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -109,7 +106,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(2);
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -118,7 +115,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(1);
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -127,7 +124,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Long(1));
         NumericValueExpression instance = new NumericValueExpression(Comparator.EQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -136,7 +133,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(2);
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESS, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -145,7 +142,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Long(2));
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -154,7 +151,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Long(2));
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -163,7 +160,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Long(1));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATER, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -172,7 +169,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Long(2));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -181,7 +178,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Long(1));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -190,7 +187,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Float(1.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.EQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -199,7 +196,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(2);
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESS, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -208,7 +205,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Float(2.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -217,7 +214,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Float(2.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -226,7 +223,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Float(1.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATER, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -235,7 +232,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Float(2.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -244,7 +241,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Float(1.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -253,7 +250,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Double(1.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.EQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -262,7 +259,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(2);
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESS, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -271,7 +268,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Double(2.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -280,7 +277,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Double(2.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.LESSOREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -289,7 +286,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Double(1.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATER, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -298,7 +295,7 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Double(2.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 
     @Test
@@ -307,6 +304,6 @@ public class NumericValueExpressionTest {
         Value<Number> value = new ConstantValue<Number>(new Double(1.0));
         NumericValueExpression instance = new NumericValueExpression(Comparator.GREATEROREQUAL, value, retriever);
         instance.execute((AddEventTrigger) null, event1);
-        Assert.assertTrue(instance.hasMatched(event1));
+        assertTrue(instance.hasMatched(event1));
     }
 }

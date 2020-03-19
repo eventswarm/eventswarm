@@ -154,7 +154,7 @@ public class JdoEvent implements Event {
      * 
      * @param type Class or Interface that you're looking for.
      */
-    public boolean hasPart(Class type) {
+    public boolean hasPart(Class<?> type) {
         if (this.eventParts == null) return false;
         Iterator<EventPart> iter = this.eventParts.values().iterator();
         boolean hasPart = false;
@@ -180,7 +180,7 @@ public class JdoEvent implements Event {
      * more than one EventPart of the given type is in the event, then an
      * an IllegalArgumentException will be thrown.
      */
-    public EventPart getPart(Class type) {
+    public EventPart getPart(Class<?> type) {
         
         // Routine variables
         Set<EventPart>      parts = null; // Set of EventPart of given type
@@ -225,7 +225,7 @@ public class JdoEvent implements Event {
      * significant.
      * 
      */
-    public Set<EventPart> getParts(Class type) {
+    public Set<EventPart> getParts(Class<?> type) {
         if (this.eventParts == null) return null;
         Iterator<EventPart> iter = this.eventParts.values().iterator();
         Set<EventPart> parts = new HashSet<EventPart>();
@@ -312,8 +312,6 @@ public class JdoEvent implements Event {
         if (eventParts != null) {
             Iterator<Map.Entry<String,EventPart>> iterator = 
                     eventParts.entrySet().iterator();
-            EventPart part = null;
-            String key = null;
             while (iterator.hasNext()) {
             
                 // Get the next event part

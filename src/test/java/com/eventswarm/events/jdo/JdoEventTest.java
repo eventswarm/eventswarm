@@ -776,8 +776,8 @@ public class JdoEventTest {
     public void testHasPart() {
         System.out.println("hasPart");
         
-        Class typehas = EventURL.class;
-        Class typenothas = RejectEvent.class;
+        Class<?> typehas = EventURL.class;
+        Class<?> typenothas = RejectEvent.class;
         JdoEvent instance = TestEvents.jdoEventAllUrls;
 
         assertEquals(true, instance.hasPart(typehas));
@@ -873,7 +873,7 @@ public class JdoEventTest {
         Date ts = new Date();
         Header header1 = new DupeHeader(ts, "1");
         Header header2 = new DupeHeader(ts, "1");
-        Map parts = new HashMap();
+        Map<String,EventPart> parts = new HashMap<String,EventPart>();
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
         assertThat(event1, is(equalTo(event2)));
@@ -886,7 +886,7 @@ public class JdoEventTest {
         Date ts = new Date();
         Header header1 = new JdoHeader(ts, 0, Sources.cache.getSourceByName("JdoEventTestSource"), "id1");
         Header header2 = new JdoHeader(ts, 0, Sources.cache.getSourceByName("JdoEventTestSource"), "id1");
-        Map parts = new HashMap();
+        Map<String,EventPart> parts = new HashMap<String,EventPart>();
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
         assertThat(event1, is(equalTo(event2)));
@@ -898,7 +898,7 @@ public class JdoEventTest {
         Date ts = new Date();
         Header header1 = new DupeHeader(ts, "1");
         Header header2 = new DupeHeader(new Date(ts.getTime()+1), "1");
-        Map parts = new HashMap();
+        Map<String,EventPart> parts = new HashMap<String,EventPart>();
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
         assertThat(event1, is(not(equalTo(event2))));
@@ -910,7 +910,7 @@ public class JdoEventTest {
         Date ts = new Date();
         Header header1 = new DupeHeader(ts, "1");
         Header header2 = new DupeHeader(ts, "2");
-        Map parts = new HashMap();
+        Map<String,EventPart> parts = new HashMap<String,EventPart>();
         Event event1 = new JdoEvent(header1, parts);
         Event event2 = new JdoEvent(header2, parts);
         assertNotSame(event1, event2);

@@ -36,7 +36,6 @@ public class ClassifierMatcher implements Matcher {
         this.classifier = classifier;
     }
 
-    @Override
     public boolean matches(Event event) {
         logger.debug("Checking for classifier match on " + event.toString());
         return (LogEvent.class.isInstance(event) && ((LogEvent) event).getClassifier().startsWith(classifier));

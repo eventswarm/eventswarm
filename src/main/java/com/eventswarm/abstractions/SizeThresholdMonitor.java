@@ -172,7 +172,6 @@ public class SizeThresholdMonitor
      *
      * @return
      */
-    @Override
     public AddEventTrigger getSource() {
         return this.source;
     }
@@ -201,13 +200,11 @@ public class SizeThresholdMonitor
         checkResetAt();
     }
 
-    @Override
     public void registerAction(SizeThresholdAction action) {
         this.actions.add(action);
     }
 
 
-    @Override
     public void unregisterAction(SizeThresholdAction action) {
         this.actions.remove(action);
     }

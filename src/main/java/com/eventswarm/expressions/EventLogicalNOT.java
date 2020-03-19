@@ -22,7 +22,6 @@ package com.eventswarm.expressions;
 
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.RemoveEventTrigger;
-import com.eventswarm.events.ComplexExpressionMatchEvent;
 import com.eventswarm.events.Event;
 
 /**
@@ -141,7 +140,6 @@ public class EventLogicalNOT
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(EventMatchTrigger trigger, Event event) {
         this.exprMatched = true;
     }

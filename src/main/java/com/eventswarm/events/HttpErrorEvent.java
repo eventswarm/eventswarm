@@ -46,7 +46,6 @@ public interface HttpErrorEvent extends ErrorEvent {
      * Retriever class that returns the URL as a URL object
      */
     static class URLRetriever implements ValueRetriever<URL> {
-        @Override
         public URL getValue(Event event) {
             if (HttpErrorEvent.class.isInstance(event)) {
                 return ((HttpErrorEvent) event).getUrl();
@@ -60,7 +59,6 @@ public interface HttpErrorEvent extends ErrorEvent {
      * Retriever class that returns the URL as a string
      */
     static class URLStringRetriever implements ValueRetriever<String> {
-        @Override
         public String getValue(Event event) {
             if (HttpErrorEvent.class.isInstance(event)) {
                 return ((HttpErrorEvent) event).getUrl().toString();
@@ -81,7 +79,6 @@ public interface HttpErrorEvent extends ErrorEvent {
             this.headerName = headerName;
         }
 
-        @Override
         public String getValue(Event event) {
             if (HttpErrorEvent.class.isInstance(event)) {
                 return ((HttpErrorEvent) event).getResponseHeaders().get(headerName).get(0);

@@ -16,7 +16,6 @@
 package com.eventswarm.events;
 
 import com.eventswarm.abstractions.ValueRetriever;
-import com.eventswarm.expressions.Value;
 
 /**
  * Interface implemented by events that contain an event throughput rate in events per second
@@ -37,7 +36,6 @@ public interface RateEvent extends Event {
      * Provide a constant retriever that can get the rate as a Double
      */
     public static final ValueRetriever<Double> RATE_RETRIEVER = new ValueRetriever<Double>() {
-        @Override
         public Double getValue(Event event) {
             if (RateEvent.class.isInstance(event)) {
                 return ((RateEvent) event).getRate();
@@ -51,7 +49,6 @@ public interface RateEvent extends Event {
      * Provide a constant retriever that can get the rate as a Number
      */
     public static final ValueRetriever<Number> RATE_NUMBER_RETRIEVER = new ValueRetriever<Number>() {
-        @Override
         public Double getValue(Event event) {
             if (RateEvent.class.isInstance(event)) {
                 return ((RateEvent) event).getRate();

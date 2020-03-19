@@ -45,7 +45,7 @@ public class ProcessingTimeWindowTest
         implements AddEventTrigger, RemoveEventTrigger, com.eventswarm.RemoveEventAction {
 
     public static Event event1,  event2,  event3;
-    private static final long ALLOWEDDELAY = 2;
+    private static final long ALLOWEDDELAY = 10;
     private Object sync1 = new Object();
     private Object SyncDelay = new Object();
     private long add1,  remove1;

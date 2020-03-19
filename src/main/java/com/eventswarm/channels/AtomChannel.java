@@ -46,7 +46,7 @@ import javax.xml.xpath.*;
  * To change this template use File | Settings | File Templates.
  */
 public class AtomChannel implements HttpContentHandler, AddEventTrigger {
-    private EventTriggerDelegate delegate;
+    private EventTriggerDelegate<AddEventTrigger,AddEventAction> delegate;
     private DocumentBuilder builder;
     private XPath xpath;
     private XPathExpression entryPath;
@@ -65,7 +65,7 @@ public class AtomChannel implements HttpContentHandler, AddEventTrigger {
      * Create a new channel instance that can handle incoming ATOM via the HttpContentHandler interface
      */
     public AtomChannel() {
-        this.delegate = new EventTriggerDelegate(this);
+        this.delegate = new EventTriggerDelegate<AddEventTrigger,AddEventAction>(this);
         makeBuilder();
         xpath = XPathFactory.newInstance().newXPath();
         this.count = 0;
@@ -217,12 +217,10 @@ public class AtomChannel implements HttpContentHandler, AddEventTrigger {
         return DatatypeConverter.parseDateTime(xpath.evaluate("updated", item)).getTime();
     }
 
-    @Override
     public void registerAction(AddEventAction action) {
         delegate.registerAction(action);
     }
 
-    @Override
     public void unregisterAction(AddEventAction action) {
         delegate.unregisterAction(action);
     }
