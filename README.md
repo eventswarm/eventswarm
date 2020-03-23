@@ -13,6 +13,9 @@ There are some good, open source, complex event processing tools like
 These tools provide a domain specific language (DSL), runtime environment and many
 capabilities out-of-the-box.
 
+There are also some platform specific tools, for example, KSQL (kafka SQL) or cloud 
+stream analytics components on Azure and AWS. 
+
 So why might you want to use EventSwarm?
 
 -   **Control**
@@ -26,7 +29,8 @@ So why might you want to use EventSwarm?
 
     EventSwarm depends on log4j, opencsv, org.json and
     java-uuid-generator. If you need XML, then add your favourite
-    implementation. That’s all.
+    implementation. That’s all. You're not tied to any cloud platform,
+    streaming infrastructure or complex server configurations.
 
 -   **Extensibility**
 
@@ -60,12 +64,14 @@ So why might you want to use EventSwarm?
 
 -   **Stability**
 
-    We’ve been building applications with EventSwarm for about 7 years.
-    It’s changed a lot in that time and has a few warts to prove it, but
-    it has proven to be a very stable platform. Our most mature
-    application [Note8](https://note8.com.au) is mostly only restarted for upgrades.
-    Sometimes when we’re tardy with our enhancements, this period is
-    several months.
+    We’ve been building applications with EventSwarm for nearly 13 years with 
+    some breaks along the way. It’s changed a lot in that time and has 
+    a few warts to prove it, but it has also proven to be a very stable platform. 
+    The applications we have built were mostly only restarted for upgrades. As we
+    improve the ability to operate as a service in a cloud-based cluster (see 
+    [kafka-processor](https://github.com/eventswarm/kafka-processor)), we will 
+    be aiming to support rolling deployment patterns (e.g. blue/green, canary) to further 
+    improve operability in a real-time context. 
 
 ## I’m sold, what next?
 
