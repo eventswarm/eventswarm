@@ -60,7 +60,6 @@ public abstract class CalculationAbstractionImpl
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         if (this.lastReset.compareTo(event.getHeader().getTimestamp()) <= 0) {
             Number prev = value;

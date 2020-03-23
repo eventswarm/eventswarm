@@ -19,10 +19,6 @@ import com.eventswarm.*;
 import com.eventswarm.SizeThresholdAction;
 import com.eventswarm.abstractions.SizeThresholdMonitor;
 import com.eventswarm.events.Event;
-import com.eventswarm.eventset.EventSet;
-import com.eventswarm.expressions.AbstractEventExpression;
-import com.eventswarm.expressions.EventMatchAction;
-import com.eventswarm.expressions.EventMatchTrigger;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -71,14 +67,12 @@ public class Escalator implements MutableTarget {
         }
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         for (AddEventAction action:monitors.values()) {
             action.execute(trigger, event);
         }
     }
 
-    @Override
     public void execute(RemoveEventTrigger trigger, Event event) {
         for (RemoveEventAction action:monitors.values()) {
             action.execute(trigger, event);

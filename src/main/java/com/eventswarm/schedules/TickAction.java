@@ -33,7 +33,7 @@ import java.util.Date;
 
 public interface TickAction extends Action {
 
-    public static Class trigger = TickTrigger.class;
+    public static Class<?> trigger = TickTrigger.class;
     
     public void execute(TickTrigger trigger, Date time);
 

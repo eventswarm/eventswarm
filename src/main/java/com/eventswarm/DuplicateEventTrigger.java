@@ -11,7 +11,7 @@ import com.eventswarm.Trigger;
  */
 public interface DuplicateEventTrigger extends Trigger {
 
-    public static Class action = DuplicateEventAction.class;
+    public static Class<?> action = DuplicateEventAction.class;
 
     /**
      * Register an action against this trigger.

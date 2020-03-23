@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,7 @@ import java.util.Map;
  * User: andyb
  */
 public class MapValueRetrieverTest {
-    ValueRetriever retriever;
+    ValueRetriever<Integer> retriever;
     Map<Integer,String> map;
     Source source = new JdoSource();
 

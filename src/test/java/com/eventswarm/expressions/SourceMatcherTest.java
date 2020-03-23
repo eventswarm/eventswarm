@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  */
 public class SourceMatcherTest {
     Event event;
-    Map parts = new HashMap<String, EventPart>();
+    Map<String, EventPart> parts = new HashMap<String, EventPart>();
 
     @Test
     public void matches() throws Exception {

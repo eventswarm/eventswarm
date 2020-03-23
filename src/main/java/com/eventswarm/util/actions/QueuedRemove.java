@@ -17,7 +17,6 @@ package com.eventswarm.util.actions;
 
 import com.eventswarm.RemoveEventAction;
 import com.eventswarm.RemoveEventTrigger;
-import com.eventswarm.events.Action;
 import com.eventswarm.events.Event;
 
 /**
@@ -47,7 +46,6 @@ public class QueuedRemove implements QueuedAction {
     /**
      * @return the object acted on by this remove action
      */
-    @Override
     public Object getTarget() {
         return action;
     }

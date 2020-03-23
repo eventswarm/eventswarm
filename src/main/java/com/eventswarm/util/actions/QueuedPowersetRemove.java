@@ -51,7 +51,6 @@ public class QueuedPowersetRemove implements QueuedAction {
      *
      * @return the eventset from which the event will be removed
      */
-    @Override
     public Object getTarget() {
         return target;
     }

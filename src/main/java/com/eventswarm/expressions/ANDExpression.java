@@ -84,7 +84,6 @@ public class ANDExpression extends AbstractEventExpression implements ComplexExp
         }
     }
 
-    @Override
     public Collection<? extends Expression> getParts() {
         return expressions;
     }
@@ -176,7 +175,6 @@ public class ANDExpression extends AbstractEventExpression implements ComplexExp
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(EventMatchTrigger trigger, Event event) {
         log.debug("AND expression component " + ((EventExpression) trigger).toString() + " matched on " + event.toString());
         hasMatched = true;
@@ -252,12 +250,10 @@ public class ANDExpression extends AbstractEventExpression implements ComplexExp
         }
     }
 
-    @Override
     public void registerAction(ComplexExpressionMatchAction action) {
         complexActions.add(action);
     }
 
-    @Override
     public void unregisterAction(ComplexExpressionMatchAction action) {
         complexActions.remove(action);
     }

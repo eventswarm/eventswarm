@@ -53,7 +53,6 @@ import com.eventswarm.schedules.TickTrigger;
 import com.eventswarm.util.IntervalUnit;
 import com.eventswarm.util.Interval;
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.schedules.TickAction;
 import com.eventswarm.events.Event;
 import org.apache.log4j.*;
 import java.util.*;
@@ -183,6 +182,7 @@ public class DiscreteTimeWindow
         this.incActions.clear();
         super.reset();
     }
+    
     private void fire(Event event) {
     }
 

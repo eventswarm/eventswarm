@@ -156,7 +156,6 @@ public abstract class EventQueue implements Runnable, Clear {
      * Postcondition: queue will be empty
      *
      */
-    @Override
     public void run() {
         boolean more = true;
         int count = 0;

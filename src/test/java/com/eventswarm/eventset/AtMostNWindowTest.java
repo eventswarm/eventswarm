@@ -221,19 +221,16 @@ public class AtMostNWindowTest implements AddEventAction, RemoveEventAction, Win
         assertEquals(4, changeCount);
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         waitFor(1);
         added.add(event);
     }
 
-    @Override
     public void execute(RemoveEventTrigger trigger, Event event) {
         waitFor(1);
         removed.add(event);
     }
 
-    @Override
     public void execute(WindowChangeTrigger trigger, EventSet set) {
         changeCount++;
     }
@@ -253,7 +250,6 @@ public class AtMostNWindowTest implements AddEventAction, RemoveEventAction, Win
             this.wait = wait;
         }
 
-        @Override
         public void run() {
             // wait for a millisecond, just to give the others a chance to get ready and interfere
             synchronized(this) { try {this.wait(wait);} catch (InterruptedException exc) {/* do nothing */} }

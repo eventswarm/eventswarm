@@ -115,7 +115,6 @@ public class XmlHttpChannel implements HttpHandler, AddEventTrigger{
         }
     }
 
-    @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         Document doc;
         Event event;
@@ -161,12 +160,10 @@ public class XmlHttpChannel implements HttpHandler, AddEventTrigger{
         }
     }
 
-    @Override
     public void registerAction(AddEventAction action) {
         trigger.registerAction(action);
     }
 
-    @Override
     public void unregisterAction(AddEventAction action) {
         trigger.unregisterAction(action);
     }

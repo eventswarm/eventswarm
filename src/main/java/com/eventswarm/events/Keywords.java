@@ -36,7 +36,6 @@ public interface Keywords {
      * Static retriever class implementing a keywords retriever
      */
     public static class KeywordsRetriever implements ValueRetriever<String[]> {
-        @Override
         public String[] getValue(Event event) {
             if (Keywords.class.isInstance(event)) {
                 Set<String> keywords = ((Keywords) event).getKeywords();

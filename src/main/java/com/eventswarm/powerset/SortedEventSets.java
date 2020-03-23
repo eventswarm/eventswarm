@@ -54,7 +54,7 @@ public class SortedEventSets<KeyType> {
      * @return
      */
     public SortedSet<Map.Entry<KeyType,EventSet>> getEventSets() {
-        SortedSet result = new TreeSet<Map.Entry<KeyType,EventSet>>(comparator);
+        SortedSet<Map.Entry<KeyType,EventSet>> result = new TreeSet<Map.Entry<KeyType,EventSet>>(comparator);
         result.addAll(pset.entrySet());
         return result;
     }

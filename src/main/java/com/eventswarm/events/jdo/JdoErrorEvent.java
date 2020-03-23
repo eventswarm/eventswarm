@@ -46,13 +46,10 @@ public class JdoErrorEvent extends JdoEvent implements ErrorEvent {
     }
 
     // getters implementing the interface
-
-    @Override
     public Integer getErrorCode() {
         return errorCode;
     }
 
-    @Override
     public String getErrorMessage() {
         return errorMessage;
     }

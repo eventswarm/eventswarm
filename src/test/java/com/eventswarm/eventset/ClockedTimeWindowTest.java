@@ -56,6 +56,7 @@ public class ClockedTimeWindowTest implements RemoveEventAction {
         instance.execute((AddEventTrigger) null, new JdoEvent(new JdoHeader(new Date(), EVENT_SOURCE), parts));
         assertEquals(1, instance.size());
         assertEquals(0, events.size());
+        instance.stop(); // required because we can't guarantee GC will be called
     }
 
     @Test
@@ -67,6 +68,7 @@ public class ClockedTimeWindowTest implements RemoveEventAction {
         instance.execute((TickTrigger) null, new Date(now.getTime() + 2001));
         assertEquals(0, instance.size());
         assertEquals(1, events.size());
+        instance.stop(); // required because we can't guarantee GC will be called
     }
 
 
@@ -84,6 +86,7 @@ public class ClockedTimeWindowTest implements RemoveEventAction {
         }
         assertEquals(0, instance.size());
         assertEquals(1, events.size());
+        instance.stop(); // required because we can't guarantee GC will be called
     }
 
     @Test
@@ -95,9 +98,9 @@ public class ClockedTimeWindowTest implements RemoveEventAction {
         instance.execute((TickTrigger) null, new Date(now.getTime() + 2001));
         assertEquals(1, instance.size());
         assertEquals(0, events.size());
+        instance.stop(); // required because we can't guarantee GC will be called
     }
 
-    @Override
     public void execute(RemoveEventTrigger trigger, Event event) {
         events.add(event);
     }

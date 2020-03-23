@@ -17,7 +17,7 @@ package com.eventswarm.events;
 
 public interface Action extends EventPart {
 
-  public Class getType();
+  public Class<?> getType();
   /* {null=This method should return the interface class defining the type of action. The returned class should be at the most specific level.}*/
 
 }

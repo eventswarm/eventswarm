@@ -25,7 +25,6 @@
 package com.eventswarm.abstractions;
 
 import com.eventswarm.Clear;
-import com.eventswarm.events.*;
 import com.eventswarm.eventset.EventSet;
 
 /**

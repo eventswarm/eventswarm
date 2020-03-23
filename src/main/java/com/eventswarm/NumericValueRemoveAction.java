@@ -29,7 +29,7 @@ import com.eventswarm.events.Event;
 
 public interface NumericValueRemoveAction extends Action {
 
-    public static Class trigger = NumericValueRemoveTrigger.class;
+    public static Class<?> trigger = NumericValueRemoveTrigger.class;
 
     public void execute(NumericValueRemoveTrigger trigger, Event event, Number number);
 

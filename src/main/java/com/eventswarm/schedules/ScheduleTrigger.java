@@ -20,9 +20,6 @@
 
 package com.eventswarm.schedules;
 
-import com.eventswarm.schedules.ScheduleAction;
-import com.eventswarm.schedules.Schedule;
-
 /**
  * Trigger that fires periodically according to a schedule.
  *
@@ -30,7 +27,7 @@ import com.eventswarm.schedules.Schedule;
  */
 public interface ScheduleTrigger {
 
-    public static Class action = ScheduleAction.class;
+    public static Class<?> action = ScheduleAction.class;
 
     /**
      * Register an action against this trigger.

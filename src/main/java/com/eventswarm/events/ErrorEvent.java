@@ -38,7 +38,6 @@ public interface ErrorEvent extends Event {
      * ValueRetriever class to the error message from an ErrorEvent
      */
     static class ErrorMessageRetriever implements ValueRetriever<String> {
-        @Override
         public String getValue(Event event) {
             if (ErrorEvent.class.isInstance(event)) {
                 return ((ErrorEvent) event).getErrorMessage();
@@ -52,7 +51,6 @@ public interface ErrorEvent extends Event {
      * ValueRetriever class to retrieve the code from an ErrorEvent
      */
     static class ErrorCodeRetriever implements ValueRetriever<Integer> {
-        @Override
         public Integer getValue(Event event) {
             if (ErrorEvent.class.isInstance(event)) {
                 return ((ErrorEvent) event).getErrorCode();

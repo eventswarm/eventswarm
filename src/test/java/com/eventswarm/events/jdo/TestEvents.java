@@ -428,31 +428,31 @@ public class TestEvents {
         partsAllMap.put("C",reject);
         
         // JdoEvent(s)
-        jdoEvent = new JdoEvent(jdoHdr, (HashSet) null);
+        jdoEvent = new JdoEvent(jdoHdr, (HashSet<EventPart>) null);
 
-        jdoEventBeforeSameSrcBeforeSeq = new JdoEvent(jdoHdrBeforeSameSrcBeforeSeq, (HashSet) null);
-        jdoEventBeforeSameSrcAfterSeq = new JdoEvent(jdoHdrBeforeSameSrcAfterSeq, (HashSet) null);
-        jdoEventBeforeSameSrcConcSeq = new JdoEvent(jdoHdrBeforeSameSrcConcSeq, (HashSet) null);
+        jdoEventBeforeSameSrcBeforeSeq = new JdoEvent(jdoHdrBeforeSameSrcBeforeSeq, (HashSet<EventPart>) null);
+        jdoEventBeforeSameSrcAfterSeq = new JdoEvent(jdoHdrBeforeSameSrcAfterSeq, (HashSet<EventPart>) null);
+        jdoEventBeforeSameSrcConcSeq = new JdoEvent(jdoHdrBeforeSameSrcConcSeq, (HashSet<EventPart>) null);
 
-        jdoEventBeforeDiffSrcBeforeSeq = new JdoEvent(jdoHdrBeforeDiffSrcBeforeSeq, (HashSet) null);
-        jdoEventBeforeDiffSrcAfterSeq = new JdoEvent(jdoHdrBeforeDiffSrcAfterSeq, (HashSet) null);
-        jdoEventBeforeDiffSrcConcSeq = new JdoEvent(jdoHdrBeforeDiffSrcConcSeq, (HashSet) null);
+        jdoEventBeforeDiffSrcBeforeSeq = new JdoEvent(jdoHdrBeforeDiffSrcBeforeSeq, (HashSet<EventPart>) null);
+        jdoEventBeforeDiffSrcAfterSeq = new JdoEvent(jdoHdrBeforeDiffSrcAfterSeq, (HashSet<EventPart>) null);
+        jdoEventBeforeDiffSrcConcSeq = new JdoEvent(jdoHdrBeforeDiffSrcConcSeq, (HashSet<EventPart>) null);
 
-        jdoEventAfterSameSrcBeforeSeq = new JdoEvent(jdoHdrAfterSameSrcBeforeSeq, (HashSet) null);
-        jdoEventAfterSameSrcAfterSeq = new JdoEvent(jdoHdrAfterSameSrcAfterSeq, (HashSet) null);
-        jdoEventAfterSameSrcConcSeq = new JdoEvent(jdoHdrAfterSameSrcConcSeq, (HashSet) null);
+        jdoEventAfterSameSrcBeforeSeq = new JdoEvent(jdoHdrAfterSameSrcBeforeSeq, (HashSet<EventPart>) null);
+        jdoEventAfterSameSrcAfterSeq = new JdoEvent(jdoHdrAfterSameSrcAfterSeq, (HashSet<EventPart>) null);
+        jdoEventAfterSameSrcConcSeq = new JdoEvent(jdoHdrAfterSameSrcConcSeq, (HashSet<EventPart>) null);
         
-        jdoEventAfterDiffSrcBeforeSeq = new JdoEvent(jdoHdrAfterDiffSrcBeforeSeq, (HashSet) null);
-        jdoEventAfterDiffSrcAfterSeq = new JdoEvent(jdoHdrAfterDiffSrcAfterSeq, (HashSet) null);
-        jdoEventAfterDiffSrcConcSeq = new JdoEvent(jdoHdrAfterDiffSrcConcSeq, (HashSet) null);
+        jdoEventAfterDiffSrcBeforeSeq = new JdoEvent(jdoHdrAfterDiffSrcBeforeSeq, (HashSet<EventPart>) null);
+        jdoEventAfterDiffSrcAfterSeq = new JdoEvent(jdoHdrAfterDiffSrcAfterSeq, (HashSet<EventPart>) null);
+        jdoEventAfterDiffSrcConcSeq = new JdoEvent(jdoHdrAfterDiffSrcConcSeq, (HashSet<EventPart>) null);
 
-        jdoEventConcSameSrcBeforeSeq = new JdoEvent(jdoHdrConcSameSrcBeforeSeq, (HashSet) null);
-        jdoEventConcSameSrcAfterSeq = new JdoEvent(jdoHdrConcSameSrcAfterSeq, (HashSet) null);
-        jdoEventConcSameSrcConcSeq = new JdoEvent(jdoHdrConcSameSrcConcSeq, (HashSet) null);
+        jdoEventConcSameSrcBeforeSeq = new JdoEvent(jdoHdrConcSameSrcBeforeSeq, (HashSet<EventPart>) null);
+        jdoEventConcSameSrcAfterSeq = new JdoEvent(jdoHdrConcSameSrcAfterSeq, (HashSet<EventPart>) null);
+        jdoEventConcSameSrcConcSeq = new JdoEvent(jdoHdrConcSameSrcConcSeq, (HashSet<EventPart>) null);
         
-        jdoEventConcDiffSrcBeforeSeq = new JdoEvent(jdoHdrConcDiffSrcBeforeSeq, (HashSet) null);
-        jdoEventConcDiffSrcAfterSeq = new JdoEvent(jdoHdrConcDiffSrcAfterSeq, (HashSet) null);
-        jdoEventConcDiffSrcConcSeq = new JdoEvent(jdoHdrConcDiffSrcConcSeq, (HashSet) null);
+        jdoEventConcDiffSrcBeforeSeq = new JdoEvent(jdoHdrConcDiffSrcBeforeSeq, (HashSet<EventPart>) null);
+        jdoEventConcDiffSrcAfterSeq = new JdoEvent(jdoHdrConcDiffSrcAfterSeq, (HashSet<EventPart>) null);
+        jdoEventConcDiffSrcConcSeq = new JdoEvent(jdoHdrConcDiffSrcConcSeq, (HashSet<EventPart>) null);
         
         jdoEventPartsAll = new JdoEvent(hdr, partsAll);
         jdoEventAllUrls = new JdoEvent(hdr, partsAllUrls);

@@ -19,12 +19,9 @@ import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.jdo.Log4JEvent;
 import com.eventswarm.util.EventTriggerDelegate;
-import com.eventswarm.util.TriggerDelegate;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
-
-import java.util.Iterator;
 
 /**
  * EventSwarm channel that implements a Log4J appender and exposes an AddEventTrigger
@@ -60,7 +57,6 @@ public class Log4JChannel extends AppenderSkeleton implements AddEventTrigger {
      *
      * @return
      */
-    @Override
     public boolean requiresLayout() {
         return true;
     }
@@ -68,7 +64,6 @@ public class Log4JChannel extends AppenderSkeleton implements AddEventTrigger {
     /**
      * No resources to release, really
      */
-    @Override
     public void close() {
         return;
     }

@@ -21,7 +21,6 @@ package com.eventswarm.eventset;
 
 import com.eventswarm.util.IntervalUnit;
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 import java.util.concurrent.DelayQueue;
 import com.eventswarm.util.DelayedEvent;

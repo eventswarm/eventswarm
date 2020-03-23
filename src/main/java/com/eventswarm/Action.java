@@ -28,5 +28,5 @@ package com.eventswarm;
  * @author andyb
  */
 public interface Action {
-    public static Class trigger = Trigger.class;
+    public static Class<?> trigger = Trigger.class;
 }

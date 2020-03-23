@@ -65,7 +65,6 @@ public interface CSVEvent extends Event {
             this.key = key;
         }
 
-        @Override
         public String getValue(Event event) {
             return CSVEvent.class.isInstance(event) ? ((CSVEvent)event).get(key) : null;
         }
@@ -88,7 +87,6 @@ public interface CSVEvent extends Event {
             this.key = key;
         }
 
-        @Override
         public Number getValue(Event event) {
             if (CSVEvent.class.isInstance(event)) {
                 String value = ((CSVEvent)event).get(key);
@@ -120,7 +118,6 @@ public interface CSVEvent extends Event {
             this.key = key;
         }
 
-        @Override
         public Number getValue(Event event) {
             if (CSVEvent.class.isInstance(event)) {
                 String value = ((CSVEvent)event).get(key);

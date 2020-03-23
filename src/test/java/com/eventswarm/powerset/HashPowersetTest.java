@@ -51,7 +51,6 @@ public class HashPowersetTest
     private static Event eventA1 = new JdoEvent(TestEvents.headerA1, TestEvents.partsEmptyMap);
     private static Event eventA2 = new JdoEvent(TestEvents.headerA2, TestEvents.partsEmptyMap);
     private static Event eventB1 = new JdoEvent(TestEvents.headerB1, TestEvents.partsEmptyMap);
-    private static Event eventB2 = new JdoEvent(TestEvents.headerB2, TestEvents.partsEmptyMap);
     private static String eventAKey = TestEvents.headerA1.getSource().getId();
     private static String eventBKey = TestEvents.headerB1.getSource().getId();
 
@@ -189,7 +188,7 @@ public class HashPowersetTest
     public void testGetFactory() {
         System.out.println("getFactory");
         HashPowerset<String> instance = 
-                new HashPowerset<String>((EventSetFactory) this, (EventKey<String>)this);
+                new HashPowerset<String>((EventSetFactory<String>) this, (EventKey<String>)this);
         assertEquals(this, instance.getFactory());
     }
 
@@ -199,7 +198,7 @@ public class HashPowersetTest
     public void testSetFactory() {
         System.out.println("setFactory");
         HashPowerset<String> instance =
-                new HashPowerset<String>((EventSetFactory) other, (EventKey<String>)this);
+                new HashPowerset<String>((EventSetFactory<String>) other, (EventKey<String>)this);
         instance.setFactory(this);
         assertEquals(this, instance.getFactory());
    }
@@ -222,7 +221,7 @@ public class HashPowersetTest
     public void testExecute_AddEventTrigger_Event2_SameKey() {
         System.out.println("execute add, 2 events, same key");
         HashPowerset<String> instance = 
-                new HashPowerset<String>((EventSetFactory) this, (EventKey<String>)this);
+                new HashPowerset<String>((EventSetFactory<String>) this, (EventKey<String>)this);
         instance.execute((AddEventTrigger) this, eventA1);
         instance.execute((AddEventTrigger) this, eventA2);
         assertTrue(instance.size() == 1);
@@ -307,7 +306,7 @@ public class HashPowersetTest
         System.out.println("registerAction");
         HashPowerset<String> instance = new HashPowerset<String>((EventKey<String>)this);
         // register the test class to receive new set triggers
-        instance.registerAction((NewSetAction) this);
+        instance.registerAction((NewSetAction<String>) this);
         instance.execute((AddEventTrigger) this, eventA1);
         // Adding an event to the powerset should create a new eventset with its key
         assertTrue(this.map.containsKey(eventAKey));
@@ -320,10 +319,10 @@ public class HashPowersetTest
         System.out.println("unregisterAction");
         HashPowerset<String> instance = new HashPowerset<String>((EventKey<String>)this);
         // register the test class to receive new set triggers and add an event
-        instance.registerAction((NewSetAction) this);
+        instance.registerAction((NewSetAction<String>) this);
         instance.execute((AddEventTrigger) this, eventA1);
         // unregister the test class and add an event with a different key
-        instance.unregisterAction((NewSetAction) this);
+        instance.unregisterAction((NewSetAction<String>) this);
         instance.execute((AddEventTrigger) this, eventB1);
         // We should have an entry for the first key but not the second
         assertTrue(this.map.containsKey(eventAKey));

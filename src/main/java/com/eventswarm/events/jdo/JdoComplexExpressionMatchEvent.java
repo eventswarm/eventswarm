@@ -59,7 +59,6 @@ public class JdoComplexExpressionMatchEvent extends JdoActivity implements Compl
         super.setParts(eventParts);
     }
 
-    @Override
     public Set<Combination> getCombinations() {
         if (this.matches == null) {
             this.matches = this.combinations.getCombinations();
@@ -67,22 +66,18 @@ public class JdoComplexExpressionMatchEvent extends JdoActivity implements Compl
         return this.matches;
     }
 
-    @Override
     public int count() {
         return this.combinations.count();
     }
 
-    @Override
     public Expression getComponentExpression(int i) {
         return this.expression.getComponentExpression(i);
     }
 
-    @Override
     public List<EventExpression> getPartsAsList() {
         return this.expression.getPartsAsList();
     }
 
-    @Override
     public Expression getExpression() {
         return this.expression.getExpression();
     }

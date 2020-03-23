@@ -15,8 +15,6 @@
 */
 package com.eventswarm.events.jdo;
 
-import org.apache.log4j.spi.LoggingEvent;
-
 import java.util.Map;
 
 /**
@@ -41,7 +39,7 @@ public class JdoCSVPart extends JdoEventPart {
      *
      * @param csvMap
      */
-    public JdoCSVPart(Map csvMap) {
+    public JdoCSVPart(Map<String,String> csvMap) {
         this.csvMap = csvMap;
     }
 

@@ -144,7 +144,6 @@ public class RateAbstraction implements AddEventAction, WindowChangeAction, AddE
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         rateWindow.execute(trigger, event);
     }
@@ -154,7 +153,6 @@ public class RateAbstraction implements AddEventAction, WindowChangeAction, AddE
      * @param trigger
      * @param set
      */
-    @Override
     public void execute(WindowChangeTrigger trigger, EventSet set) {
         logger.debug("Executing window change trigger");
         shifts++;
@@ -165,12 +163,10 @@ public class RateAbstraction implements AddEventAction, WindowChangeAction, AddE
         }
     }
 
-    @Override
     public void registerAction(AddEventAction action) {
         actions.add(action);
     }
 
-    @Override
     public void unregisterAction(AddEventAction action) {
         actions.remove(action);
     }
@@ -197,7 +193,6 @@ public class RateAbstraction implements AddEventAction, WindowChangeAction, AddE
      *
      * @return
      */
-    @Override
     public Number getValue() {
         return getRate();
     }
@@ -238,7 +233,6 @@ public class RateAbstraction implements AddEventAction, WindowChangeAction, AddE
             super(makeHeader(), makeJSON(rate));
         }
 
-        @Override
         public Double getRate() {
             return getDouble(RATE_KEY);  //To change body of implemented methods use File | Settings | File Templates.
         }

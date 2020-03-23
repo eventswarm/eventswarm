@@ -120,12 +120,10 @@ public class DuplicateFilterTest implements AddEventAction, DuplicateEventAction
         assertSame(TestEvents.jdoEventAfterDiffSrcAfterSeq, events.get(1));
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         events.add(event);
     }
 
-    @Override
     public void execute(DuplicateEventTrigger trigger, Event original, Event duplicate) {
         duplicates.put(original,duplicate);
     }

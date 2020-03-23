@@ -94,12 +94,10 @@ public class OrgJsonSubEvent extends OrgJsonEvent implements SubEvent<JSONObject
         return new JdoHeader(timestamp, parent.getHeader().getSource());
     }
 
-    @Override
     public OrgJsonEvent getParent() {
         return this.parent;
     }
 
-    @Override
     public JSONObject getSubordinate() {
         return this.json;
     }

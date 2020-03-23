@@ -162,7 +162,6 @@ public class SizeMonitorTest implements AddEventAction {
         assertEquals(LogEvent.Level.error, ((LogEvent) events.get(0)).getLevel());
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         events.add(event);
     }

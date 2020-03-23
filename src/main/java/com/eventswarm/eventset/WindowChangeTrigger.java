@@ -35,7 +35,7 @@ import com.eventswarm.*;
 
 public interface WindowChangeTrigger extends Trigger {
 
-    public static Class action = WindowChangeAction.class;
+    public static Class<?> action = WindowChangeAction.class;
     
     /**
      * Register an action against this trigger.

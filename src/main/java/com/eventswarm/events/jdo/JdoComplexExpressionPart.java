@@ -19,7 +19,6 @@ import com.eventswarm.events.ComplexExpressionPart;
 import com.eventswarm.expressions.ComplexExpression;
 import com.eventswarm.expressions.EventExpression;
 import com.eventswarm.expressions.Expression;
-import com.eventswarm.expressions.MultipartExpression;
 
 import java.util.List;
 
@@ -53,12 +52,10 @@ public class JdoComplexExpressionPart extends JdoExpressionPart implements Compl
         super.setExpression(expression);
     }
 
-    @Override
     public Expression getComponentExpression(int i) {
         return this.expression.getPartsAsList().get(i);
     }
 
-    @Override
     public List<EventExpression> getPartsAsList() {
         return this.expression.getPartsAsList();
     }

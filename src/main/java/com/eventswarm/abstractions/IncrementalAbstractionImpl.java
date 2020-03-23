@@ -24,11 +24,9 @@
 
 package com.eventswarm.abstractions;
 import com.eventswarm.AbstractionAddAction;
-import com.eventswarm.AbstractionAddTrigger;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.*;
 import com.eventswarm.eventset.EventSet;
-import com.eventswarm.util.EventTriggerDelegate;
 
 import java.util.*;
 import org.apache.log4j.Logger;

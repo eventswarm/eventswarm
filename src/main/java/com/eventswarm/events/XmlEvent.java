@@ -72,7 +72,6 @@ public interface XmlEvent extends Event {
             this.path = path;
         }
 
-        @Override
         public Integer getValue(Event event) {
             try {
                 return (XmlEvent.class.isInstance(event) ? ((XmlEvent) event).getInt(path) : null);
@@ -93,7 +92,6 @@ public interface XmlEvent extends Event {
             this.path = path;
         }
 
-        @Override
         public Long getValue(Event event) {
             try {
                 return (XmlEvent.class.isInstance(event) ? ((XmlEvent) event).getLong(path) : null);
@@ -114,7 +112,6 @@ public interface XmlEvent extends Event {
             this.path = path;
         }
 
-        @Override
         public String getValue(Event event) {
             try {
                 return (XmlEvent.class.isInstance(event) ? ((XmlEvent) event).getString(path) : null);
@@ -135,7 +132,6 @@ public interface XmlEvent extends Event {
             this.path = path;
         }
 
-        @Override
         public String getValue(Event event) {
             try {
                 return (XmlEvent.class.isInstance(event) ? ((XmlEvent) event).getString(path).toLowerCase() : null);
@@ -156,7 +152,6 @@ public interface XmlEvent extends Event {
             this.path = path;
         }
 
-        @Override
         public Double getValue(Event event) {
             try {
                 return (XmlEvent.class.isInstance(event) ? ((XmlEvent) event).getDouble(path) : null);
@@ -177,7 +172,6 @@ public interface XmlEvent extends Event {
             this.path = path;
         }
 
-        @Override
         public Boolean getValue(Event event) {
             try {
                 return (XmlEvent.class.isInstance(event) ? ((XmlEvent) event).getBoolean(path) : null);

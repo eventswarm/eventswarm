@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class KeywordsRetriever extends FilteredKeywordExtractor implements ValueRetriever<String[]> {
+public class KeywordsRetriever extends FilteredKeywordExtractor {
 
     private ValueRetriever<String> stringRetriever;
 

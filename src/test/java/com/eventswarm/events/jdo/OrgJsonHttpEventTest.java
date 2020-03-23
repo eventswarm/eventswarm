@@ -18,19 +18,12 @@ package com.eventswarm.events.jdo;
 import com.eventswarm.events.Header;
 import com.eventswarm.events.HttpEventPart;
 import com.eventswarm.events.JsonEvent;
-import com.sun.net.httpserver.HttpServer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.URL;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

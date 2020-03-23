@@ -21,7 +21,6 @@
 package com.eventswarm.expressions;
 
 import com.eventswarm.events.Event;
-import java.util.Iterator;
 import java.util.List;
 
 /**

@@ -49,7 +49,6 @@ public class ThresholdMatchAddActionTest {
        trigger = new SizeTrigger(eventSet);
        triggerPt = new SizeTrigger(new PassThruImpl());
        catcher = new AddEventAction() {
-            @Override
             public void execute(AddEventTrigger trigger, Event event) {
                 result = event;
             }
@@ -168,17 +167,14 @@ public class ThresholdMatchAddActionTest {
             this.source = source;
         }
 
-        @Override
         public void registerAction(SizeThresholdAction action) {
             //To change body of implemented methods use File | Settings | File Templates.
         }
 
-        @Override
         public void unregisterAction(SizeThresholdAction action) {
             //To change body of implemented methods use File | Settings | File Templates.
         }
 
-        @Override
         public AddEventTrigger getSource() {
             return source;  //To change body of implemented methods use File | Settings | File Templates.
         }

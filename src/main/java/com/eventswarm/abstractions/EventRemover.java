@@ -44,7 +44,6 @@ public class EventRemover<T> implements AddEventAction, RemoveEventTrigger {
     private Map<T,Event> map;
     private ValueRetriever<T> keyRetriever;
     private Set<RemoveEventAction> actions;
-    private EventMap eventMap;
 
     private static Logger logger = Logger.getLogger(EventRemover.class);
 
@@ -64,7 +63,6 @@ public class EventRemover<T> implements AddEventAction, RemoveEventTrigger {
         this.actions = new HashSet<RemoveEventAction>();
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         T key = keyRetriever.getValue(event);
         if (key != null) {
@@ -83,12 +81,10 @@ public class EventRemover<T> implements AddEventAction, RemoveEventTrigger {
         }
     }
 
-    @Override
     public void registerAction(RemoveEventAction action) {
         this.actions.add(action);
     }
 
-    @Override
     public void unregisterAction(RemoveEventAction action) {
         this.actions.remove(action);
     }

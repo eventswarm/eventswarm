@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class RecyclablePipelineExpression extends EventPipelineExpression implements Clear {
+public class RecyclablePipelineExpression extends EventPipelineExpression {
     private Clear clearers[];
     private static final Logger logger = Logger.getLogger(RecyclablePipelineExpression.class);
 

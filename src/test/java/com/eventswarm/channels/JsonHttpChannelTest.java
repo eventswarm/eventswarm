@@ -196,14 +196,11 @@ public class JsonHttpChannelTest implements AddEventAction, FromJsonHttp {
         assertEquals(TEST_SOURCE, events.get(0).getHeader().getSource().getSourceId());
         assertFalse(TEST_SOURCE.equals(events.get(1).getHeader().getSource().getSourceId()));
     }
-
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         events.add(event);
         System.out.println("Event received from channel and saved");
     }
 
-    @Override
     public Event fromJsonHttp(JSONObject json, HttpEventPart http) {
         JdoHeader header = new JdoHeader(new Date(), source);
         return new OrgJsonHttpEvent(header, json, http);

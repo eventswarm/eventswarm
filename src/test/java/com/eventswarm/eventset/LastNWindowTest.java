@@ -26,10 +26,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static com.eventswarm.events.jdo.TestEvents.*;
-import static com.eventswarm.events.jdo.TestEvents.jdoEventAfterDiffSrcAfterSeq;
-import static com.eventswarm.events.jdo.TestEvents.jdoEventAfterDiffSrcConcSeq;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,17 +54,14 @@ public class LastNWindowTest implements AddEventAction, RemoveEventAction, Windo
         assertEquals(1, changeCount);
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         added.add(event);
     }
 
-    @Override
     public void execute(RemoveEventTrigger trigger, Event event) {
         removed.add(event);
     }
 
-    @Override
     public void execute(WindowChangeTrigger trigger, EventSet set) {
         changeCount++;
     }

@@ -28,7 +28,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -45,7 +44,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(2, result.size());
         assertFalse(result.contains("a"));
@@ -56,7 +55,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a"};
         String[] keywords = {"a"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         String[] result = extractor.getValue(event);
         assertNull(result);
     }
@@ -66,7 +65,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a", "c"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(1, result.size());
         assertTrue(result.contains("b"));
@@ -77,7 +76,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a", "d"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(2, result.size());
         assertTrue(result.contains("b"));
@@ -89,7 +88,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a", "b", "c"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         String[] result = extractor.getValue(event);
         assertNull(result);
     }
@@ -99,7 +98,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a", "b", "c"};
         String[] keywords = {};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         String[] result = extractor.getValue(event);
         assertNull(result);
     }
@@ -109,7 +108,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a"};
         String[] keywords = {"a", "bbbb", "cc"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)), 3);
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)), 3);
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(1, result.size());
         assertFalse(result.contains("cc"));
@@ -120,7 +119,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a"};
         String[] keywords = {"a", "bbbb", "cc"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)), 2);
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)), 2);
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(2, result.size());
         assertTrue(result.contains("cc"));
@@ -130,7 +129,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(3, result.size());
         assertTrue(result.contains("a"));
@@ -144,7 +143,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         extractor.add("c");
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(1, result.size());
@@ -156,7 +155,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         extractor.add("a");
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(2, result.size());
@@ -169,7 +168,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a", "c"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         extractor.remove("c");
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(2, result.size());
@@ -181,7 +180,7 @@ public class FilteredKeyExtractorTest {
         String[] stopwords = {"a", "c"};
         String[] keywords = {"a", "b", "c"};
         Event event = new KeywordsEvent(keywords);
-        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet(Arrays.asList(stopwords)));
+        FilteredKeywordExtractor extractor = new FilteredKeywordExtractor(new HashSet<String>(Arrays.asList(stopwords)));
         extractor.remove("d");
         List<String> result = Arrays.asList(extractor.getValue(event));
         assertEquals(1, result.size());

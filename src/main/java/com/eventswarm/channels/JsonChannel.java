@@ -17,7 +17,6 @@ package com.eventswarm.channels;
 
 import com.eventswarm.events.Event;
 import com.eventswarm.events.jdo.FromJson;
-import com.eventswarm.events.jdo.OrgJsonPart;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 

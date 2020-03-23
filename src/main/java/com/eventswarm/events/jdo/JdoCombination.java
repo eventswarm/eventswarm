@@ -25,6 +25,8 @@ import java.util.ArrayList;
  * User: andyb
  */
 public class JdoCombination extends ArrayList<Event> implements Combination {
+    private static final long serialVersionUID = 1L;
+
     public JdoCombination() {
         super();
     }

@@ -31,7 +31,7 @@ public interface NewSetTrigger<Keytype> extends Trigger {
 
     // Note that the generic class will be returned.  Narrowing does not
     // (as far as I know) result in a new class.
-    public static Class action = NewSetAction.class;
+    public static Class<?> action = NewSetAction.class;
 
     /**
      * Register an action against this trigger.

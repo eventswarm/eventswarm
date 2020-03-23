@@ -17,10 +17,6 @@ package com.eventswarm.expressions;
 
 import com.eventswarm.Action;
 import com.eventswarm.events.ComplexExpressionMatchEvent;
-import com.eventswarm.events.Event;
-import com.eventswarm.eventset.EventSet;
-
-import java.util.List;
 
 /**
  * Receive notifications of a complex expression match, including a complex expression match event that captures
@@ -31,7 +27,7 @@ import java.util.List;
  */
 public interface ComplexExpressionMatchAction extends Action {
 
-    public static Class trigger = ComplexExpressionMatchTrigger.class;
+    public static Class<?> trigger = ComplexExpressionMatchTrigger.class;
 
     /**
      *

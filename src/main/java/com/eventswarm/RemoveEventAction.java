@@ -31,7 +31,7 @@ import com.eventswarm.events.Event;
 
 public interface RemoveEventAction extends Action {
 
-        public static Class trigger = RemoveEventTrigger.class;
+        public static Class<?> trigger = RemoveEventTrigger.class;
 
         public void execute(RemoveEventTrigger trigger, Event event);
 }

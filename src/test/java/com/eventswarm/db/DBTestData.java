@@ -24,9 +24,6 @@
 
 package com.eventswarm.db;
 
-import com.eventswarm.events.Event;
-import com.eventswarm.events.jdo.*;
-
 /** Class to create a known dataset for LetsWent a dump it out to a file for use
  * by dbunit
  *

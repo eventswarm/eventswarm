@@ -25,8 +25,6 @@ import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.Activity;
 import com.eventswarm.events.jdo.TestEvents;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import junit.framework.TestCase;

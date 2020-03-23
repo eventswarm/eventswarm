@@ -19,13 +19,7 @@ import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.eventset.EventSet;
-import com.eventswarm.schedules.TickAction;
-import com.eventswarm.schedules.TickTrigger;
 import org.apache.log4j.Logger;
-
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryUsage;
-import java.util.Date;
 
 /**
  * Class to monitor the size of an eventset or window for logging purposes, generating a log event whenever
@@ -83,7 +77,6 @@ public class SizeMonitor implements AddEventAction {
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         int currentSize = es.size();
         if (currentSize % size == 0 && currentSize > lastMultiple) {

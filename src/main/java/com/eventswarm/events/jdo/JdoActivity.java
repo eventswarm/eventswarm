@@ -196,12 +196,10 @@ public class JdoActivity extends JdoEvent implements Activity {
         return this.events;
     }
 
-    @Override
     public Date getStart() {
         return events.first().getHeader().getTimestamp();
     }
 
-    @Override
     public Date getEnd() {
         Event last = this.last();
         if (Activity.class.isInstance(last)) {
@@ -211,12 +209,10 @@ public class JdoActivity extends JdoEvent implements Activity {
         }
     }
 
-    @Override
     public Event first() {
         return events.first();
     }
 
-    @Override
     public Event last() {
         return events.last();
     }

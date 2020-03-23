@@ -34,12 +34,10 @@ public class QueuedComplexMatch implements QueuedAction {
         this.event = event;
     }
 
-    @Override
     public Object getTarget() {
         return action;
     }
 
-    @Override
     public void run() {
         action.execute(trigger, event);
     }

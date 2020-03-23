@@ -16,7 +16,6 @@
 package com.eventswarm.eventset;
 
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.PassThru;
 import com.eventswarm.events.Event;
 
 /**
@@ -25,7 +24,7 @@ import com.eventswarm.events.Event;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class EveryNFilter extends PassThruImpl implements PassThru {
+public class EveryNFilter extends PassThruImpl {
     private long count = 0;
     private final long nth;
 

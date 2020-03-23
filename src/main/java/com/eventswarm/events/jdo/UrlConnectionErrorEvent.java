@@ -17,7 +17,6 @@ package com.eventswarm.events.jdo;
 
 import com.eventswarm.events.HttpErrorEvent;
 import com.eventswarm.events.Source;
-import com.eventswarm.events.jdo.JdoEvent;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -89,7 +88,6 @@ public class UrlConnectionErrorEvent extends JdoErrorEvent implements HttpErrorE
         this.url = url;
     }
 
-    @Override
     public URL getUrl() {
         return url;
     }

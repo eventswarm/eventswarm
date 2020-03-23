@@ -16,7 +16,6 @@
 package com.eventswarm.eventset;
 
 import com.eventswarm.AddEventTrigger;
-import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.util.Interval;
 import com.eventswarm.util.IntervalUnit;

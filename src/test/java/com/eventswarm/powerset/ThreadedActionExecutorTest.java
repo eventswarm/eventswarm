@@ -15,11 +15,9 @@
 */
 package com.eventswarm.powerset;
 
-import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.MutableTarget;
 import com.eventswarm.RemoveEventTrigger;
-import com.eventswarm.events.Action;
 import com.eventswarm.events.Event;
 import static com.eventswarm.events.jdo.TestEvents.*;
 
@@ -305,7 +303,6 @@ public class ThreadedActionExecutorTest  {
     private class Target implements MutableTarget, PowersetAddEventAction, PowersetRemoveEventAction {
         int count = 0;
 
-        @Override
         public void execute(AddEventTrigger trigger, Event event) {
             added.add(event);
             count++;
@@ -314,7 +311,6 @@ public class ThreadedActionExecutorTest  {
             }
         }
 
-        @Override
         public void execute(PowersetAddEventTrigger trigger, EventSet set, Event event) {
             padded.add(event);
             count++;
@@ -323,7 +319,6 @@ public class ThreadedActionExecutorTest  {
             }
         }
 
-        @Override
         public void execute(PowersetRemoveEventTrigger trigger, EventSet set, Event event) {
             premoved.add(event);
             count++;
@@ -332,7 +327,6 @@ public class ThreadedActionExecutorTest  {
             }
         }
 
-        @Override
         public void execute(RemoveEventTrigger trigger, Event event) {
             removed.add(event);
             count++;

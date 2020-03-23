@@ -15,7 +15,6 @@
 */
 package com.eventswarm.expressions;
 
-import com.eventswarm.AddEventAction;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.abstractions.ValueRetriever;
@@ -28,9 +27,6 @@ import com.eventswarm.eventset.EventSet;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

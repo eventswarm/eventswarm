@@ -33,7 +33,7 @@ import com.eventswarm.events.Event;
 
 public interface ValueAddAction extends Action {
 
-    public static Class trigger = ValueAddTrigger.class;
+    public static Class<?> trigger = ValueAddTrigger.class;
 
     public void execute(ValueAddTrigger trigger, Event event);
 }

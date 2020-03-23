@@ -68,7 +68,6 @@ public class FilteredKeywordExtractor implements ValueRetriever<String[]> {
      * @param event
      * @return
      */
-    @Override
     public String[] getValue(Event event) {
         if (!Keywords.class.isInstance(event)) return null;
         return filterKeywords(((Keywords) event).getKeywords());

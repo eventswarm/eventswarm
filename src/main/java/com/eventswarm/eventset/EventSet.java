@@ -33,8 +33,6 @@ import com.eventswarm.events.*;
 import java.util.*;
 import java.util.concurrent.locks.*;
 
-import com.eventswarm.events.jdo.JdoHeader;
-import com.eventswarm.powerset.HashPowerset;
 import org.apache.log4j.Logger;
 
 /**
@@ -68,7 +66,7 @@ public class EventSet implements MutablePassThru, Iterable<Event>, Clear {
     private Set<Abstraction> staticAbstractions;
     
     /** Set of singleton abstractions */
-    private HashMap<Class,Abstraction> singletonAbstractions;
+    private HashMap<Class<?>,Abstraction> singletonAbstractions;
     
     /** Set of AddEventTrigger listeners (includes incremental abstractions) */
     private Set<AddEventAction> addActions;
@@ -96,7 +94,7 @@ public class EventSet implements MutablePassThru, Iterable<Event>, Clear {
     private void initialise() {
         this.abstractions = new HashMap<Abstraction,Abstraction>();
         this.staticAbstractions = new HashSet<Abstraction>();
-        this.singletonAbstractions = new HashMap<Class,Abstraction>();
+        this.singletonAbstractions = new HashMap<Class<?>,Abstraction>();
         this.addActions = new HashSet<AddEventAction>();
         this.removeActions = new HashSet<RemoveEventAction>();
     }
@@ -268,7 +266,7 @@ public class EventSet implements MutablePassThru, Iterable<Event>, Clear {
      * @throws InstantiationException if the class does not have a default constructor
      * @throws IllegalAccessException if the default constructor is not accessible
      */
-    public Abstraction getAbstraction(Class clazz) 
+    public Abstraction getAbstraction(Class<?> clazz) 
         throws ClassCastException, InstantiationException, IllegalAccessException 
     {
         Abstraction abs;

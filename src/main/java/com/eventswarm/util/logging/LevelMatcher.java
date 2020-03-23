@@ -36,7 +36,6 @@ public class LevelMatcher implements Matcher {
         this.level = level;
     }
 
-    @Override
     public boolean matches(Event event) {
         logger.debug("Checking for level match on " + event.toString());
         return (LogEvent.class.isInstance(event) && ((LogEvent) event).getLevel() == level);

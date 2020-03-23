@@ -19,8 +19,6 @@
  */
 package com.eventswarm;
 
-import java.util.List;
-
 /**
  * Parent interface for all Triggers.
  *
@@ -30,7 +28,7 @@ import java.util.List;
 public interface Trigger {
 
     /** All sub-interfaces should identify the corresponding action class. */
-    public static Class action = Action.class;
+    public static Class<?> action = Action.class;
 
     /** 
      * All implementations should be capable of returning a list of all 

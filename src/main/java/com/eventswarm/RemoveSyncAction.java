@@ -24,7 +24,7 @@ import com.eventswarm.events.Event;
 
 public interface RemoveSyncAction extends Action {
 
-    public static Class trigger = RemoveSyncTrigger.class;
+    public static Class<?> trigger = RemoveSyncTrigger.class;
 
     public void execute(RemoveSyncTrigger trigger, Event event);
 

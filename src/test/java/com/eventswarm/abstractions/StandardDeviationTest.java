@@ -32,7 +32,6 @@ import com.eventswarm.events.jdo.TestEvents;
 import com.eventswarm.events.jdo.JdoEvent;
 import com.eventswarm.events.jdo.JdoEventURL;
 import java.util.HashMap;
-import java.net.URL;
 
 /**
  *

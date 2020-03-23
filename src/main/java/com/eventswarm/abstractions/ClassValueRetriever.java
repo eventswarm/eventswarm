@@ -31,16 +31,15 @@ import java.util.Map;
  * User: andyb
  */
 public class ClassValueRetriever<T> implements ValueRetriever<T>{
-    private Map<Class, ValueRetriever<T>> retrievers;
+    private Map<Class<T>, ValueRetriever<T>> retrievers;
     private static Logger logger = Logger.getLogger(ClassValueRetriever.class);
 
-    public ClassValueRetriever(Map<Class, ValueRetriever<T>> retrievers) {
+    public ClassValueRetriever(Map<Class<T>, ValueRetriever<T>> retrievers) {
         this.retrievers = retrievers;
     }
 
-    @Override
     public T getValue(Event event) {
-        for (Class clazz : retrievers.keySet()) {
+        for (Class<T> clazz : retrievers.keySet()) {
             if (clazz.isInstance(event)) {
                 logger.debug("Using retriever for class " + clazz.getName());
                 return retrievers.get(clazz).getValue(event);

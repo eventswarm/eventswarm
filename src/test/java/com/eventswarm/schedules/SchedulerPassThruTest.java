@@ -24,8 +24,6 @@ import com.eventswarm.AddEventTrigger;
 import com.eventswarm.AddEventAction;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.EventPart;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import com.eventswarm.events.jdo.*;

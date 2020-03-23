@@ -37,7 +37,6 @@ public class EqualsMatcher<T> implements Matcher {
         this.retriever = retriever;
     }
 
-    @Override
     public boolean matches(Event event) {
         logger.debug("Comparing comparison value " + value + " with event value " + retriever.getValue(event));
         if (value == null) {

@@ -30,7 +30,7 @@ import com.eventswarm.expressions.Matcher;
  * 
  * @author andyb
  */
-public class EventMatchPassThruFilter extends MutablePassThruImpl implements AddEventTrigger, RemoveEventTrigger
+public class EventMatchPassThruFilter extends MutablePassThruImpl
 {
 
     private Matcher matcher;

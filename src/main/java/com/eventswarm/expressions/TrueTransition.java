@@ -119,7 +119,6 @@ public class TrueTransition extends AbstractEventExpression implements EventMatc
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(EventMatchTrigger trigger, Event event) {
         matchEvent = event;
     }

@@ -27,7 +27,7 @@ import com.eventswarm.eventset.EventSet;
  */
 public interface PowersetRemoveEventAction extends Action {
 
-    public static Class trigger = PowersetRemoveEventTrigger.class;
+    public static Class<?> trigger = PowersetRemoveEventTrigger.class;
 
     public void execute(PowersetRemoveEventTrigger trigger, EventSet set, Event event);
 

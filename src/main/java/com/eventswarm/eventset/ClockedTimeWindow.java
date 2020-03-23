@@ -119,7 +119,6 @@ public class ClockedTimeWindow extends AbstractTimeWindow implements TickAction 
      * @param trigger Source of the tick trigger
      * @param time Time associated with the tick
      */
-    @Override
     public void execute(TickTrigger trigger, Date time) {
         // remove all events from the window that are before (time - latency)
         this.lock.writeLock().lock();

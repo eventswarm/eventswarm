@@ -19,7 +19,6 @@ import com.eventswarm.events.EventPart;
 import com.eventswarm.events.Header;
 import com.eventswarm.events.LogEvent;
 import com.eventswarm.util.Sequencer;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 
@@ -84,22 +83,18 @@ public class Log4JEvent extends JdoEvent implements LogEvent {
      *
      * @return
      */
-    @Override
     public Level getLevel() {
         return mapper.get(logEvent.getLevel());
     }
 
-    @Override
     public String getShortMessage() {
         return logEvent.getMessage().toString();
     }
 
-    @Override
     public String[] getStackTrace() {
         return logEvent.getThrowableStrRep();
     }
 
-    @Override
     public String getText() {
         String result = getShortMessage();
         String other = join(logEvent.getThrowableStrRep());
@@ -107,12 +102,10 @@ public class Log4JEvent extends JdoEvent implements LogEvent {
         return result;
     }
 
-    @Override
     public String getClassifier() {
         return logEvent.getLoggerName();
     }
 
-    @Override
     public String getContext() {
         String result = logEvent.getThreadName();
         String ndc = logEvent.getNDC();

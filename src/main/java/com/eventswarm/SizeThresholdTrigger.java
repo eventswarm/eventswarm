@@ -28,7 +28,7 @@ package com.eventswarm;
 
 public interface SizeThresholdTrigger extends Trigger {
 
-    public static Class action = SizeThresholdAction.class;
+    public static Class<?> action = SizeThresholdAction.class;
 
     /**
      * Register an action against this trigger.

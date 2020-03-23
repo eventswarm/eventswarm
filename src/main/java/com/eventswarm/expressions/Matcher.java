@@ -36,7 +36,6 @@ public interface Matcher {
 
     /** A Matcher that is always true */
     public static Matcher TRUEMATCHER = new Matcher() {
-        @Override
         public boolean matches(Event event) {
             return true;
         }
@@ -44,7 +43,6 @@ public interface Matcher {
 
     /** A Matcher that is always false */
     public static Matcher FALSEMATCHER = new Matcher() {
-        @Override
         public boolean matches(Event event) {
             return false;
         }

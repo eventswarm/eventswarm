@@ -40,7 +40,7 @@ public class KeyedActionTest {
         MatcherEventKey keyFinder = new MatcherEventKey(matchers);
         Powerset<Matcher> pset = new HashPowerset<Matcher>(keyFinder);
         MutableTarget target = new EventSet();
-        KeyedAction instance = new KeyedAction(target, pset, key);
+        KeyedAction<Matcher> instance = new KeyedAction<Matcher>(target, pset, key);
         assertNotNull(instance);
     }
 
@@ -52,7 +52,7 @@ public class KeyedActionTest {
         MatcherEventKey keyFinder = new MatcherEventKey(matchers);
         Powerset<Matcher> pset = new HashPowerset<Matcher>(keyFinder);
         EventSet target = new EventSet();
-        KeyedAction instance = new KeyedAction(target, pset, key);
+        KeyedAction<Matcher> instance = new KeyedAction<Matcher>(target, pset, key);
         Event event = TestEvents.jdoEvent;
         pset.execute((AddEventTrigger) null, event);
         assertEquals(1, target.size());
@@ -68,7 +68,7 @@ public class KeyedActionTest {
         EventSet target = new EventSet();
         Event event1 = TestEvents.jdoEvent;
         pset.execute((AddEventTrigger) null, event1);
-        KeyedAction instance = new KeyedAction(target, pset, key);
+        KeyedAction<Matcher> instance = new KeyedAction<Matcher>(target, pset, key);
         Event event2 = TestEvents.jdoEventAfterDiffSrcAfterSeq;
         pset.execute((AddEventTrigger) null, event2);
         assertEquals(1, target.size());
@@ -82,7 +82,7 @@ public class KeyedActionTest {
         MatcherEventKey keyFinder = new MatcherEventKey(matchers);
         Powerset<Matcher> pset = new HashPowerset<Matcher>(keyFinder);
         EventSet target = new EventSet();
-        KeyedAction instance = new KeyedAction(target, pset, key);
+        KeyedAction<Matcher> instance = new KeyedAction<Matcher>(target, pset, key);
         Event event1 = TestEvents.jdoEvent;
         pset.execute((AddEventTrigger) null, event1);
         Event event2 = TestEvents.jdoEventAfterDiffSrcAfterSeq;
@@ -100,7 +100,7 @@ public class KeyedActionTest {
         MatcherEventKey keyFinder = new MatcherEventKey(matchers);
         Powerset<Matcher> pset = new HashPowerset<Matcher>(keyFinder);
         EventSet target = new EventSet();
-        KeyedAction instance = new KeyedAction(target, pset, key);
+        KeyedAction<Matcher> instance = new KeyedAction<Matcher>(target, pset, key);
         Event event = TestEvents.jdoEvent;
         pset.execute((AddEventTrigger) null, event);
         assertEquals(0, target.size());
@@ -116,7 +116,7 @@ public class KeyedActionTest {
         HashPowerset<Matcher> pset = new HashPowerset<Matcher>(keyFinder);
         assertTrue(pset.isPrune());
         EventSet target = new EventSet();
-        KeyedAction instance = new KeyedAction(target, pset, key);
+        KeyedAction<Matcher> instance = new KeyedAction<Matcher>(target, pset, key);
         Event event1 = TestEvents.jdoEvent;
         pset.execute((AddEventTrigger) null, event1);
         assertEquals(1, target.size());

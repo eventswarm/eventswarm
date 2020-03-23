@@ -91,7 +91,6 @@ public class HttpSender implements AddEventTrigger, AddEventAction {
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         try {
             connection = setupConnection(urlRetriever.getValue(event));
@@ -158,12 +157,10 @@ public class HttpSender implements AddEventTrigger, AddEventAction {
         return connection;
     }
 
-    @Override
     public void registerAction(AddEventAction action) {
         actions.add(action);
     }
 
-    @Override
     public void unregisterAction(AddEventAction action) {
         actions.remove(action);
     }

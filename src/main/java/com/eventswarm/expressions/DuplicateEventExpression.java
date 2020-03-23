@@ -44,7 +44,7 @@ import java.util.TreeSet;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class DuplicateEventExpression extends AbstractEventExpression implements Expression {
+public class DuplicateEventExpression extends AbstractEventExpression {
     private Comparator comparator;
     private EventSet events;
 

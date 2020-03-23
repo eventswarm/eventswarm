@@ -21,7 +21,6 @@
 package com.eventswarm.schedules;
 
 import com.eventswarm.Trigger;
-import com.eventswarm.schedules.TickAction;
 
 /**
  * Trigger that fires when a clock is initialised to a specific time.
@@ -36,7 +35,7 @@ import com.eventswarm.schedules.TickAction;
 
 public interface FirstTickTrigger extends Trigger {
 
-    public static Class action = FirstTickAction.class;
+    public static Class<?> action = FirstTickAction.class;
     
     /**
      * Register an action against this trigger.

@@ -58,14 +58,12 @@ public class SequenceExpressionTest extends TestCase {
     private List<ComplexExpressionMatchEvent> complexMatches;
 
     EventMatchAction eventAction = new EventMatchAction(){
-        @Override
         public void execute(EventMatchTrigger trigger, Event event) {
             eventMatches.add(event);
         }
     };
 
     ComplexExpressionMatchAction complexAction = new ComplexExpressionMatchAction() {
-        @Override
         public void execute(ComplexExpressionMatchTrigger trigger, ComplexExpressionMatchEvent event) {
             complexMatches.add(event);
         }

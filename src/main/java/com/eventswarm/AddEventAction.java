@@ -29,7 +29,7 @@ import com.eventswarm.events.Event;
 
 public interface AddEventAction extends Action {
 
-    public static Class trigger = AddEventTrigger.class;
+    public static Class<?> trigger = AddEventTrigger.class;
     
     public void execute(AddEventTrigger trigger, Event event);
 

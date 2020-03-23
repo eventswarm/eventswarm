@@ -36,7 +36,7 @@ import com.eventswarm.*;
 
 public interface EventMatchTrigger extends Trigger {
 
-    public static Class action = EventMatchAction.class;
+    public static Class<?> action = EventMatchAction.class;
     
     /**
      * Register an action against this trigger.

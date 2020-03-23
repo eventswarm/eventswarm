@@ -42,7 +42,7 @@ import org.apache.log4j.Logger;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class StatisticalThresholdExpression extends AbstractEventExpression implements EventExpression {
+public class StatisticalThresholdExpression extends AbstractEventExpression {
 
     public static int MINIMUM_COUNT = 10;
 

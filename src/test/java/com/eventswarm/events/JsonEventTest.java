@@ -18,7 +18,6 @@ package com.eventswarm.events;
 import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.events.jdo.JdoSource;
 import com.eventswarm.events.jdo.OrgJsonEvent;
-import com.eventswarm.events.jdo.OrgJsonPart;
 import org.json.JSONObject;
 import org.junit.Test;
 

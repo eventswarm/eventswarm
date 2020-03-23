@@ -50,13 +50,11 @@ public class WeightedStatisticsAbstractionTest {
         event4 = TestEvents.eventAfterSameSrcAfterSeq;
         event5 = TestEvents.eventAfterDiffSrcAfterSeq;
         valueRetriever = new ValueRetriever<Number>() {
-            @Override
             public Number getValue(Event event) {
                 return values.get(event);
             }
         };
         weightRetriever = new ValueRetriever<Integer>() {
-            @Override
             public Integer getValue(Event event) {
                 return weights.get(event);
             }

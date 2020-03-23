@@ -15,7 +15,6 @@
 */
 package com.eventswarm;
 
-import com.eventswarm.abstractions.Abstraction;
 import com.eventswarm.events.Event;
 
 /**
@@ -24,7 +23,7 @@ import com.eventswarm.events.Event;
  */
 public interface AbstractionAddAction {
 
-    public static Class trigger = AbstractionAddTrigger.class;
+    public static Class<?> trigger = AbstractionAddTrigger.class;
 
     public void execute(AbstractionAddTrigger trigger, Event event);
 

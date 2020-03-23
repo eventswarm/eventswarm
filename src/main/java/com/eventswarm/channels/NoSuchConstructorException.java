@@ -22,4 +22,5 @@ package com.eventswarm.channels;
  * User: andyb
  */
 public class NoSuchConstructorException extends Exception {
+  private static final long serialVersionUID = 1L;
 }

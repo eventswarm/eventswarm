@@ -21,7 +21,6 @@ import com.eventswarm.events.Event;
 import com.eventswarm.events.HttpEventPart;
 import com.eventswarm.events.jdo.FromJsonHttp;
 import com.eventswarm.events.jdo.JdoHttpEventPart;
-import com.eventswarm.events.jdo.OrgJsonPart;
 import com.eventswarm.util.TriggerDelegate;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -54,7 +53,6 @@ public class JsonHttpChannel implements HttpHandler, AddEventTrigger {
     private Map<String, FromJsonHttp> constructors  = new HashMap<String,FromJsonHttp>();
     private FromJsonHttp defaultConstructor;
     private TriggerDelegate<AddEventAction> trigger = new TriggerDelegate<AddEventAction>();
-    private transient JSONTokener tokener;
     private long count;
     private long errorCount;
 
@@ -104,7 +102,6 @@ public class JsonHttpChannel implements HttpHandler, AddEventTrigger {
         }
     }
 
-    @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         JSONTokener tokener = new JSONTokener(httpExchange.getRequestBody());
         JSONObject json;
@@ -169,12 +166,10 @@ public class JsonHttpChannel implements HttpHandler, AddEventTrigger {
         if (result != 0) tokener.back();
     }
 
-    @Override
     public void registerAction(AddEventAction action) {
         trigger.registerAction(action);
     }
 
-    @Override
     public void unregisterAction(AddEventAction action) {
         trigger.unregisterAction(action);
     }

@@ -51,7 +51,6 @@ public class DifferenceRetriever implements ValueRetriever<Number> {
      * @param event
      * @return
      */
-    @Override
     public Number getValue(Event event) {
         Number value = this.value.getValue();
         Number eventValue = this.retriever.getValue(event);

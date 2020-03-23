@@ -23,7 +23,7 @@ import com.eventswarm.events.Event;
 
 public interface AddSyncAction extends Action {
 
-    public static Class trigger = AddSyncTrigger.class;
+    public static Class<?> trigger = AddSyncTrigger.class;
 
     public void execute(AddSyncTrigger trigger, Event event);
 

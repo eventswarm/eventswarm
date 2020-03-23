@@ -49,7 +49,6 @@ public class XmlHttpEventFactory implements FromXmlHttp {
      * @param xml
      * @return
      */
-    @Override
     public Event fromXmlHttp(Node xml, HttpEventPart http) {
         String source = getSourceString(xml, http);
         Header header = new JdoHeader(http.getRequestDate(), getSource(source));

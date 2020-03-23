@@ -265,6 +265,7 @@ public class HttpClient {
         while (scanner.hasNextLine()) {
             result.append(scanner.nextLine());
         }
+        scanner.close();
         return result.toString();
     }
 
@@ -300,6 +301,8 @@ public class HttpClient {
      * Simple exception class to wrap exceptions
      */
     public static class HttpClientException extends Exception {
+        private static final long serialVersionUID = 1L;
+
         public HttpClientException(String message) {
             super(message);
         }

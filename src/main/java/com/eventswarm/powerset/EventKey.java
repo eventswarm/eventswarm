@@ -56,7 +56,6 @@ public interface EventKey<Keytype> {
             this.retriever = retriever;
         }
 
-        @Override
         public Type getKey(Event event) {
             return retriever.getValue(event);
         }

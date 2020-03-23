@@ -80,7 +80,6 @@ public class DuplicateFilter<T> implements AddEventAction, AddEventTrigger, Dupl
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
        T key = retriever.getValue(event);
        if (dupeMap.containsKey(key)) {
@@ -107,7 +106,6 @@ public class DuplicateFilter<T> implements AddEventAction, AddEventTrigger, Dupl
      * @param trigger
      * @param event
      */
-    @Override
     public void execute(RemoveEventTrigger trigger, Event event) {
         T key = retriever.getValue(event);
         window.lock.writeLock().lock();
@@ -142,7 +140,6 @@ public class DuplicateFilter<T> implements AddEventAction, AddEventTrigger, Dupl
      *
      * @param action Action to be executed when add trigger fires.
      */
-    @Override
     public void registerAction(AddEventAction action) {
         window.registerAction(action);
     }
@@ -152,17 +149,14 @@ public class DuplicateFilter<T> implements AddEventAction, AddEventTrigger, Dupl
      *
      * @param action Action to be executed when add trigger fires.
      */
-    @Override
     public void unregisterAction(AddEventAction action) {
         window.unregisterAction(action);
     }
 
-    @Override
     public void registerAction(DuplicateEventAction action) {
         dupeActions.add(action);
     }
 
-    @Override
     public void unregisterAction(DuplicateEventAction action) {
         dupeActions.remove(action);
     }

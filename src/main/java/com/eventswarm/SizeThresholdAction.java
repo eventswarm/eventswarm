@@ -28,7 +28,7 @@ import com.eventswarm.events.Event;
 
 public interface SizeThresholdAction extends Action {
 
-    public static Class trigger = SizeThresholdTrigger.class;
+    public static Class<?> trigger = SizeThresholdTrigger.class;
 
     public void execute(SizeThresholdTrigger trigger, Event event, long size);
 

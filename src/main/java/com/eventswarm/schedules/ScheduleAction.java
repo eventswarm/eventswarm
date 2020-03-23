@@ -25,12 +25,11 @@ package com.eventswarm.schedules;
  *
  * @author andyb
  */
-import com.eventswarm.schedules.Schedule;
 import java.util.Date;
 
 public interface ScheduleAction {
 
-        public static Class trigger = ScheduleTrigger.class;
+        public static Class<?> trigger = ScheduleTrigger.class;
 
         public void execute(ScheduleTrigger trigger, Schedule schedule, Date time);
 }

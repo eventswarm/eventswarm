@@ -20,7 +20,6 @@ import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.LogEvent;
 import com.eventswarm.schedules.TickTrigger;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -202,7 +201,6 @@ public class MemoryMonitorTest implements AddEventAction {
         assertEquals(LogEvent.Level.info, ((LogEvent) events.get(0)).getLevel());
     }
 
-    @Override
     public void execute(AddEventTrigger trigger, Event event) {
         events.add(event);
     }

@@ -32,8 +32,7 @@ import com.eventswarm.events.Event;
 import com.eventswarm.events.NumericValue;
 
 public class StandardDeviation
-        extends MutableCalculationAbstractionImpl
-        implements MutableCalculationAbstraction {
+        extends MutableCalculationAbstractionImpl {
     /* private logger for log4j */
 
     private static Logger log = Logger.getLogger(StandardDeviation.class);

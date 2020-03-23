@@ -18,18 +18,14 @@ package com.eventswarm.channels;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.HttpEventPart;
 import com.eventswarm.events.JsonEvent;
-import com.eventswarm.events.HttpRequestEvent;
 import com.eventswarm.events.jdo.JdoHttpEventPart;
 import com.eventswarm.events.jdo.JdoPartWrapper;
-import com.eventswarm.events.jdo.OrgJsonPart;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -59,8 +55,8 @@ public class JsonHttpEventFactoryTest {
         JsonHttpEventFactory instance = new JsonHttpEventFactory();
         Event event = instance.fromJsonHttp(new JSONObject("{a: 1, b:2}"), makeHttp());
         assertTrue(JsonEvent.class.isInstance(event));
-        assertEquals(1, ((JsonEvent) event).getInt("a"));
-        assertEquals(2, ((JsonEvent) event).getInt("b"));
+        assertEquals(1, ((JsonEvent<?>) event).getInt("a"));
+        assertEquals(2, ((JsonEvent<?>) event).getInt("b"));
         JSONObject part = ((JdoPartWrapper<JSONObject>)event.getPart(JsonEvent.JSON_PART_NAME)).getWrapped();
         assertEquals(2, part.length());
     }

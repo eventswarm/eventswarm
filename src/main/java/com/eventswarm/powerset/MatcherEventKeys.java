@@ -47,7 +47,6 @@ public class MatcherEventKeys implements EventKeys<Matcher> {
      * @param event
      * @return Array of Matchers that match the event
      */
-    @Override
     public Matcher[] getKeys(Event event) {
         ArrayList<Matcher> result = new ArrayList<Matcher>(matchers.length);
         for (Matcher matcher : this.matchers) {

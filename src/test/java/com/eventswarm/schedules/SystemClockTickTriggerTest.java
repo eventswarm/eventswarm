@@ -139,7 +139,6 @@ public class SystemClockTickTriggerTest implements TickAction {
         instance.stop();
     }
 
-    @Override
     public void execute(TickTrigger trigger, Date time) {
         synchronized (ticks) {
             ticks.add(time);

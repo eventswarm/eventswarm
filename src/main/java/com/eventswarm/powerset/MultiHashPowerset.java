@@ -56,7 +56,6 @@ import com.eventswarm.AddEventTrigger;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
 import com.eventswarm.eventset.EventSet;
-import com.eventswarm.eventset.LastNWindow;
 import com.eventswarm.schedules.TickAction;
 import org.apache.log4j.Logger;
 
@@ -71,6 +70,8 @@ public class MultiHashPowerset<Keytype>
 
     /** Default Size of each LastNWindow in the powerset */
     //private final static int SIZE=1;
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Eventset creation factory
@@ -313,23 +314,18 @@ public class MultiHashPowerset<Keytype>
         }
     }
 
-
-    @Override
     public void registerAction(PowersetAddEventAction action) {
         addEventActions.add(action);
     }
 
-    @Override
     public void unregisterAction(PowersetAddEventAction action) {
         addEventActions.remove(action);
     }
 
-    @Override
     public void registerAction(PowersetRemoveEventAction action) {
         removeEventActions.add(action);
     }
 
-    @Override
     public void unregisterAction(PowersetRemoveEventAction action) {
         removeEventActions.remove(action);
     }

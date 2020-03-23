@@ -15,7 +15,6 @@
 */
 package com.eventswarm.powerset;
 
-import com.eventswarm.MutableTarget;
 import com.eventswarm.util.actions.QueuedAction;
 import org.apache.log4j.Logger;
 

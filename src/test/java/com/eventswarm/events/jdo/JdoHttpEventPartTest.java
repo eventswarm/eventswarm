@@ -150,7 +150,6 @@ public class JdoHttpEventPartTest implements HttpHandler {
         assertEquals(URL_HOST, host);
     }
 
-    @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("Received request from " + httpExchange.getRemoteAddress().toString());
         this.httpExchange = httpExchange;

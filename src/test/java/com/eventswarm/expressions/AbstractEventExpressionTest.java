@@ -23,7 +23,6 @@ package com.eventswarm.expressions;
 import com.eventswarm.AddEventTrigger;
 import com.eventswarm.RemoveEventTrigger;
 import com.eventswarm.events.Event;
-import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,7 +30,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import com.eventswarm.events.jdo.TestEvents;
-import java.util.ArrayList;
 
 /**
  *

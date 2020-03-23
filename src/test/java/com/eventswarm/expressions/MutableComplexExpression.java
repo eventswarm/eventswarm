@@ -20,11 +20,8 @@
 
 package com.eventswarm.expressions;
 
-import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.ComplexExpressionMatchEvent;
-import com.eventswarm.events.ComplexExpressionPart;
 import com.eventswarm.events.Event;
-import com.eventswarm.events.jdo.JdoCombinationsPart;
 import com.eventswarm.events.jdo.JdoComplexExpressionMatchEvent;
 import com.eventswarm.events.jdo.JdoComplexExpressionPart;
 import com.eventswarm.events.jdo.JdoCondensedCombinationsPart;
@@ -39,33 +36,28 @@ import java.util.*;
 public class MutableComplexExpression extends MutableExpression implements ComplexExpression {
     Set<ComplexExpressionMatchAction> actions = new HashSet<ComplexExpressionMatchAction>();
 
-    @Override
     public List<EventExpression> getPartsAsList() {
         return null;
     }
 
-    @Override
     public void registerAction(ComplexExpressionMatchAction action) {
         this.actions.add(action);
     }
 
-    @Override
     public void unregisterAction(ComplexExpressionMatchAction action) {
         this.actions.remove(action);
     }
 
-    @Override
     protected void fire(Event event) {
         super.fire(event);
         TreeSet<Event> events = new TreeSet<Event>(); events.add(event);
-        List<SortedSet<Event>> combinations = new ArrayList(); combinations.add(events);
+        List<SortedSet<Event>> combinations = new ArrayList<SortedSet<Event>>(); combinations.add(events);
         ComplexExpressionMatchEvent cevent = new JdoComplexExpressionMatchEvent(new JdoComplexExpressionPart(this), new JdoCondensedCombinationsPart(combinations));
         for (ComplexExpressionMatchAction action : actions) {
             action.execute(this, cevent);
         }
     }
 
-    @Override
     public Collection<? extends Expression> getParts() {
         return null;
     }

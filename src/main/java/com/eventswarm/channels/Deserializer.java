@@ -16,9 +16,6 @@
 package com.eventswarm.channels;
 
 import com.eventswarm.events.Event;
-import org.apache.log4j.Logger;
-
-import java.io.UnsupportedEncodingException;
 
 /**
  * Interface for implementations that convert a byte array to an event for deserialization purposes
@@ -34,6 +31,8 @@ public interface Deserializer {
     public static String DEFAULT_CHARSET = "UTF-8";
 
     public static class DeserializeException extends Exception {
+        private static final long serialVersionUID = 1L;
+
         public DeserializeException() {
             super();
         }

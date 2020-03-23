@@ -22,7 +22,6 @@ package com.eventswarm.expressions;
 
 import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.events.Event;
-import com.eventswarm.events.Keywords;
 
 import java.util.regex.Pattern;
 

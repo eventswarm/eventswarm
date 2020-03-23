@@ -19,16 +19,12 @@ import com.eventswarm.channels.Deserializer;
 import com.eventswarm.channels.Serializer;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.Header;
-import com.eventswarm.events.JsonEvent;
-import com.eventswarm.events.Source;
 import com.eventswarm.events.jdo.JdoHeader;
 import com.eventswarm.events.jdo.JdoSource;
 import com.eventswarm.events.jdo.OrgJsonEvent;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -141,7 +137,6 @@ public class OrgJsonDeserializerTest {
     @Test
     public void testDeserializeFactory() throws Exception {
         OrgJsonEventFactory factory = new OrgJsonEventFactory() {
-            @Override
             public Event create(Header header, JSONObject json) throws Deserializer.DeserializeException {
                 return new MyOrgJsonEvent(header, json);
             }
@@ -157,7 +152,7 @@ public class OrgJsonDeserializerTest {
         assertEquals(event, result);
     }
 
-    public static class MyOrgJsonEvent extends OrgJsonEvent implements JsonEvent<JSONObject> {
+    public static class MyOrgJsonEvent extends OrgJsonEvent {
         // just declare a constructor
         public MyOrgJsonEvent(Header header, JSONObject json) {
             super(header, json);

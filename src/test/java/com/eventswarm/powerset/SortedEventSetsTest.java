@@ -116,7 +116,6 @@ public class SortedEventSetsTest {
     }
 
     private static EventKey<String> KEYGETTER = new EventKey<String>() {
-        @Override
         public String getKey(Event event) {
             if (KeyedEvent.class.isInstance(event)) return ((KeyedEvent) event).getKey();
             else return null;

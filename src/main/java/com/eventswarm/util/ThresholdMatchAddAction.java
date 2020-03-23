@@ -53,7 +53,6 @@ public class ThresholdMatchAddAction implements SizeThresholdAction, AddEventTri
         this(DEFAULT_MAX);
     }
 
-    @Override
     public void execute(SizeThresholdTrigger trigger, Event event, long size) {
         if (size == 1 || trigger == null || trigger.getSource() == null || !(EventSet.class.isInstance(trigger.getSource()))) {
             logger.debug("No upstream eventset or threshold 1, sending supplied event");
@@ -88,12 +87,10 @@ public class ThresholdMatchAddAction implements SizeThresholdAction, AddEventTri
         }
     }
 
-    @Override
     public void registerAction(AddEventAction action) {
         delegate.registerAction(action);
     }
 
-    @Override
     public void unregisterAction(AddEventAction action) {
         delegate.unregisterAction(action);
     }

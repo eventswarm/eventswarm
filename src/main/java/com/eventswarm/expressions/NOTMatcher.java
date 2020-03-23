@@ -21,7 +21,6 @@
 package com.eventswarm.expressions;
 
 import com.eventswarm.events.Event;
-import java.util.List;
 
 /**
  * Matcher that negates the nominated matcher.
