@@ -21,7 +21,8 @@ trades, allowing users to define rules for notification when certain key
 indicators or thresholds were hit. We started first working with the
 University of New South Wales (UNSW) on some research projects. We then
 had it installed with a Canadian stock market data services provider
-that we know, and it’s still there but not seeing much active duty.
+that we know. It wasn't actively used there, however, because we didn't
+have a good business case for its usage.
 
 In late 2012, Andrew and Zoran decided to spend more time on EventSwarm
 and products. We built a series of proof-of-concept implementations for
@@ -31,8 +32,9 @@ these implementations, but the business case was always lacking.
 
 In 2013, we built a media monitoring application called Note8 that
 focused on the needs of corporate compliance for listed companies in
-Australia. This has attracted some attention and is in trial with a
-number of customers (late 2014).
+Australia. This attracted some attention and we in trial with a
+number of customers but the ASX relaxed compliance obligations and made
+the business case untenable. 
 
 We recently decided that EventSwarm itself will be hard to sell as a product,
 and that making it open source would give others the opportunity to build

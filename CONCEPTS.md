@@ -3,7 +3,7 @@
 To get the most out of EventSwarm you should understand the concepts
 that underpin the implementation. We’ll keep it high level here: for the
 nitty gritty detail, you should read and understand the source or ask
-questions on our [forum](http://eventswarm.com/forum).
+questions: for now, raise github issues with your questions.
 
 ## Events
 
@@ -211,7 +211,9 @@ Abstractions perform calculations or compute derived values over an
 that maintains statistics on numeric values extracted from individual
 events by a `ValueRetriever`. Most of our abstractions, including the
 `StatisticsAbstraction`, are incremental, that is, they are updated
-incrementally as data flows. EventSwarm also supports static
+incrementally as data flows. 
+
+EventSwarm also supports static
 abstractions that have to be calculated on a complete EventSet but these
 are discouraged for real-time data streams. You should only use static
 abstractions for queries or calculations that are executed infrequently
@@ -291,14 +293,20 @@ EventSwarm. At present, however, only an HTTPSender channel is offered
 in Java. Note that our ruby gem implements email and sms alerts arising
 from events.
 
+Our `kafka-processor` application provides a way to pull JSON events off 
+a topic and write matches to your expressions on another topic. At present,
+this is the simplest way to integrate EventSwarm data stream processing with
+other applications. 
+
 ## Threading and parallelism
 
 By default, EventSwarm traverses the processing graph synchronously
 without threading. Until you outstrip your IO capability and the
 bandwidth of a single CPU core, this has the lowest latency. It’s not
 hard to get 20,000 events/sec through a non-trivial processing graph on
-a single core, and we’re typically IO bound on a laptop or desktop class
-machine (SSDs are changing that).
+a single core. On older magnetic disk drives we're typically IO bound, but 
+SSDs have significantly improved IO speeds so if you have a slower processor
+you could end up CPU bound.
 
 Threading and the associated synchronisation can have non-trivial
 overheads, so test your app as a synchronous graph first. We typically
@@ -313,7 +321,7 @@ reserve threading for the following circumstances:
 
 The rule of thumb is to split the data first, then use threads to
 process the segments. A map/reduce pattern often works well, provided
-the reduce step is operating on a much smaller data set.
+the reduce step is operating on a much smaller data set. 
 
 When you are ready to go multi-threaded, EventSwarm provides two
 mechanisms: the `AddEventQueue` class queues events for execution of
@@ -324,6 +332,12 @@ Trigger/Action pairs, we provide a slightly more complex implementation
 in the `ThreadedActionExecutor` that can queue any action and is
 oriented towards powersets in particular. This is an area of active work
 for us, so expect some new classes here.
+
+If you're using our `kafka-processor`, use a separate topic and a distinct 
+expression for different things you want to match. Each expression will 
+operate in a separate thread so it should scale quite well and you have 
+the option to run multiple containers. We will be adding
+explicit support for kafka partitions in a future version. 
 
 [^1]: *Note that in practice, the behaviour of these expression
     trigger/action pairs can usually be implemented using

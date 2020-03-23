@@ -1,66 +1,31 @@
 # Getting Started
 
-EventSwarm is built using maven, so the best way to get it is through
+The easiest way to get started with EventSwarm is to use our 
+[kafka-processor](https://github.com/eventswarm/kafka-processor) in 
+a docker container. This processor is a JRuby application that reads
+JSON from a kafka topic and writes matches to a second kafka topic. 
+
+There are a couple of sample expressions built using Ruby in the `./rules` directory, 
+and you can add your own rules by mounting your own rules over this directory. 
+
+For something more complicated, you can either use the core Java package directly
+or our [revs](https://github.com/eventswarm/revs) JRuby gem. 
+
+## EventSwarm core 
+
+The EventSwarm core is built using maven, so the best way to get it is through
 adding a dependency to your `pom.xml`. Otherwise, download the jar or
 source and add it to your project dependencies.
 
-The remainder of this doc shows iterations of a simple app for
-monitoring stock market trades. We’re incrementally modifying the app to
-do more complex analysis, and hopefully giving you an idea of how
-EventSwarm can be used.
+## EventSwarm social
 
-Now let’s try a simple app:
+[eventswarm-social](https://github.com/eventswarm/eventswarm-social) provides a set
+of Java classes to assist in pulling data from Twitter or pubsubhubbub feeds 
+(e.g. https://superfeedr.com). This is a bit of a work-in-progress and there's not a
+lot there right now. Use it as you see fit.
 
-    import com.eventswarm.channels.CSVChannel
-    import com.eventswarm.abstractions.StatisticsAbstraction
+## Revs gem
 
-    public static void main(String args[]) {
-
-    }
-
-This app processes the contents of a CSV file (simulated stock market
-data) and calculates the average trade price. Pretty dumb though,
-because we really want the average price on a per-stock basis. So let’s
-make it better:
-
-    import com.eventswarm.channels.CSVChannel
-    import com.eventswarm.abstractions.StatisticsAbstraction
-    import com.eventswarm.powersets.HashPowerset;
-
-    public static void main(String args[]) {
-
-    }
-
-As you can see, a powerset splits your data stream based on a key. In
-this case the key is simple (stock code), but keys can be as complex as
-you want them to be.
-
-So what if we wanted to detect when a trade occurs at a price that’s a
-bit high? We can compare the price of an individual trade with the
-average and alert when it’s more than 1 standard deviation above the
-mean. The code:
-
-    import com.eventswarm.channels.CSVChannel
-    import com.eventswarm.abstractions.StatisticsAbstraction
-    import com.eventswarm.powersets.HashPowerset;
-
-    public static void main(String args[]) {
-
-    }
-
-For stock market trading this is still pretty simplistic, but hopefully
-you’re starting to get the idea. What if you wanted to detect when the
-price was high *and* the volume (number of shares traded) was high? The
-code:
-
-    import com.eventswarm.channels.CSVChannel
-    import com.eventswarm.abstractions.StatisticsAbstraction
-    import com.eventswarm.powersets.HashPowerset;
-
-    public static void main(String args[]) {
-
-    }
-
-In these examples we’ve demonstrated basic from concepts in EventSwarm
-and built a simple app.
-
+[revs](https://github.com/eventswarm/revs) is a JRuby gem that provides utilities and 
+wrappers for using EventSwarm in a JRuby application. JRuby is somewhat less verbose
+than Java and can be evaluated dynamically (hence its usage in the `kafka-processor`). 
