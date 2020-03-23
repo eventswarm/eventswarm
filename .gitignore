@@ -2,3 +2,7 @@
 .idea/tasks.xml
 target
 src/test/resources/superfeedr.properties
+.classpath
+.project
+.settings/
+.vscode/
