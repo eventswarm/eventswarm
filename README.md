@@ -11,10 +11,8 @@ compression applied.
 There are some good, open source, complex event processing tools like
 [Esper](http://esper.codehaus.org) and nowadays [Drools](http://drools.org).
 These tools provide a domain specific language (DSL), runtime environment and many
-capabilities out-of-the-box.
-
-There are also some platform specific tools, for example, KSQL (kafka SQL) or cloud 
-stream analytics components on Azure and AWS. 
+capabilities out-of-the-box. There are also some platform specific tools, for 
+example, KSQL (kafka SQL) or cloud stream analytics components on Azure and AWS. 
 
 So why might you want to use EventSwarm?
 
