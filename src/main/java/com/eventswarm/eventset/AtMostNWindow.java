@@ -88,19 +88,32 @@ public class AtMostNWindow extends AbstractFilter implements WindowChangeTrigger
             // Adding an event, so make space if we're at or above the limit
             int size = this.eventSet.size();
             int remove = size - this.windowSize + 1;
-            for (int i = 0; i < remove; i++) {
-                // call parent class method: local method generates window change trigger, which is not desired
-                super.execute((RemoveEventTrigger) this, this.eventSet.first());
-            }
-            // It's bad if we remove more than one (we were above the limit, for some reason)
-            if (remove > 1) {
-                log.info("Window size (" + Integer.toString(size) + ") was greater than limit (" +
-                        Integer.toString(windowSize) + "). Removed an extra " + Integer.toString(remove - 1) + " events");
-            }
-            super.execute(trigger, event);
+            boolean add;
+            if (remove <= 0) {
+                add = true; // window not full, so definitely add
+            } else {
+                if (event.isBefore(this.eventSet.first())) {
+                    add = false;
+                    log.warn("Event is older than earliest event in window, ignoring");
+                } else {
+                    add = true;
+                    for (int i = 0; i < remove; i++) {
+                        // call parent class method: local method generates window change trigger, which is not desired
+                        super.execute((RemoveEventTrigger) this, this.eventSet.first());
+                    }
+                    // It's bad if we remove more than one (we were above the limit, for some reason)
+                    if (remove > 1) {
+                        log.info("Window size (" + Integer.toString(size) + ") was greater than limit (" +
+                                Integer.toString(windowSize) + "). Removed an extra " + Integer.toString(remove - 1) + " events");
+                    }
+                } 
+            } 
 
-            // fire the WindowChangeTrigger
-            this.fire();
+            if (add) {
+                super.execute(trigger, event);
+                // fire the WindowChangeTrigger
+                this.fire();
+            }
 
             log.debug("Window now contains " + Integer.toString(this.size()));
         } finally {
