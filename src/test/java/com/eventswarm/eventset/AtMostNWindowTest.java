@@ -171,6 +171,20 @@ public class AtMostNWindowTest implements AddEventAction, RemoveEventAction, Win
         assertEquals(jdoEventAfterSameSrcAfterSeq, instance.eventSet.last());
     }
 
+
+    @Test
+    public void out_of_order() throws Exception {
+        instance.execute((AddEventTrigger) null, jdoEvent);
+        instance.execute((AddEventTrigger) null, jdoEventAfterDiffSrcAfterSeq);
+        instance.execute((AddEventTrigger) null, jdoEventBeforeSameSrcBeforeSeq);
+        assert(jdoEventBeforeSameSrcBeforeSeq.isBefore(jdoEvent));
+        assertEquals(2, instance.size());
+        // assertEquals(2, changeCount);
+        assertFalse(instance.contains(jdoEventBeforeDiffSrcAfterSeq));
+        assertTrue(instance.contains(jdoEvent));
+        assertTrue(instance.contains(jdoEventAfterDiffSrcAfterSeq));
+    }
+
     @Test
     public void remove_first_leaving_empty() throws Exception {
         instance.execute((AddEventTrigger) null, jdoEvent);
