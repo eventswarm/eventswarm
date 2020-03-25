@@ -36,7 +36,7 @@ package com.eventswarm.channels;
  * User: andyb
  */
 
-import au.com.bytecode.opencsv.CSVReader;
+import com.opencsv.CSVReader;
 import com.eventswarm.events.CSVEvent;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.Header;
