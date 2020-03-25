@@ -22,7 +22,6 @@
 
 package com.eventswarm.events.jdo;
 
-import java.util.Set;
 import com.eventswarm.util.*;
 import com.eventswarm.events.*;
 

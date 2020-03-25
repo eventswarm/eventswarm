@@ -17,11 +17,7 @@ package com.eventswarm.events;
 
 import com.eventswarm.abstractions.ValueRetriever;
 
-import java.net.InetSocketAddress;
-import java.net.URI;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Interface for events created as a result of an HTTP request

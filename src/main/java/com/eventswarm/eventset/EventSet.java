@@ -114,7 +114,7 @@ public class EventSet implements MutablePassThru, Iterable<Event>, Clear {
         NavigableSet<Event> set;
         lock.readLock().lock();
         try {
-            set = (NavigableSet<Event>) this.eventSet.clone();
+            set = new TreeSet<Event>(this.eventSet);
         } finally {
             lock.readLock().unlock();
         }

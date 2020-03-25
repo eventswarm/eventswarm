@@ -62,9 +62,10 @@ public class OrgJsonEvent extends JdoEvent implements JsonEvent<JSONObject> {
      * @param header
      * @param eventParts
      */
+    @SuppressWarnings("unchecked") // TODO: fix the use of generics to avoid unchecked casts
     public OrgJsonEvent(Header header, Map<String, EventPart> eventParts) {
         super(header, eventParts);
-        this.json = ((JdoPartWrapper<JSONObject>)eventParts.get(JSON_PART_NAME)).getWrapped();
+         this.json = ((JdoPartWrapper<JSONObject>)eventParts.get(JSON_PART_NAME)).getWrapped();
     }
 
     protected void construct(Header header, JSONObject json) {

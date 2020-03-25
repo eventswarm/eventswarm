@@ -23,7 +23,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 
 /**
@@ -36,7 +36,7 @@ public class JsonChannelTest implements FromJson {
 
     @Test
     public void testNextSingle() throws Exception {
-        InputStream stream = new StringBufferInputStream("{a:1, b:2}");
+        InputStream stream = new ByteArrayInputStream("{a:1, b:2}".getBytes());
         JsonChannel channel = new JsonChannel(stream);
         Event event = channel.next();
         assertTrue(JsonEvent.class.isInstance(event));
@@ -48,7 +48,7 @@ public class JsonChannelTest implements FromJson {
 
     @Test
     public void testNextMultiple() throws Exception {
-        InputStream stream = new StringBufferInputStream("{a:1, b:2}{a:2, b:1}");
+        InputStream stream = new ByteArrayInputStream("{a:1, b:2}{a:2, b:1}".getBytes());
         JsonChannel channel = new JsonChannel(stream);
         channel.next();
         Event event = channel.next();
@@ -62,7 +62,7 @@ public class JsonChannelTest implements FromJson {
 
     @Test
     public void testNextEmpty() throws Exception {
-        InputStream stream = new StringBufferInputStream("");
+        InputStream stream = new ByteArrayInputStream("".getBytes());
         JsonChannel channel = new JsonChannel(stream);
         Event event = channel.next();
         assertNull(event);
@@ -71,10 +71,10 @@ public class JsonChannelTest implements FromJson {
 
     @Test
     public void setTokener() throws Exception {
-        InputStream stream = new StringBufferInputStream("{a:1, b:2}");
+        InputStream stream = new ByteArrayInputStream("{a:1, b:2}".getBytes());
         JsonChannel channel = new JsonChannel(stream);
         channel.next();
-        channel.setTokener(new StringBufferInputStream("{a:2, b:1}"));
+        channel.setTokener(new ByteArrayInputStream("{a:2, b:1}".getBytes()));
         Event event = channel.next();
         assertTrue(JsonEvent.class.isInstance(event));
         assertEquals(2, ((JsonEvent<?>) event).getInt("a"));
@@ -85,7 +85,7 @@ public class JsonChannelTest implements FromJson {
 
     @Test
     public void testRegisterConstructor() throws Exception {
-        InputStream stream = new StringBufferInputStream("{typeId: 'JsonChannelTest', a:1, b:2}");
+        InputStream stream = new ByteArrayInputStream("{typeId: 'JsonChannelTest', a:1, b:2}".getBytes());
         JsonChannel channel = new JsonChannel(stream);
         channel.registerConstructor(TYPE_ID, this);
         Event event = channel.next();
@@ -95,7 +95,7 @@ public class JsonChannelTest implements FromJson {
 
     @Test
     public void testUnregisterConstructor() throws Exception {
-        InputStream stream = new StringBufferInputStream("{typeId: 'JsonChannelTest', a:1, b:2}{typeId: 'JsonChannelTest', a:2, b:1}");
+        InputStream stream = new ByteArrayInputStream("{typeId: 'JsonChannelTest', a:1, b:2}{typeId: 'JsonChannelTest', a:2, b:1}".getBytes());
         JsonChannel channel = new JsonChannel(stream);
         channel.registerConstructor(TYPE_ID, this);
         Event event1 = channel.next();

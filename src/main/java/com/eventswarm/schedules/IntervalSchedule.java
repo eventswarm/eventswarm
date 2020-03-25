@@ -26,7 +26,6 @@ package com.eventswarm.schedules;
  * @author andyb
  */
 import com.eventswarm.util.Interval;
-import com.eventswarm.util.IntervalUnit;
 import java.util.Date;
 
 public class IntervalSchedule extends Schedule {

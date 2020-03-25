@@ -282,7 +282,7 @@ public class JdoEvent implements Event {
     }
 
     private boolean idEquals(Event event) {
-        return this.getHeader().madeId().equals(event.getHeader().madeId());
+        return this.getHeader().getEventId().equals(event.getHeader().getEventId());
     }
 
     private boolean timeEquals(Event event) {
@@ -292,7 +292,7 @@ public class JdoEvent implements Event {
     /** Use ID string as basis for hashcode */
     @Override
     public int hashCode() {
-        return this.header.madeId().hashCode();
+        return this.header.getEventId().hashCode();
     }
 
     @Override
