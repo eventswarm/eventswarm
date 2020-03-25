@@ -20,7 +20,6 @@ import com.eventswarm.AddEventTrigger;
 import com.eventswarm.events.CSVEvent;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.jdo.JdoCSVEvent;
-import com.eventswarm.events.jdo.JdoCSVEvent;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -39,7 +39,6 @@ import static org.junit.Assert.assertTrue;
  * User: andyb
  */
 public class JsonHttpEventFactoryTest {
-    private static String TEST_SOURCE = "JsonEventFactoryTest";
     private InetSocketAddress address;
     Map<String,List<String>> headers = new HashMap<String,List<String>>();
 

@@ -23,8 +23,6 @@
 package com.eventswarm.events.jdo;
 
 import junit.framework.*;
-import com.eventswarm.events.EventURL;
-import org.apache.log4j.Logger;
 import java.net.URL;
 
 /**

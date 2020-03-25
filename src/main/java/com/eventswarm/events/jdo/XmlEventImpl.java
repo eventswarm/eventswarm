@@ -69,6 +69,7 @@ public class XmlEventImpl extends JdoEvent implements XmlEvent {
         eventParts.put(XML_PART_NAME, new JdoPartWrapper<Node>(xml));
     }
 
+    @SuppressWarnings("unchecked") // TODO: fix the use of generics to avoid unchecked casts
     public XmlEventImpl(Header header, Map<String, EventPart> eventParts) {
         super(header, eventParts);
         this.xml = ((JdoPartWrapper<Document>)eventParts.get(XML_PART_NAME)).getWrapped();

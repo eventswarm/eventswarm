@@ -262,7 +262,7 @@ public class JdoHeader extends JdoEventPart implements Header {
         // Adequately handle inReplyTo event
         if (isReply()) {
             string.append("inReplyTo = ");
-            string.append(getInReplyTo().getHeader().madeId());
+            string.append(getInReplyTo().getHeader().getEventId());
         }
         else {
             string.append("inReplyTo = null");

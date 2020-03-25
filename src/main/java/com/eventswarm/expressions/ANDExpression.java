@@ -290,7 +290,7 @@ public class ANDExpression extends AbstractEventExpression implements ComplexExp
         for (int i=0; i < this.eventSets.size(); i++) {
             if (eventSets.get(i).contains(event)) {
                 log.debug("Creating " + parts.toString());
-                ArrayList<SortedSet<Event>> clone = (ArrayList<SortedSet<Event>>) parts.clone();
+                ArrayList<SortedSet<Event>> clone = new ArrayList<SortedSet<Event>>(parts);
                 // replace the current set with a set containing only the new event
                 clone.remove(i);
                 clone.add(i, singleton);
