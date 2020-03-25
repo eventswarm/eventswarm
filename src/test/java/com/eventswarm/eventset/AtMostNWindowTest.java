@@ -164,10 +164,11 @@ public class AtMostNWindowTest implements AddEventAction, RemoveEventAction, Win
         Thread thread5 = new Thread(new AsyncAdder(jdoEventAfterSameSrcAfterSeq, instance, 2));
         thread1.start(); thread2.start(); thread3.start(); thread4.start(); thread5.start();
         waitFor(500);
-        // Can't know for sure which events will be in the set, so just count events and changes
-        System.out.println("This test is unreliable due to threading, so will fail sometimes");
+        // Can't know for sure which ones will trigger a change, 
+        // so just count events and check order when finished
         assertEquals(2, instance.size());
-        assertEquals(6, changeCount);
+        assertEquals(jdoEventAfterSameSrcBeforeSeq, instance.eventSet.first());
+        assertEquals(jdoEventAfterSameSrcAfterSeq, instance.eventSet.last());
     }
 
     @Test
