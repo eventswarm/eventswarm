@@ -22,10 +22,7 @@ import com.eventswarm.abstractions.ValueRetriever;
 import com.eventswarm.events.Activity;
 import com.eventswarm.events.Event;
 import com.eventswarm.events.jdo.*;
-import com.eventswarm.eventset.EventSet;
 import com.eventswarm.eventset.LastNWindow;
-import com.eventswarm.eventset.WindowChangeAction;
-import com.eventswarm.eventset.WindowChangeTrigger;
 
 import java.util.*;
 import org.apache.log4j.Logger;
@@ -37,7 +34,13 @@ import org.apache.log4j.Logger;
  * This expression re-evaluates the entire sequence whenever a new event is
  * added rather than just checking the next transition because events can
  * possibly be added out-of-order. Not super-efficient for long sequences, but
- * simple and reliable.
+ * simple and reliable. 
+ * 
+ * Since `isTrue` only relates to the current set of events, 
+ * the match set retained for this expression is set to 1 by default. The
+ * `setLimit()` method can be used to hold more matches, but be aware that all
+ * matches will be included in combinations returned by an ANDExpression or 
+ * SequenceExpression, which could be misleading.
  * 
  * Note that any value retriever returning a Comparable value can be used,
  * although we anticipate this will mostly be used with numeric values.
@@ -72,6 +75,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractEv
     this.direction = direction;
     sequence.registerAction((RemoveEventAction) this);
     values = new HashMap<Event, T>();
+    setLimit(1);
   }
 
   /**
@@ -105,6 +109,26 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractEv
     if (trigger == sequence) {
       values.remove(event);
     }
+  }
+
+  /**
+   * This expression is currently true if the isGradient check returns true
+   */
+  @Override
+  public boolean isTrue() {
+    return isGradient();
+  }
+
+  /**
+   * True if the specified event is part of the sequence and we currently have a gradient
+   * 
+   * Note that hasMatched is used in the context of `event` being processed (i.e. usually no 
+   * other events are being processed concurrently) so will not generally be called after the
+   * event has fallen out of our match window. 
+   */
+  @Override
+  public boolean hasMatched(Event event) {
+    return this.sequence.contains(event) && isGradient();
   }
 
   /**

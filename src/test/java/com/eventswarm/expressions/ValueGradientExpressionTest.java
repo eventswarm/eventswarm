@@ -174,6 +174,55 @@ public class ValueGradientExpressionTest implements EventMatchAction {
   }
 
   @Test
+  public void testIsTrue() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
+    subject.registerAction(this);
+    Event first = makeEvent(5.0);
+    Event second = makeEvent(10.0);
+    Event third = makeEvent(15.0);
+    subject.execute((AddEventTrigger) null, first);
+    subject.execute((AddEventTrigger) null, second);
+    subject.execute((AddEventTrigger) null, third);
+    assertEquals(2, matches.size());
+    assertTrue(subject.isTrue());
+  }
+
+  @Test
+  public void testNotTrue() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
+    subject.registerAction(this);
+    Event first = makeEvent(5.0);
+    Event second = makeEvent(10.0);
+    Event third = makeEvent(5.0);
+    subject.execute((AddEventTrigger) null, first);
+    subject.execute((AddEventTrigger) null, second);
+    subject.execute((AddEventTrigger) null, third);
+    assertEquals(1, matches.size());
+    assertFalse(subject.isTrue());
+  }
+
+  @Test
+  public void testHasMatched() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
+    subject.registerAction(this);
+    Event first = makeEvent(5.0);
+    Event second = makeEvent(10.0);
+    Event third = makeEvent(15.0);
+    subject.execute((AddEventTrigger) null, first);
+    subject.execute((AddEventTrigger) null, second);
+    subject.execute((AddEventTrigger) null, third);
+    assertEquals(2, matches.size());
+    assertFalse(subject.hasMatched(first)); // not in window
+    assertTrue(subject.hasMatched(second));
+    assertTrue(subject.hasMatched(third));
+    Event fourth = makeEvent(10.0);
+    subject.execute((AddEventTrigger) null, fourth); // make expression false
+    assertFalse(subject.hasMatched(third));
+    assertFalse(subject.hasMatched(fourth));
+  }
+
+
+  @Test
   public void testOutOfOrderMatch() {
     ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
     subject.registerAction(this);
