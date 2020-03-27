@@ -132,8 +132,10 @@ public class SequenceExpression extends ANDExpression {
     public void execute(EventMatchTrigger trigger, Event event) {
         int index = expressions.indexOf(trigger);
         log.debug("Checking index: " + Integer.toString(index));
-        EventSet events = expressions.get(index).getMatches();
-        if (isEnabled(index) && (index == 0 ||  eventSets.get(index-1).first().isBefore(event))) {
+        EventSet events = eventSets.get(index);
+        boolean enabled = isEnabled(index);
+        boolean before = (enabled && (index == 0 ||  eventSets.get(index-1).first().isBefore(event)));
+        if (before) {
             events.execute((AddEventTrigger) trigger, event);
             log.debug("Index: " + Integer.toString(index) + ", Events: " + events.toString() + ", Trigger: " + event.toString());
             // fire triggers if the event has been added to the last set, indicating new matching combinations exist
@@ -144,8 +146,14 @@ public class SequenceExpression extends ANDExpression {
             }
         } else {
             // remove the match, since we're not using it and it might upset stuff like EventOnceOnly
-            log.debug("Not enabled at index " + Integer.toString(index));
-            expressions.get(index).execute((RemoveEventTrigger) null, event);
+            if (!enabled) log.debug("Not enabled at index " + Integer.toString(index));
+            else if (!before) {
+                log.debug("Preceding expression match: " + eventSets.get(index-1).first().toString());
+                log.debug("Current match:" + event.toString());
+                log.debug("Preceding is not before current");
+            }
+            // expressions.get(index).execute((RemoveEventTrigger) null, event);
+            eventSets.get(index).execute((RemoveEventTrigger) null, event);
         }
     }
 
