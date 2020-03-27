@@ -188,6 +188,14 @@ public class JdoActivity extends JdoEvent implements Activity {
     }
 
     /**
+     * Override event toString so we print embedded events
+     */
+    @Override
+    public String toString() {
+        return getEvents().toString();
+    }
+
+    /**
      * Provide convenience method to return the set of events
      *
      * @return
