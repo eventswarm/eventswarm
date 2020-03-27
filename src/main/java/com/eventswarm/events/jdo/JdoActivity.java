@@ -60,9 +60,9 @@ public class JdoActivity extends JdoEvent implements Activity {
     /**
      * Order an atomic Event against this Activity
      *
-     * An event is before an activity if it's timestamp is before the start of the activity.
-     * An event is after an activity is it's timestamp is after the end of the activity.
-     * An event is concurrent if it's timestamp is within the duration of the activity.
+     * An activity is after an event if the event is before the start of the activity.
+     * An activity is before an event if the event is after the end of the activity.
+     * An activity is concurrent if the event is within the duration of the activity.
      *
      * If a non-atomic event is passed, this method will call the alternate Activity-specific ordering method
      *
@@ -75,12 +75,14 @@ public class JdoActivity extends JdoEvent implements Activity {
         if (Activity.class.isInstance(event)) {
             // throw to the Activity implementation if not an atomic event
             return this.order((Activity) event);
-        } else if (event.getHeader().getTimestamp().before(this.getStart())) {
-            return -1;
-        } else if (event.getHeader().getTimestamp().after(this.getEnd())) {
-            return 1;
         } else {
-            return 0;
+            if (this.last().isBefore(event)) {
+                return -1;
+            } else if (event.isBefore(this.first())) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -94,9 +96,9 @@ public class JdoActivity extends JdoEvent implements Activity {
      * TODO: make this causal rather than based on timestamps, very complex
      */
     public int order(Activity activity) {
-        if (activity.getEnd().before(this.getStart())) {
+        if (this.last().isBefore(activity.first())) {
             return -1;
-        } else if (activity.getStart().after(this.getEnd())) {
+        } else if (this.first().isAfter(activity.last())) {
             return 1;
         } else {
             return 0;
@@ -185,6 +187,14 @@ public class JdoActivity extends JdoEvent implements Activity {
         } else {
             if (this.events == null) throw new NullPointerException("An activity must have a set of events");
         }
+    }
+
+    /**
+     * Override event toString so we print embedded events
+     */
+    @Override
+    public String toString() {
+        return getEvents().toString();
     }
 
     /**

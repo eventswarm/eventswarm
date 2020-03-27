@@ -36,12 +36,6 @@ import org.apache.log4j.Logger;
  * possibly be added out-of-order. Not super-efficient for long sequences, but
  * simple and reliable. 
  * 
- * Since `isTrue` only relates to the current set of events, 
- * the match set retained for this expression is set to 1 by default. The
- * `setLimit()` method can be used to hold more matches, but be aware that all
- * matches will be included in combinations returned by an ANDExpression or 
- * SequenceExpression, which could be misleading.
- * 
  * Note that any value retriever returning a Comparable value can be used,
  * although we anticipate this will mostly be used with numeric values.
  * 
@@ -75,7 +69,6 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractEv
     this.direction = direction;
     sequence.registerAction((RemoveEventAction) this);
     values = new HashMap<Event, T>();
-    setLimit(1);
   }
 
   /**
@@ -111,13 +104,13 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractEv
     }
   }
 
-  /**
-   * This expression is currently true if the isGradient check returns true
-   */
-  @Override
-  public boolean isTrue() {
-    return isGradient();
-  }
+  // /**
+  //  * This expression is currently true if the isGradient check returns true
+  //  */
+  // @Override
+  // public boolean isTrue() {
+  //   return isGradient();
+  // }
 
   /**
    * True if the specified event is part of the sequence and we currently have a gradient
@@ -133,19 +126,23 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractEv
 
   /**
    * Check to see if the current set of events matches the gradient required (up,
-   * down, flat)
+   * down, flat) and has the required length
    * 
    * @return true if the events in the sequence are up/down/flat
    */
   private boolean isGradient() {
-    Iterator<Event> iter = sequence.iterator();
-    T last = values.get(iter.next());
-    boolean gradient = true;
-    while (iter.hasNext() && gradient) {
-      T next = values.get(iter.next());
-      gradient = (next.compareTo(last) == direction);
-      last = next;
+    if (sequence.isFilling()) {
+      return false;
+    } else {
+      Iterator<Event> iter = sequence.iterator();
+      T last = values.get(iter.next());
+      boolean gradient = true;
+      while (iter.hasNext() && gradient) {
+        T next = values.get(iter.next());
+        gradient = (next.compareTo(last) == direction);
+        last = next;
+      }
+      return gradient;
     }
-    return gradient;
   }
 }

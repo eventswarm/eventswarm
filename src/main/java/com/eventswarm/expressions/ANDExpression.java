@@ -158,6 +158,7 @@ public class ANDExpression extends AbstractEventExpression implements ComplexExp
         try {
             hasMatched = false;
             for (Expression expr : expressions) {
+                log.debug("Checking for match with " + expr.toString());
                 expr.execute(trigger, event);
             }
         } finally {

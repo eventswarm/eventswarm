@@ -255,6 +255,7 @@ public class JdoHeader extends JdoEventPart implements Header {
         // Output the fields
         string.append("eventId = ");         string.append(madeId().toString());     string.append(", ");
         string.append("timestamp = ");      string.append(getTimestamp().toString());  string.append(", ");
+        string.append("millis = ");         string.append(getTimestamp().getTime());  string.append(", ");
         string.append("sequenceNumber = "); string.append(getSequenceNumber());        string.append(", ");
         string.append("source = ");         string.append(getSource().getSourceId());  string.append(", ");
         string.append("isReply = ");        string.append(isReply());                  string.append(", ");

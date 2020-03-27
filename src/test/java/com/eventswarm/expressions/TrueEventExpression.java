@@ -31,12 +31,8 @@ import com.eventswarm.events.Event;
 public class TrueEventExpression extends AbstractEventExpression {
 
     @Override
-    public void execute(AddEventTrigger trigger, Event event) {
-        // add the event to the set and fire the trigger
-        if (event != null) {
-            this.matches.add(event);
-        }
-        this.fire(event);
+    protected boolean matched(AddEventTrigger trigger, Event event) {
+        return true;
     }
 
     @Override

@@ -27,11 +27,7 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 /**
- * A sequence expression matches a sequence event expressions in order.
- *
- * Expressions in the sequence cannot be fed events externally: the delivery of events to these expressions
- * must be controlled by the sequence expression. Locking is used to ensure thread safety, so any use of threads
- * within component expressions will potentially cause deadlock or other concurrency issues.
+ * A sequence expression matches a sequence event expressions in order, but permitting intervening events
  *
  * The set of matches for each expression is maintained with the following invariants:
  *
@@ -41,6 +37,10 @@ import org.apache.log4j.Logger;
  * }
  *
  * This ensures that when the last set in the list of match sets contains an event, then the expression has matched.
+ *
+ * Expressions in the sequence cannot be fed events externally: the delivery of events to these expressions
+ * must be controlled by the sequence expression. Locking is used to ensure thread safety, so any use of threads
+ * within component expressions will potentially cause deadlock or other concurrency issues.
  *
  * Since each component of the sequence can have an arbitrary number of matches, there can be a combinatorial explosion
  * of event combinations that match the sequence when a match occurs, and new matches will typically amplify the
@@ -87,7 +87,7 @@ public class SequenceExpression extends ANDExpression {
      * Java method dispatching (nearest rather than most specific). So, always
      * use interface types for your variables!
      *
-     * @return True if all components of the sequence have at least one matching event
+     * @return True if all components of the sequence have at least one match
      */
     @Override
     public boolean isTrue() {
@@ -131,8 +131,11 @@ public class SequenceExpression extends ANDExpression {
     @Override
     public void execute(EventMatchTrigger trigger, Event event) {
         int index = expressions.indexOf(trigger);
-        EventSet events = expressions.get(index).getMatches();
-        if (isEnabled(index) && (index == 0 ||  eventSets.get(index-1).first().isBefore(event))) {
+        log.debug("Checking index: " + Integer.toString(index));
+        EventSet events = eventSets.get(index);
+        boolean enabled = isEnabled(index);
+        boolean before = (enabled && (index == 0 ||  eventSets.get(index-1).first().isBefore(event)));
+        if (before) {
             events.execute((AddEventTrigger) trigger, event);
             log.debug("Index: " + Integer.toString(index) + ", Events: " + events.toString() + ", Trigger: " + event.toString());
             // fire triggers if the event has been added to the last set, indicating new matching combinations exist
@@ -143,7 +146,14 @@ public class SequenceExpression extends ANDExpression {
             }
         } else {
             // remove the match, since we're not using it and it might upset stuff like EventOnceOnly
-            expressions.get(index).execute((RemoveEventTrigger) null, event);
+            if (!enabled) log.debug("Not enabled at index " + Integer.toString(index));
+            else if (!before) {
+                log.debug("Preceding expression match: " + eventSets.get(index-1).first().toString());
+                log.debug("Current match:" + event.toString());
+                log.debug("Preceding is not before current");
+            }
+            // expressions.get(index).execute((RemoveEventTrigger) null, event);
+            eventSets.get(index).execute((RemoveEventTrigger) null, event);
         }
     }
 
