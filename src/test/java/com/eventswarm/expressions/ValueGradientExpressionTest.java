@@ -192,7 +192,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
   }
 
   @Test
-  public void testNotTrueFull() {
+  public void testTrueFull() {
     ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
     subject.registerAction((EventMatchAction) this);
     Event first = makeEvent(5.0);
@@ -202,7 +202,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     subject.execute((AddEventTrigger) null, second);
     subject.execute((AddEventTrigger) null, third);
     assertEquals(1, matches.size());
-    assertFalse(subject.isTrue());
+    assertTrue(subject.isTrue());
   }
 
   @Test
