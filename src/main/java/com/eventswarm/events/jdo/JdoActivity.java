@@ -226,4 +226,8 @@ public class JdoActivity extends JdoEvent implements Activity {
     public Event last() {
         return events.last();
     }
+
+    public boolean contains(Event event) {
+        return events.contains(event);
+    }
 }
