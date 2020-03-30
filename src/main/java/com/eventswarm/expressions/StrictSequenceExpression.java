@@ -200,7 +200,7 @@ public class StrictSequenceExpression extends SequenceExpression {
      * @return event if already atomic, or event.first() if it is an activity 
      */
     private Event first(Event event) {
-        return event.getClass().isInstance(Activity.class) ? ((Activity) event).first() : event; 
+        return Activity.class.isAssignableFrom(event.getClass()) ? ((Activity) event).first() : event; 
     }
 
     /**
@@ -210,6 +210,6 @@ public class StrictSequenceExpression extends SequenceExpression {
      * @return event if already atomic, or event.last() if it is an activity 
      */
     private Event last(Event event) {
-        return event.getClass().isInstance(Activity.class) ? ((Activity) event).last() : event; 
+        return Activity.class.isAssignableFrom(event.getClass()) ? ((Activity) event).last() : event; 
     }
 }

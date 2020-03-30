@@ -321,12 +321,34 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     assertEquals(second, gradient.last());
   }
 
-
   @Test
   public void testGradientInSequenceDistinct() {
     ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
     EventExpression[] seq = {subject, new TrueEventExpression()};
     SequenceExpression sequence = new SequenceExpression(Arrays.asList(seq));
+    sequence.registerAction((ComplexExpressionMatchAction) this);
+    sequence.registerAction((EventMatchAction) this);
+    Event first = makeEvent(0.0);
+    Event second = makeEvent(5.0);
+    Event third = makeEvent(0.0);
+    sequence.execute((AddEventTrigger) null, first);
+    sequence.execute((AddEventTrigger) null, second);
+    sequence.execute((AddEventTrigger) null, third);
+    assertTrue(sequence.isTrue());
+    assertEquals(1, complexMatches.size());
+    assertEquals(1, matches.size());
+    assertEquals(third, matches.get(0));
+    Activity gradient = (Activity) complexMatches.get(0).getEvents().first();
+    assertEquals(first, gradient.first());
+    assertEquals(second, gradient.last());
+  }
+
+
+  @Test
+  public void testGradientInStrictSequenceDistinct() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
+    EventExpression[] seq = {subject, new TrueEventExpression()};
+    StrictSequenceExpression sequence = new StrictSequenceExpression(Arrays.asList(seq));
     sequence.registerAction((ComplexExpressionMatchAction) this);
     sequence.registerAction((EventMatchAction) this);
     Event first = makeEvent(0.0);
@@ -368,6 +390,28 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
 
 
   @Test
+  public void testGradientInStrictSequenceFiltered() throws Exception {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
+    EventExpression[] seq = {subject, new TrueEventExpression()};
+    StrictSequenceExpression sequence = new StrictSequenceExpression(Arrays.asList(seq));
+    sequence.registerAction((ComplexExpressionMatchAction) this);
+    sequence.registerAction((EventMatchAction) this);
+    Event first = makeEvent(0.0);
+    Event second = makeEvent(5.0);
+    Event third = new OrgJsonEvent(JdoHeader.getLocalHeader(), new JSONObject("{}")); // event that won't match gradient
+    sequence.execute((AddEventTrigger) null, first);
+    sequence.execute((AddEventTrigger) null, second);
+    sequence.execute((AddEventTrigger) null, third);
+    assertTrue(sequence.isTrue());
+    assertEquals(1, complexMatches.size());
+    assertEquals(1, matches.size());
+    assertEquals(third, matches.get(0));
+    Activity gradient = (Activity) complexMatches.get(0).getEvents().first();
+    assertEquals(first, gradient.first());
+    assertEquals(second, gradient.last());
+  }
+
+  @Test
   public void testGradientInSequenceWithIntervening() throws Exception {
     ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
     EventExpression[] seq = {subject, new TrueEventExpression()};
@@ -393,6 +437,31 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     gradient = (Activity) complexMatches.get(1).getEvents().first();
     assertEquals(first, gradient.first());
     assertEquals(second, gradient.last());
+  }
+
+  @Test
+  public void testGradientInStrictSequenceWithIntervening() throws Exception {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
+    EventExpression[] seq = {subject, new TrueEventExpression()};
+    StrictSequenceExpression sequence = new StrictSequenceExpression(Arrays.asList(seq));
+    sequence.registerAction((ComplexExpressionMatchAction) this);
+    sequence.registerAction((EventMatchAction) this);
+    Event first = makeEvent(0.0);
+    Event second = makeEvent(5.0);
+    Event third = makeEvent(0.0);
+    Event fourth = new OrgJsonEvent(JdoHeader.getLocalHeader(), new JSONObject("{}")); // event that won't match gradient
+    sequence.execute((AddEventTrigger) null, first);
+    sequence.execute((AddEventTrigger) null, second);
+    sequence.execute((AddEventTrigger) null, third);
+    sequence.execute((AddEventTrigger) null, fourth);
+    assertTrue(sequence.isTrue());
+    assertEquals(1, complexMatches.size());
+    assertEquals(1, matches.size());
+    assertEquals(third, matches.get(0));
+    Activity gradient = (Activity) complexMatches.get(0).getEvents().first();
+    assertEquals(first, gradient.first());
+    assertEquals(second, gradient.last());
+    assertEquals(third, complexMatches.get(0).getEvents().last());
   }
 
   public Event makeEvent(Double value) {
