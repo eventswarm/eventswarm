@@ -60,4 +60,9 @@ public interface Activity extends Event {
      * Return the last event in the activity, ordered as defined by Event.compareTo()
      */
     public Event last();
+
+    /**
+     * Return true if the activity contains the specified event
+     */
+    public boolean contains(Event event);
 }
