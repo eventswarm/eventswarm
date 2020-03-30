@@ -30,7 +30,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 public class ValueGradientExpressionTest implements EventMatchAction, ComplexExpressionMatchAction {
   ValueRetriever<Double> retriever = new JsonEvent.DoubleRetriever("value");
@@ -192,7 +191,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
   }
 
   @Test
-  public void testTrueFull() {
+  public void testIsFalseFull() {
     ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(2, retriever, 1);
     subject.registerAction((EventMatchAction) this);
     Event first = makeEvent(5.0);
@@ -202,7 +201,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     subject.execute((AddEventTrigger) null, second);
     subject.execute((AddEventTrigger) null, third);
     assertEquals(1, matches.size());
-    assertTrue(subject.isTrue());
+    assertFalse(subject.isTrue());
   }
 
   @Test
