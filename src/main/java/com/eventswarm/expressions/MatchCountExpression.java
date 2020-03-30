@@ -35,9 +35,6 @@ import java.util.SortedSet;
  * of all current matches. Note that this is not a ComplexExpressionMatch event because there is only a single
  * expression being matched.
  *
- * This class does not remove Activity events from the set of matches when the RemoveEventAction is called, thus the
- * limit on the number of matches held is important for memory management.
- *
  * Note that since this expression does not match on a single event, it does not work when nested within the current
  * ANDExpression and SequenceExpression implementations. These will eventually be fixed.
  *
@@ -46,7 +43,7 @@ import java.util.SortedSet;
  *
  * @author andyb
  */
-public class MatchCountExpression extends AbstractEventExpression implements EventMatchAction
+public class MatchCountExpression extends AbstractActivityExpression implements EventMatchAction
 {
     private EventExpression expr;
     private EventSet exprMatches;
@@ -109,6 +106,21 @@ public class MatchCountExpression extends AbstractEventExpression implements Eve
     }
 
     /**
+     * Checks to see if the specified event is captured in a match
+     * 
+     * Recurses into the subordinate expression if that expression is an ActivityExpression it
+     * 
+     * @return true if the component expression contains this event in its matched events, including subordinate events if the match itself is an activity
+     */
+    public boolean hasCaptured(Event event) {
+        if (this.expr.getClass().isInstance(ActivityExpression.class)) {
+            return ((ActivityExpression) this.expr).hasCaptured(event);
+        } else {
+            return super.hasCaptured(event);
+        }
+    }
+
+    /**
      * Pass the event onwards and check the threshold, firing the EventMatchTrigger if the threshold is hit
      *
      * A null event will be passed onwards, so the result depends on the expression being evaluated.
@@ -140,12 +152,10 @@ public class MatchCountExpression extends AbstractEventExpression implements Eve
     }
 
     /**
-     * Remove the event from the local match set and pass on removes to wrapped expression (although
-     * the add action should remove them).
-     *
-     * Note that activity events (matches) created by this object when the threshold is matched are not removed when
-     * component events are removed: this class relies on the match limit to constrain memory usage for the set of
-     * activities created by this expression.
+     * Remove the event from the local match set, remove matched activities containing the matched event, 
+     * and pass on removes to wrapped expression (although the add action should remove them).
+     * 
+     * This 
      *
      * @param trigger
      * @param event
@@ -154,6 +164,7 @@ public class MatchCountExpression extends AbstractEventExpression implements Eve
     public void execute(RemoveEventTrigger trigger, Event event) {
         this.expr.execute(trigger, event);
         this.exprMatches.execute((RemoveEventTrigger) this, event);
+        super.execute(trigger, event); // let superclass clear activity matches
     }
 
     /**
