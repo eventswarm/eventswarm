@@ -55,7 +55,7 @@ import org.apache.log4j.Logger;
  */
 public class ANDExpression extends AbstractEventExpression implements ComplexExpression, EventMatchAction {
     protected List<EventExpression> expressions;
-    protected transient ArrayList<EventSet> eventSets;
+    protected transient ArrayList<EventSet> matchSets;
     private Set<ComplexExpressionMatchAction> complexActions;
     protected ReadWriteLock lock = new ReentrantReadWriteLock();
     protected transient boolean hasMatched;
@@ -75,10 +75,10 @@ public class ANDExpression extends AbstractEventExpression implements ComplexExp
         super();
         this.complexActions = new HashSet<ComplexExpressionMatchAction>();
         this.expressions = expressions;
-        this.eventSets = new ArrayList<EventSet>(expressions.size());
+        this.matchSets = new ArrayList<EventSet>(expressions.size());
         for (EventExpression expr : expressions) {
             // For convenience, maintain direct pointers to the match sets of each expression
-            eventSets.add(expr.getMatches());
+            matchSets.add(expr.getMatches());
             // Register to receive match actions from the component expressions
             expr.registerAction((EventMatchAction) this);
         }
@@ -281,15 +281,15 @@ public class ANDExpression extends AbstractEventExpression implements ComplexExp
      */
     protected CombinationsPart makeComplexExpressionPart(Event event) {
         SortedSet<Event> singleton = new TreeSet<Event>(); singleton.add(event);
-        ArrayList<SortedSet<Event>> parts = new ArrayList<SortedSet<Event>>(eventSets.size());
-        for (EventSet events : eventSets) {
+        ArrayList<SortedSet<Event>> parts = new ArrayList<SortedSet<Event>>(matchSets.size());
+        for (EventSet events : matchSets) {
             parts.add(events.getEventSet());
         }
         log.debug("Parts to be combined: " + parts.toString());
         Set <List<SortedSet<Event>>> sets = new HashSet<List<SortedSet<Event>>>();
         // For each EventSet that contains the last matched event
-        for (int i=0; i < this.eventSets.size(); i++) {
-            if (eventSets.get(i).contains(event)) {
+        for (int i=0; i < this.matchSets.size(); i++) {
+            if (matchSets.get(i).contains(event)) {
                 log.debug("Creating " + parts.toString());
                 ArrayList<SortedSet<Event>> clone = new ArrayList<SortedSet<Event>>(parts);
                 // replace the current set with a set containing only the new event

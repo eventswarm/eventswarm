@@ -42,7 +42,7 @@ import org.apache.log4j.Logger;
  * Events that return a null value for the retriever are ignored.
  * 
  */
-public class ValueGradientExpression<T extends Comparable<T>> extends AbstractEventExpression {
+public class ValueGradientExpression<T extends Comparable<T>> extends AbstractActivityExpression {
 
   private static Logger logger = Logger.getLogger(ValueGradientExpression.class);
 
@@ -94,23 +94,25 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractEv
   }
 
   /**
-   * Ignore upstream removes, but update the value map when an event is removed
-   * from our sequence
+   * Update the value map and remove matches containing the event when an event is removed
    */
   @Override
   public void execute(RemoveEventTrigger trigger, Event event) {
     if (trigger == sequence) {
+      // if our N-length sequence removes an event, we no longer need its value to evaluate the gradient
       values.remove(event);
     }
+    // use superclass method to remove matches including the event
+    super.execute(trigger, event);
   }
 
-  // /**
-  //  * This expression is currently true if the isGradient check returns true
-  //  */
-  // @Override
-  // public boolean isTrue() {
-  //   return isGradient();
-  // }
+  /**
+   * This expression is currently true if the isGradient check returns true
+   */
+  @Override
+  public boolean isTrue() {
+    return isGradient();
+  }
 
   /**
    * True if the specified event is part of the sequence and we currently have a gradient

@@ -37,27 +37,37 @@ import org.apache.log4j.Logger;
  * }
  *
  * This ensures that when the last set in the list of match sets contains an event, then the expression has matched.
- *
- * Expressions in the sequence cannot be fed events externally: the delivery of events to these expressions
- * must be controlled by the sequence expression. Locking is used to ensure thread safety, so any use of threads
- * within component expressions will potentially cause deadlock or other concurrency issues.
- *
- * Since each component of the sequence can have an arbitrary number of matches, there can be a combinatorial explosion
- * of event combinations that match the sequence when a match occurs, and new matches will typically amplify the
- * already-large number of matching event combinations. Considering these, notifications will <em>only</em> be generated
- * for a new match (i.e. a new event is added to the set of events matching the last element of the expression).
- *
- * Listeners on the EventMatchTrigger will receive the event that caused a new match (i.e. the last event added).
+ * 
+* Listeners on the EventMatchTrigger will receive the event that caused a new match (i.e. the last event added).
  *
  * Listeners on the ComplexExpressionMatchTrigger will receive a ComplexExpressionMatchEvent that captures all new
  * combinations of events that match in a compact form.
+ *
+ * Some considerations:
+ * 
+ * 1. This class is not safe when events are received out of order, since matches for an expression are *only* 
+ *    kept when the previous expression has earlier matches. Out of order events can mean that a match might 
+ *    be discarded due to lack of preceding matches, then an older event might result in a preceding match. This 
+ *    can potentially be addressed in future versions by replaying subsequent events when an out-of-order event 
+ *    is received, but is not currently addressed. 
+ * 2. This class is not generally safe for use with ComplexExpression or Expression implementations that match an activity (e.g. 
+ *    ValueGradientExpression). If you use it for such expressions, you *must* test carefully and in particular, test cases
+ *    where expressions in the sequence have overlapping matches. Recent changes (March 2020) have made it safer for these
+ *    cases but the invariants above do not ensure a correct match. 
+ * 3. Expressions in the sequence cannot be fed events externally: the delivery of events to these expressions
+ *    must be controlled by the sequence expression. Locking is used to ensure thread safety, so any use of threads
+ *    within component expressions will potentially cause deadlock or other concurrency issues.
+ * 4. Since each component of the sequence can have an arbitrary number of matches, there can be a combinatorial explosion
+ *    of event combinations that match the sequence when a match occurs, and new matches will typically amplify the
+ *    already-large number of matching event combinations. Considering these, notifications will <em>only</em> be generated
+ *    for a new match (i.e. a new event is added to the set of events matching the last element of the expression).
  *
  * Created with IntelliJ IDEA.
  * User: andyb
  */
 public class SequenceExpression extends ANDExpression {
 
-    private static Iterator<Event> EMPTY_ITER = new ArrayList<Event>(0).iterator();
+    protected static Iterator<Event> EMPTY_ITER = new ArrayList<Event>(0).iterator();
     /* private logger for log4j */
     private static Logger log = Logger.getLogger(SequenceExpression.class);
 
@@ -95,7 +105,7 @@ public class SequenceExpression extends ANDExpression {
         lock.readLock().lock();
         try {
             // true if the last match set is not empty we have no expressions to match
-            result = (expressions.size() == 0 || (eventSets.get(eventSets.size()-1)).size() > 0);
+            result = (expressions.size() == 0 || (matchSets.get(matchSets.size()-1)).size() > 0);
         } finally {
             lock.readLock().unlock();
         }
@@ -103,16 +113,17 @@ public class SequenceExpression extends ANDExpression {
     }
 
     /**
-     * Return true if the matchSet identified by the supplied index is enabled and can receive match events
+     * Return true if the matchSet identified by the supplied index can receive the specified match event
      *
-     * A matchSet is enabled if the preceding matchSet is not empty (i.e. events can match an expression
+     * A matchSet can receive a match event if the preceding matchSet is not empty (i.e. events can match an expression
      * if the preceding expression has matches, ensuring the sequence of matches).
      *
-     * @param index
+     * @param index index of expression to test
+     * @param event proposed match event (not used in this class, but required for StrictSequenceExpression)
      * @return true if match set is enabled
      */
-    private boolean isEnabled(int index) {
-        return (index != -1 && (index == 0 || !eventSets.get(index-1).isEmpty()));
+    protected boolean isEnabled(int index, Event event) {
+        return (index != -1 && (index == 0 || !matchSets.get(index-1).isEmpty()));
     }
 
     /**
@@ -132,9 +143,9 @@ public class SequenceExpression extends ANDExpression {
     public void execute(EventMatchTrigger trigger, Event event) {
         int index = expressions.indexOf(trigger);
         log.debug("Checking index: " + Integer.toString(index));
-        EventSet events = eventSets.get(index);
-        boolean enabled = isEnabled(index);
-        boolean before = (enabled && (index == 0 ||  eventSets.get(index-1).first().isBefore(event)));
+        EventSet events = matchSets.get(index);
+        boolean enabled = isEnabled(index, event);
+        boolean before = (enabled && (index == 0 ||  matchSets.get(index-1).first().isBefore(event)));
         if (before) {
             events.execute((AddEventTrigger) trigger, event);
             log.debug("Index: " + Integer.toString(index) + ", Events: " + events.toString() + ", Trigger: " + event.toString());
@@ -148,12 +159,12 @@ public class SequenceExpression extends ANDExpression {
             // remove the match, since we're not using it and it might upset stuff like EventOnceOnly
             if (!enabled) log.debug("Not enabled at index " + Integer.toString(index));
             else if (!before) {
-                log.debug("Preceding expression match: " + eventSets.get(index-1).first().toString());
+                log.debug("Preceding expression match: " + matchSets.get(index-1).first().toString());
                 log.debug("Current match:" + event.toString());
                 log.debug("Preceding is not before current");
             }
             // expressions.get(index).execute((RemoveEventTrigger) null, event);
-            eventSets.get(index).execute((RemoveEventTrigger) null, event);
+            matchSets.get(index).execute((RemoveEventTrigger) null, event);
         }
     }
 
@@ -191,8 +202,9 @@ public class SequenceExpression extends ANDExpression {
                     } else break;
                 }
             } else {
-                // Otherwise, just remove the event from the set
-                events.execute((RemoveEventTrigger) this, event);
+                // Otherwise, just pass on the event removal to the expression 
+                // (allowing expression to deal with activity or complex matches containing the event etc)
+                expr.execute((RemoveEventTrigger) this, event);
                 removed = true;
             }
             prev = events;
@@ -204,7 +216,7 @@ public class SequenceExpression extends ANDExpression {
      */
     @Override
     protected CombinationsPart makeComplexExpressionPart(Event event) {
-        return new JdoCombinationsPart(buildCombinations(eventSets.subList(0, eventSets.size()-1), event));
+        return new JdoCombinationsPart(buildCombinations(matchSets.subList(0, matchSets.size()-1), event));
     }
 
 
@@ -223,7 +235,7 @@ public class SequenceExpression extends ANDExpression {
      * @param list current match list (or head of match list if recursing)
      * @return
      */
-    private Set<Combination> buildCombinations(List<EventSet> list, Event tail) {
+    protected Set<Combination> buildCombinations(List<EventSet> list, Event tail) {
         log.debug("List: " + list + ", Tail: " + tail);
         int size = list.size();
         Iterator<Event> roots;
@@ -256,7 +268,7 @@ public class SequenceExpression extends ANDExpression {
     }
 
     /**
-     * Returns a subset of the supplied set of events that strictly precede the supplied event using the isBefore()
+     * Returns a subset of the supplied set of events that precede the supplied event using the isBefore()
      * relationship of events.
      *
      * Note that isBefore understands concurrent events, that is, events with the same timestamp or events that are
@@ -268,7 +280,7 @@ public class SequenceExpression extends ANDExpression {
      * @param event
      * @return
      */
-    private Iterator<Event> predecessors(Iterator<Event> iter, Event event) {
+    protected Iterator<Event> predecessors(Iterator<Event> iter, Event event) {
         if (iter == null || !iter.hasNext()) {
             log.debug("No elements in preceding list, so no predecessors");
             return EMPTY_ITER;

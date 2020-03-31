@@ -38,8 +38,8 @@ import com.eventswarm.events.jdo.TestEvents;
  * Created with IntelliJ IDEA.
  * User: andyb
  */
-public class SequenceExpressionTest extends TestCase {
-    private SequenceExpression sequence0, sequence1, sequence2, neverMatch1, neverMatch2_1, neverMatch2_2, identitySequence, orIdentitySequence;
+public class StrictSequenceExpressionTest extends TestCase {
+    private StrictSequenceExpression sequence0, sequence1, sequence2, neverMatch1, neverMatch2_1, neverMatch2_2, identitySequence, orIdentitySequence;
     private Event event1 = TestEvents.event,
             event2 = TestEvents.eventAfterSameSrcBeforeSeq,
             event3 = TestEvents.eventAfterSameSrcConcSeq,
@@ -74,14 +74,14 @@ public class SequenceExpressionTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        sequence0 = new SequenceExpression(new ArrayList<EventExpression>());
-        sequence1 = new SequenceExpression(Arrays.asList(new EventExpression[] {expr_true1}));
-        sequence2 = new SequenceExpression(Arrays.asList(new EventExpression[] {expr_true2, expr_true3}));
-        neverMatch1 = new SequenceExpression(Arrays.asList(new EventExpression[] {expr_false1}));
-        neverMatch2_1 = new SequenceExpression(Arrays.asList(new EventExpression[] {expr_false2, expr_true4}));
-        neverMatch2_2 = new SequenceExpression(Arrays.asList(new EventExpression[] {expr_true5, expr_false3}));
-        identitySequence = new SequenceExpression(Arrays.asList(new EventExpression[]{event1_identity, event2_identity}));
-        orIdentitySequence = new SequenceExpression(Arrays.asList(new EventExpression[]{event1_or_3_identity, expr_true6}));
+        sequence0 = new StrictSequenceExpression(new ArrayList<EventExpression>());
+        sequence1 = new StrictSequenceExpression(Arrays.asList(new EventExpression[] {expr_true1}));
+        sequence2 = new StrictSequenceExpression(Arrays.asList(new EventExpression[] {expr_true2, expr_true3}));
+        neverMatch1 = new StrictSequenceExpression(Arrays.asList(new EventExpression[] {expr_false1}));
+        neverMatch2_1 = new StrictSequenceExpression(Arrays.asList(new EventExpression[] {expr_false2, expr_true4}));
+        neverMatch2_2 = new StrictSequenceExpression(Arrays.asList(new EventExpression[] {expr_true5, expr_false3}));
+        identitySequence = new StrictSequenceExpression(Arrays.asList(new EventExpression[]{event1_identity, event2_identity}));
+        orIdentitySequence = new StrictSequenceExpression(Arrays.asList(new EventExpression[]{event1_or_3_identity, expr_true6}));
         eventMatches = new ArrayList<Event>();
         complexMatches = new ArrayList<ComplexExpressionMatchEvent>();
         comb_1 = new JdoCombination(); comb_1.add(event1);
@@ -146,7 +146,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_1event_match() throws Exception {
-        SequenceExpression expr = sequence1;
+        StrictSequenceExpression expr = sequence1;
         expr.execute((AddEventTrigger) null, event1);
         assertTrue(expr.isTrue());
         List<EventSet> matchSets = expr.getMatchEvents();
@@ -157,7 +157,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_1event_nomatch() throws Exception {
-        SequenceExpression expr = neverMatch1;
+        StrictSequenceExpression expr = neverMatch1;
         expr.execute((AddEventTrigger) null, event1);
         assertFalse(expr.isTrue());
         List<EventSet> matchSets = expr.getMatchEvents();
@@ -167,7 +167,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_1event_nopartial() throws Exception {
-        SequenceExpression expr = neverMatch2_1;
+        StrictSequenceExpression expr = neverMatch2_1;
         expr.execute((AddEventTrigger) null, event1);
         assertFalse(expr.isTrue());
         List<EventSet> matchSets = expr.getMatchEvents();
@@ -179,7 +179,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_1event_partial_withdupe() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.execute((AddEventTrigger) null, event1);
         assertFalse(expr.isTrue());
         List<EventSet> matchSets = expr.getMatchEvents();
@@ -192,7 +192,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_1event_partial_nodupe() throws Exception {
-        SequenceExpression expr = neverMatch2_2;
+        StrictSequenceExpression expr = neverMatch2_2;
         expr.execute((AddEventTrigger) null, event1);
         assertFalse(expr.isTrue());
         List<EventSet> matchSets = expr.getMatchEvents();
@@ -205,7 +205,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_2event_match() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertTrue(expr.isTrue());
@@ -222,7 +222,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_2event_nomatch_falsefirst() throws Exception {
-        SequenceExpression expr = neverMatch2_1;
+        StrictSequenceExpression expr = neverMatch2_1;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertFalse(expr.isTrue());
@@ -235,7 +235,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_2event_nomatch_truefirst() throws Exception {
-        SequenceExpression expr = neverMatch2_2;
+        StrictSequenceExpression expr = neverMatch2_2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertFalse(expr.isTrue());
@@ -251,7 +251,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_3event_matchtwice() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         expr.execute((AddEventTrigger) null, event3);
@@ -271,7 +271,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_2event_sequence_matched() throws Exception {
-        SequenceExpression expr = identitySequence;
+        StrictSequenceExpression expr = identitySequence;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         List<EventSet> matchSets = expr.getMatchEvents();
@@ -284,7 +284,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_2event_sequence_notmatched() throws Exception {
-        SequenceExpression expr = identitySequence;
+        StrictSequenceExpression expr = identitySequence;
         expr.execute((AddEventTrigger) null, event2);
         expr.execute((AddEventTrigger) null, event1);
         List<EventSet> matchSets = expr.getMatchEvents();
@@ -296,7 +296,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testAddEventExecute_dupe_ignored() throws Exception {
-        SequenceExpression expr = identitySequence;
+        StrictSequenceExpression expr = identitySequence;
         expr.registerAction(eventAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -308,7 +308,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove1_empty() throws Exception {
-        SequenceExpression expr = sequence0;
+        StrictSequenceExpression expr = sequence0;
         expr.execute((RemoveEventTrigger) null, event1);
         List<EventSet> matchSets = expr.getMatchEvents();
         assertTrue(matchSets.size() == 0);
@@ -317,7 +317,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove1_matched1_false() throws Exception {
-        SequenceExpression expr = sequence1;
+        StrictSequenceExpression expr = sequence1;
         expr.execute((AddEventTrigger) null, event1);
         assertTrue(expr.isTrue());
         expr.execute((RemoveEventTrigger) null, event1);
@@ -328,7 +328,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove1_matched1_true1() throws Exception {
-        SequenceExpression expr = sequence1;
+        StrictSequenceExpression expr = sequence1;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertTrue(expr.isTrue());
@@ -341,7 +341,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove1_notmatched() throws Exception {
-        SequenceExpression expr = neverMatch1;
+        StrictSequenceExpression expr = neverMatch1;
         expr.execute((AddEventTrigger) null, event1);
         assertFalse(expr.isTrue());
         expr.execute((RemoveEventTrigger) null, event1);
@@ -351,7 +351,7 @@ public class SequenceExpressionTest extends TestCase {
     }
     @Test
     public void testRemoveEventExecute_remove1_matched1_partial1() throws Exception {
-        SequenceExpression expr = neverMatch2_2;
+        StrictSequenceExpression expr = neverMatch2_2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertFalse(expr.isTrue());
@@ -366,7 +366,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove1_matched1_partial2() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertTrue(expr.isTrue());
@@ -381,7 +381,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove2_matched2_false() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertTrue(expr.isTrue());
@@ -395,7 +395,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove1_matched1_true2() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         expr.execute((AddEventTrigger) null, event3);
@@ -412,7 +412,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove2_notmatched() throws Exception {
-        SequenceExpression expr = neverMatch2_1;
+        StrictSequenceExpression expr = neverMatch2_1;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertFalse(expr.isTrue());
@@ -426,7 +426,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testRemoveEventExecute_remove2_partial() throws Exception {
-        SequenceExpression expr = neverMatch2_2;
+        StrictSequenceExpression expr = neverMatch2_2;
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         assertFalse(expr.isTrue());
@@ -455,7 +455,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testEventMatchRegisterAction_1event_1expr_1matched() throws Exception {
-        SequenceExpression expr = sequence1;
+        StrictSequenceExpression expr = sequence1;
         expr.registerAction(eventAction);
         expr.execute((AddEventTrigger) null, event1);
         assertEquals(1, eventMatches.size());
@@ -464,7 +464,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testEventMatchRegisterAction_2event_1expr_2matched() throws Exception {
-        SequenceExpression expr = sequence1;
+        StrictSequenceExpression expr = sequence1;
         expr.registerAction(eventAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -475,7 +475,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testEventMatchRegisterAction_2event_2expr_both_matched() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.registerAction(eventAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -485,7 +485,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testEventMatchRegisterAction_2event_2expr_each_matched() throws Exception {
-        SequenceExpression expr = identitySequence;
+        StrictSequenceExpression expr = identitySequence;
         expr.registerAction(eventAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -500,7 +500,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testComplexExpressionMatchRegisterAction_1event_1expr_1matched() throws Exception {
-        SequenceExpression expr = sequence1;
+        StrictSequenceExpression expr = sequence1;
         expr.registerAction(complexAction);
         expr.execute((AddEventTrigger) null, event1);
         assertEquals(1, complexMatches.size());
@@ -510,7 +510,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testComplexExpressionMatchRegisterAction_2event_1expr_2matched() throws Exception {
-        SequenceExpression expr = sequence1;
+        StrictSequenceExpression expr = sequence1;
         expr.registerAction(complexAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -523,7 +523,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testComplexExpressionMatchRegisterAction_2event_2expr_both_matched() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.registerAction(complexAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -535,7 +535,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testComplexExpressionMatchRegisterAction_2event_2expr_each_matched() throws Exception {
-        SequenceExpression expr = identitySequence;
+        StrictSequenceExpression expr = identitySequence;
         expr.registerAction(complexAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -546,7 +546,7 @@ public class SequenceExpressionTest extends TestCase {
 
     @Test
     public void testComplexExpressionMatchRegisterAction_3event_2expr_all_matched() throws Exception {
-        SequenceExpression expr = sequence2;
+        StrictSequenceExpression expr = sequence2;
         expr.registerAction(complexAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
@@ -554,41 +554,35 @@ public class SequenceExpressionTest extends TestCase {
         assertEquals(2, complexMatches.size());
         assertEquals(1, complexMatches.get(0).getCombinations().size());
         assertTrue(complexMatches.get(0).getCombinations().contains(comb_1_2));
-        assertEquals(2, complexMatches.get(1).count());
-        assertTrue(complexMatches.get(1).getCombinations().contains(comb_1_3));
+        assertEquals(1, complexMatches.get(1).count());
         assertTrue(complexMatches.get(1).getCombinations().contains(comb_2_3));
     }
 
     @Test
     public void testComplexExpressionMatchRegisterAction_3event_2expr_mixed_match() throws Exception {
-        SequenceExpression expr = orIdentitySequence;
+        StrictSequenceExpression expr = orIdentitySequence;
         expr.registerAction(complexAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         expr.execute((AddEventTrigger) null, event3);
-        assertEquals(2, complexMatches.size());
+        assertEquals(1, complexMatches.size());
         assertEquals(1, complexMatches.get(0).getCombinations().size());
         assertTrue(complexMatches.get(0).getCombinations().contains(comb_1_2));
-        assertEquals(1, complexMatches.get(1).count());
-        assertTrue(complexMatches.get(1).getCombinations().contains(comb_1_3));
     }
 
     @Test
     public void testComplexExpressionMatchRegisterAction_4event_2expr_mixed_match() throws Exception {
-        SequenceExpression expr = orIdentitySequence;
+        StrictSequenceExpression expr = orIdentitySequence;
         expr.registerAction(complexAction);
         expr.execute((AddEventTrigger) null, event1);
         expr.execute((AddEventTrigger) null, event2);
         expr.execute((AddEventTrigger) null, event3);
         expr.execute((AddEventTrigger) null, event4);
-        assertEquals(3, complexMatches.size());
+        assertEquals(2, complexMatches.size());
         assertEquals(1, complexMatches.get(0).getCombinations().size());
         assertTrue(complexMatches.get(0).getCombinations().contains(comb_1_2));
         assertEquals(1, complexMatches.get(1).count());
-        assertTrue(complexMatches.get(1).getCombinations().contains(comb_1_3));
-        assertEquals(2, complexMatches.get(2).count());
-        assertTrue(complexMatches.get(2).getCombinations().contains(comb_1_4));
-        assertTrue(complexMatches.get(2).getCombinations().contains(comb_3_4));
+        assertTrue(complexMatches.get(1).getCombinations().contains(comb_3_4));
     }
 
 
