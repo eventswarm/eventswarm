@@ -28,8 +28,8 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 /**
- * Expression that matches when the sequence of values extracted from ordered
- * events is strictly increasing, decreasing or flat
+ * Expression that matches when the sequence of values extracted from the last N
+ * events is strictly increasing, decreasing or flat.
  * 
  * This expression re-evaluates the entire sequence whenever a new event is
  * added rather than just checking the next transition because events can
@@ -70,7 +70,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
 
   /**
    * Create a ValueGradientExpression with the specified length, value retriever
-   * gradient direction and minimum events, to match a gradient with (min <= N <= length) events. 
+   * gradient direction and minimum, to match a gradient of (minimum <= N <= length) events. 
    * 
    * Doesn't validate params, so if you give a length or min < 2 or a direction that
    * doesn't equal -1, 0 or 1, then you're on your own.
@@ -101,9 +101,9 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
       sequence.execute(trigger, event);
       if (sequence.contains(event)) {
         values.put(event, value); // cache the value in case the retrieval is non-trivial
-        if (sequence.size() >= this.min && isGradient()) {
-          // we have a match if our sequence is full and satisfies the gradient check
-          Activity match = new JdoActivity(sequence.getEventSet());
+        if (isTrue()) {
+          // generate a match event containing our gradient `tail` if the expression is true
+          Activity match = new JdoActivity(tail());
           this.matches.execute((AddEventTrigger) this, match);
           this.fire(match);
         }
@@ -125,15 +125,16 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
   }
 
   /**
-   * This expression is currently true if the isGradient check returns true
+   * This expression is true if we have enough events and the length of our gradient tail >= min
    */
   @Override
   public boolean isTrue() {
-    return isGradient();
+    // check number of events first to avoid calculating tail unnecessarily
+    return sequence.size() >= min && tail().size() >= min;
   }
 
   /**
-   * True if the specified event is part of the sequence and we currently have a gradient
+   * True if the specified event is contained in our sequence (<= length) and is a part of at least one match
    * 
    * Note that hasMatched is used in the context of `event` being processed (i.e. usually no 
    * other events are being processed concurrently) so will not generally be called after the
@@ -141,28 +142,34 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
    */
   @Override
   public boolean hasMatched(Event event) {
-    return this.sequence.contains(event) && isGradient();
+    return this.sequence.contains(event) && this.hasCaptured(event);
   }
 
   /**
-   * Check to see if the current set of events matches the gradient required (up,
-   * down, flat) and has the required length
+   * Return the gradient "tail" set
    * 
-   * @return true if the events in the sequence are up/down/flat
+   * Iterates from the last event in the set until an event is found that *does not* 
+   * match the required gradient or the first event if the entire set is a gradient.
+   * 
+   * @return longest tail set that matches gradient or null if the sequence is empty
    */
-  private boolean isGradient() {
-    if (sequence.size() < this.min) {
-      return false;
-    } else {
-      Iterator<Event> iter = sequence.iterator();
-      T last = values.get(iter.next());
-      boolean gradient = true;
-      while (iter.hasNext() && gradient) {
-        T next = values.get(iter.next());
-        gradient = (next.compareTo(last) == direction);
-        last = next;
+  private SortedSet<Event> tail() {
+    if (sequence.isEmpty()) return null;
+    else {
+      NavigableSet<Event> iterableSet = sequence.getEventSet();
+      Iterator<Event> iter = iterableSet.descendingSet().iterator(); // iterate in reverse
+      Event current = iter.next();
+      Event previous;
+      T value = values.get(current);
+      while (iter.hasNext()) {
+        previous = iter.next();
+        T prev_value = values.get(previous);
+        if (value.compareTo(prev_value) != direction) {
+          return iterableSet.tailSet(current, true);
+        }
+        current = previous;
       }
-      return gradient;
+      return iterableSet;
     }
   }
 }

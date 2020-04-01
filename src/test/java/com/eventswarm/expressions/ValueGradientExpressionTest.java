@@ -237,7 +237,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event fourth = makeEvent(10.0);
     subject.execute((AddEventTrigger) null, fourth); // make expression false
     assertEquals(2, matches.size());
-    assertFalse(subject.hasMatched(third));
+    assertTrue(subject.hasMatched(third));
     assertFalse(subject.hasMatched(fourth));
   }
 
@@ -524,6 +524,76 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     subject.execute((AddEventTrigger) null, first);
     assertFalse(subject.isTrue());
     assertEquals(0, matches.size());
+  }
+
+  @Test
+  public void testMinIsTrueWithTail() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(3, retriever, 1, 2);
+    subject.registerAction((EventMatchAction) this);
+    Event first = makeEvent(15.0);
+    Event second = makeEvent(10.0);
+    Event third = makeEvent(15.0);
+    subject.execute((AddEventTrigger) null, first);
+    subject.execute((AddEventTrigger) null, second);
+    subject.execute((AddEventTrigger) null, third);
+    assertEquals(1, matches.size());
+    assertTrue(subject.isTrue());
+    assertEquals(2, ((Activity) matches.get(0)).getEvents().size());
+    assertEquals(second, ((Activity) matches.get(0)).getEvents().first());
+    assertEquals(third, ((Activity) matches.get(0)).getEvents().last());
+  }
+
+  @Test
+  public void testMinInStrictSequence() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(5, retriever, 1, 2);
+    EventExpression[] seq = {subject, new TrueEventExpression()};
+    StrictSequenceExpression sequence = new StrictSequenceExpression(Arrays.asList(seq));
+    sequence.registerAction((ComplexExpressionMatchAction) this);
+    sequence.registerAction((EventMatchAction) this);
+    Event first = makeEvent(0.0);
+    Event second = makeEvent(5.0);
+    Event third = new OrgJsonEvent(JdoHeader.getLocalHeader(), new JSONObject("{}")); // event that won't match gradient
+    sequence.execute((AddEventTrigger) null, first);
+    sequence.execute((AddEventTrigger) null, second);
+    sequence.execute((AddEventTrigger) null, third);
+    assertTrue(sequence.isTrue());
+    assertEquals(1, complexMatches.size());
+    assertEquals(1, matches.size());
+    assertEquals(third, matches.get(0));
+    Activity gradient = (Activity) complexMatches.get(0).getEvents().first();
+    assertEquals(first, gradient.first());
+    assertEquals(second, gradient.last());
+    assertEquals(third, complexMatches.get(0).getEvents().last());
+  }
+
+  @Test
+  public void testAboveMinInStrictSequence() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(5, retriever, 1, 2);
+    EventExpression[] seq = {subject, new TrueEventExpression()};
+    StrictSequenceExpression sequence = new StrictSequenceExpression(Arrays.asList(seq));
+    sequence.registerAction((ComplexExpressionMatchAction) this);
+    sequence.registerAction((EventMatchAction) this);
+    Event first = makeEvent(0.0);
+    Event second = makeEvent(5.0);
+    Event third = makeEvent(10.0);
+    Event fourth = new OrgJsonEvent(JdoHeader.getLocalHeader(), new JSONObject("{}")); // event that won't match gradient
+    sequence.execute((AddEventTrigger) null, first);
+    sequence.execute((AddEventTrigger) null, second);
+    sequence.execute((AddEventTrigger) null, third);
+    sequence.execute((AddEventTrigger) null, fourth);
+    assertTrue(sequence.isTrue());
+    assertEquals(2, complexMatches.size());
+    assertEquals(2, matches.size());
+    assertEquals(third, matches.get(0));
+    assertEquals(fourth, matches.get(1));
+    Activity gradient = (Activity) complexMatches.get(0).getEvents().first();
+    assertEquals(first, gradient.first());
+    assertEquals(second, gradient.last());
+    assertEquals(third, complexMatches.get(0).getEvents().last());
+    gradient = (Activity) complexMatches.get(1).getEvents().first();
+    assertEquals(first, gradient.first());
+    assertEquals(third, gradient.last());
+    assertEquals(fourth, complexMatches.get(1).getEvents().last());
   }
 
   public Event makeEvent(Double value) {
