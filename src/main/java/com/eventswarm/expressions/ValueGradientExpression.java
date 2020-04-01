@@ -50,23 +50,41 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
   private ValueRetriever<T> retriever;
   private int direction;
   private Map<Event, T> values;
+  private int min; // minimum number of events to have a match
 
   /**
    * Create a ValueGradientExpression with the specified length, value retriever
-   * and gradient direction
+   * and gradient direction, to match a gradient of exactly `length` events.
    * 
    * Doesn't validate params, so if you give a length < 2 or a direction that
    * doesn't equal -1, 0 or 1, then you're on your own.
    * 
-   * @param length    length of the sequence required to match the gradient (e.g.
-   *                  5 in a row)
+   * @param length    length of the sequence to match the gradient (e.g. 5 in a row)
    * @param retriever event value retriever to use for gradient calculation
    * @param direction gradient direction == -1 (down), 0 (flat) or 1 (up)
    */
   public ValueGradientExpression(int length, ValueRetriever<T> retriever, int direction) {
+    // create an instance with min == length
+    this(length, retriever, direction, length);
+  }
+
+  /**
+   * Create a ValueGradientExpression with the specified length, value retriever
+   * gradient direction and minimum events, to match a gradient with (min <= N <= length) events. 
+   * 
+   * Doesn't validate params, so if you give a length or min < 2 or a direction that
+   * doesn't equal -1, 0 or 1, then you're on your own.
+   * 
+   * @param length    maximum length of the sequence to match the gradient
+   * @param retriever event value retriever to use for gradient calculation
+   * @param direction gradient direction == -1 (down), 0 (flat) or 1 (up)
+   * @param min       minimum length of sequence to match the gradient
+   */
+  public ValueGradientExpression(int length, ValueRetriever<T> retriever, int direction, int min) {
     sequence = new LastNWindow(length);
     this.retriever = retriever;
     this.direction = direction;
+    this.min = min;
     sequence.registerAction((RemoveEventAction) this);
     values = new HashMap<Event, T>();
   }
@@ -83,7 +101,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
       sequence.execute(trigger, event);
       if (sequence.contains(event)) {
         values.put(event, value); // cache the value in case the retrieval is non-trivial
-        if (!sequence.isFilling() && isGradient()) {
+        if (sequence.size() >= this.min && isGradient()) {
           // we have a match if our sequence is full and satisfies the gradient check
           Activity match = new JdoActivity(sequence.getEventSet());
           this.matches.execute((AddEventTrigger) this, match);
@@ -133,7 +151,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
    * @return true if the events in the sequence are up/down/flat
    */
   private boolean isGradient() {
-    if (sequence.isFilling()) {
+    if (sequence.size() < this.min) {
       return false;
     } else {
       Iterator<Event> iter = sequence.iterator();
