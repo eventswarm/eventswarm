@@ -237,7 +237,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event fourth = makeEvent(10.0);
     subject.execute((AddEventTrigger) null, fourth); // make expression false
     assertEquals(2, matches.size());
-    assertFalse(subject.hasMatched(third));
+    assertTrue(subject.hasMatched(third));
     assertFalse(subject.hasMatched(fourth));
   }
 

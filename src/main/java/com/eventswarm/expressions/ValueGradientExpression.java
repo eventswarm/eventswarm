@@ -28,11 +28,8 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 /**
- * Expression that matches when the sequence of values extracted from ordered
- * events is strictly increasing, decreasing or flat
- * 
- * Where a minimum and maximum length is specified, the expression is true only 
- * when the current `tail` having the required gradient is at least `min` long. 
+ * Expression that matches when the sequence of values extracted from the last N
+ * events is strictly increasing, decreasing or flat.
  * 
  * This expression re-evaluates the entire sequence whenever a new event is
  * added rather than just checking the next transition because events can
@@ -73,7 +70,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
 
   /**
    * Create a ValueGradientExpression with the specified length, value retriever
-   * gradient direction and minimum events, to match a gradient with (min <= N <= length) events. 
+   * gradient direction and minimum, to match a gradient of (minimum <= N <= length) events. 
    * 
    * Doesn't validate params, so if you give a length or min < 2 or a direction that
    * doesn't equal -1, 0 or 1, then you're on your own.
@@ -136,7 +133,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
   }
 
   /**
-   * True if the specified event is part of the sequence and we currently have a gradient
+   * True if the specified event is contained in our sequence (<= length) and is a part of at least one match
    * 
    * Note that hasMatched is used in the context of `event` being processed (i.e. usually no 
    * other events are being processed concurrently) so will not generally be called after the
@@ -144,7 +141,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
    */
   @Override
   public boolean hasMatched(Event event) {
-    return this.sequence.contains(event) && isTrue();
+    return this.sequence.contains(event) && this.hasCaptured(event);
   }
 
   /**
