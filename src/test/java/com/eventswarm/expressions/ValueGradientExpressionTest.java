@@ -49,6 +49,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     subject.registerAction((EventMatchAction) this);
     Event first = makeEvent(10.0);
     subject.execute((AddEventTrigger) null, first);
+    assertFalse(subject.isTrue());
     assertEquals(0, matches.size());
   }
 
@@ -60,6 +61,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event second = makeEvent(5.0);
     subject.execute((AddEventTrigger) null, first);
     subject.execute((AddEventTrigger) null, second);
+    assertTrue(subject.isTrue());
     assertEquals(1, matches.size());
     Activity match = (Activity) matches.get(0);
     assertEquals(first, match.first());
@@ -74,6 +76,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event second = makeEvent(10.0);
     subject.execute((AddEventTrigger) null, first);
     subject.execute((AddEventTrigger) null, second);
+    assertFalse(subject.isTrue());
     assertEquals(0, matches.size());
   }
 
@@ -86,6 +89,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event second = makeEvent(5.0);
     subject.execute((AddEventTrigger) null, first);
     subject.execute((AddEventTrigger) null, second);
+    assertTrue(subject.isTrue());
     assertEquals(1, matches.size());
     Activity match = (Activity) matches.get(0);
     assertEquals(first, match.first());
@@ -100,6 +104,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event second = makeEvent(0.0);
     subject.execute((AddEventTrigger) null, first);
     subject.execute((AddEventTrigger) null, second);
+    assertFalse(subject.isTrue());
     assertEquals(0, matches.size());
   }
 
@@ -111,6 +116,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event second = makeEvent(1.0);
     subject.execute((AddEventTrigger) null, first);
     subject.execute((AddEventTrigger) null, second);
+    assertTrue(subject.isTrue());
     assertEquals(1, matches.size());
     Activity match = (Activity) matches.get(0);
     assertEquals(first, match.first());
@@ -211,6 +217,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     Event first = makeEvent(5.0);
     subject.execute((AddEventTrigger) null, first);
     assertFalse(subject.isTrue());
+    assertEquals(0, matches.size());
   }
 
   @Test
@@ -229,6 +236,7 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     assertTrue(subject.hasMatched(third));
     Event fourth = makeEvent(10.0);
     subject.execute((AddEventTrigger) null, fourth); // make expression false
+    assertEquals(2, matches.size());
     assertFalse(subject.hasMatched(third));
     assertFalse(subject.hasMatched(fourth));
   }
@@ -462,6 +470,60 @@ public class ValueGradientExpressionTest implements EventMatchAction, ComplexExp
     assertEquals(first, gradient.first());
     assertEquals(second, gradient.last());
     assertEquals(third, complexMatches.get(0).getEvents().last());
+  }
+
+  @Test
+  public void testMinIsTrueNotFull() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(3, retriever, 1, 2);
+    subject.registerAction((EventMatchAction) this);
+    Event first = makeEvent(5.0);
+    Event second = makeEvent(10.0);
+    subject.execute((AddEventTrigger) null, first);
+    subject.execute((AddEventTrigger) null, second);
+    assertTrue(subject.isTrue());
+    assertEquals(1, matches.size());
+  }
+
+  @Test
+  public void testMinIsTrueFull() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(3, retriever, 1, 2);
+    subject.registerAction((EventMatchAction) this);
+    Event first = makeEvent(5.0);
+    Event second = makeEvent(10.0);
+    Event third = makeEvent(15.0);
+    subject.execute((AddEventTrigger) null, first);
+    subject.execute((AddEventTrigger) null, second);
+    subject.execute((AddEventTrigger) null, third);
+    assertEquals(2, matches.size());
+    assertTrue(subject.isTrue());
+    assertEquals(2, ((Activity) matches.get(0)).getEvents().size());
+    assertEquals(3, ((Activity) matches.get(1)).getEvents().size());
+  }
+
+  @Test
+  public void testMinIsFalseFull() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(3, retriever, 1, 2);
+    subject.registerAction((EventMatchAction) this);
+    Event first = makeEvent(5.0);
+    Event second = makeEvent(10.0);
+    Event third = makeEvent(5.0);
+    subject.execute((AddEventTrigger) null, first);
+    subject.execute((AddEventTrigger) null, second);
+    subject.execute((AddEventTrigger) null, third);
+    assertEquals(1, matches.size());
+    assertFalse(subject.isTrue());
+    assertEquals(2, ((Activity) matches.get(0)).getEvents().size());
+    assertEquals(second, ((Activity) matches.get(0)).last());
+  }
+
+  @Test
+  public void testMinIsFalseNotFull() {
+    ValueGradientExpression<Double> subject = new ValueGradientExpression<Double>(3, retriever, 1, 2);
+    subject.registerAction((EventMatchAction) this);
+    Event first = makeEvent(5.0);
+    subject.execute((AddEventTrigger) null, first);
+    assertFalse(subject.isTrue());
+    assertEquals(0, matches.size());
   }
 
   public Event makeEvent(Double value) {
