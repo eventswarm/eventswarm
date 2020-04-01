@@ -31,6 +31,9 @@ import org.apache.log4j.Logger;
  * Expression that matches when the sequence of values extracted from ordered
  * events is strictly increasing, decreasing or flat
  * 
+ * Where a minimum and maximum length is specified, the expression is true only 
+ * when the current `tail` having the required gradient is at least `min` long. 
+ * 
  * This expression re-evaluates the entire sequence whenever a new event is
  * added rather than just checking the next transition because events can
  * possibly be added out-of-order. Not super-efficient for long sequences, but
@@ -101,9 +104,9 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
       sequence.execute(trigger, event);
       if (sequence.contains(event)) {
         values.put(event, value); // cache the value in case the retrieval is non-trivial
-        if (sequence.size() >= this.min && isGradient()) {
-          // we have a match if our sequence is full and satisfies the gradient check
-          Activity match = new JdoActivity(sequence.getEventSet());
+        if (isTrue()) {
+          // generate a match event containing our gradient `tail` if the expression is true
+          Activity match = new JdoActivity(tail());
           this.matches.execute((AddEventTrigger) this, match);
           this.fire(match);
         }
@@ -125,11 +128,11 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
   }
 
   /**
-   * This expression is currently true if the isGradient check returns true
+   * This expression is currently true if we have enough events and the isGradient check returns true
    */
   @Override
   public boolean isTrue() {
-    return isGradient();
+    return sequence.size() >= min && isGradient();
   }
 
   /**
@@ -141,28 +144,44 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
    */
   @Override
   public boolean hasMatched(Event event) {
-    return this.sequence.contains(event) && isGradient();
+    return this.sequence.contains(event) && isTrue();
   }
 
   /**
    * Check to see if the current set of events matches the gradient required (up,
    * down, flat) and has the required length
    * 
-   * @return true if the events in the sequence are up/down/flat
+   * @return true if the gradient `tail()` is larger than `min`
    */
   private boolean isGradient() {
-    if (sequence.size() < this.min) {
-      return false;
-    } else {
-      Iterator<Event> iter = sequence.iterator();
-      T last = values.get(iter.next());
-      boolean gradient = true;
-      while (iter.hasNext() && gradient) {
-        T next = values.get(iter.next());
-        gradient = (next.compareTo(last) == direction);
-        last = next;
+    return tail().size() >= min;
+  }
+
+  /**
+   * Return the gradient "tail" set
+   * 
+   * Iterates from the last event in the set until an event is found that *does not* 
+   * match the required gradient or the first event if the entire set is a gradient.
+   * 
+   * @return longest tail set that matches gradient or null if the sequence is empty
+   */
+  private SortedSet<Event> tail() {
+    if (sequence.isEmpty()) return null;
+    else {
+      NavigableSet<Event> iterableSet = sequence.getEventSet();
+      Iterator<Event> iter = iterableSet.descendingSet().iterator(); // iterate in reverse
+      Event current = iter.next();
+      Event previous;
+      T value = values.get(current);
+      while (iter.hasNext()) {
+        previous = iter.next();
+        T prev_value = values.get(previous);
+        if (value.compareTo(prev_value) != direction) {
+          return iterableSet.tailSet(current, true);
+        }
+        current = previous;
       }
-      return gradient;
+      return iterableSet;
     }
   }
 }
