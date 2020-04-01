@@ -59,8 +59,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
    * Doesn't validate params, so if you give a length < 2 or a direction that
    * doesn't equal -1, 0 or 1, then you're on your own.
    * 
-   * @param length    length of the sequence required to match the gradient (e.g.
-   *                  5 in a row)
+   * @param length    length of the sequence to match the gradient (e.g. 5 in a row)
    * @param retriever event value retriever to use for gradient calculation
    * @param direction gradient direction == -1 (down), 0 (flat) or 1 (up)
    */
@@ -77,10 +76,10 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
    * Doesn't validate params, so if you give a length or min < 2 or a direction that
    * doesn't equal -1, 0 or 1, then you're on your own.
    * 
-   * @param length    length of the sequence required to match the gradient (e.g.
-   *                  5 in a row)
+   * @param length    maximum length of the sequence to match the gradient
    * @param retriever event value retriever to use for gradient calculation
    * @param direction gradient direction == -1 (down), 0 (flat) or 1 (up)
+   * @param min       minimum length of sequence to match the gradient
    */
   public ValueGradientExpression(int length, ValueRetriever<T> retriever, int direction, int min) {
     sequence = new LastNWindow(length);
