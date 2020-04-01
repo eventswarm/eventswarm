@@ -125,11 +125,12 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
   }
 
   /**
-   * This expression is currently true if we have enough events and the isGradient check returns true
+   * This expression is true if we have enough events and the length of our gradient tail >= min
    */
   @Override
   public boolean isTrue() {
-    return sequence.size() >= min && isGradient();
+    // check number of events first to avoid calculating tail unnecessarily
+    return sequence.size() >= min && tail().size() >= min;
   }
 
   /**
@@ -142,16 +143,6 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
   @Override
   public boolean hasMatched(Event event) {
     return this.sequence.contains(event) && this.hasCaptured(event);
-  }
-
-  /**
-   * Check to see if the current set of events matches the gradient required (up,
-   * down, flat) and has the required length
-   * 
-   * @return true if the gradient `tail()` is larger than `min`
-   */
-  private boolean isGradient() {
-    return tail().size() >= min;
   }
 
   /**
