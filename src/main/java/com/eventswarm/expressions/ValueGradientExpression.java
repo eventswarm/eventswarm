@@ -54,7 +54,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
 
   /**
    * Create a ValueGradientExpression with the specified length, value retriever
-   * and gradient direction to match a gradient of exactly `length` events.
+   * and gradient direction, to match a gradient of exactly `length` events.
    * 
    * Doesn't validate params, so if you give a length < 2 or a direction that
    * doesn't equal -1, 0 or 1, then you're on your own.
@@ -70,8 +70,7 @@ public class ValueGradientExpression<T extends Comparable<T>> extends AbstractAc
 
   /**
    * Create a ValueGradientExpression with the specified length, value retriever
-   * and gradient direction and minimum events to match to match a gradient with 
-   * (min <= N <= length) events. 
+   * gradient direction and minimum events, to match a gradient with (min <= N <= length) events. 
    * 
    * Doesn't validate params, so if you give a length or min < 2 or a direction that
    * doesn't equal -1, 0 or 1, then you're on your own.
