@@ -3,6 +3,7 @@ package com.eventswarm.channels;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.Before;
 
 import java.io.InputStream;
@@ -95,6 +96,7 @@ public class HttpClientTest implements HttpContentHandler {
     }
 
     @Test
+    @Ignore("Depends on external service and associated credentials, needs rewriting")
     public void testAuthenticatedPostRequest() throws Exception {
         Properties props = new Properties();
         props.load(this.getClass().getClassLoader().getResourceAsStream("superfeedr.properties"));
