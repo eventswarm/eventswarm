@@ -15,8 +15,11 @@
 */
 package com.eventswarm.events;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+
 /**
- * Event interface for Kafka events allowing us to retrieve Kafka metadata, normally combined with a payload event type (e.g. JsonEvent).
+ * Event interface for Kafka events allowing us to retrieve Kafka metadata,
+ * normally combined with a payload event type (e.g. JsonEvent).
  *
  * Essentially wraps the methods from ConsumerRecord
  */
@@ -31,4 +34,27 @@ public interface KafkaEvent<K,V> extends Event {
     public long timestamp();
     public K key();
     public V value();
+
+    /**
+     * Deterministically create an unique event id from Kafka metadata so we can catch duplicates
+     * 
+     * Incredibly small chance of creating duplicate IDs if multiple kafka clusters are used
+     * 
+     * @return ID string composed of kafka topic + partition id + offset
+     */
+    public static String kafkaId(ConsumerRecord<? extends Object, ? extends Object> kafka) {
+        return(sourceString(kafka) + ":" + Integer.toString(kafka.partition()) + ":" + Long.toString(kafka.offset()));
+    }
+
+    /**
+     * Deterministically create a source string from Kafka metadata, noting that same timestamp and source implies parallellism
+     * 
+     * Assumes only one kafka cluster is relevant (could have topic names duplicated if multiple)
+     * 
+     * @param kafka ConsumerRecord object
+     * @return source string composed of `kafka:` prefix + topic
+     */
+    public static String sourceString(ConsumerRecord<? extends Object, ? extends Object> kafka) {
+        return "kafka:" + kafka.topic();
+    }
 }

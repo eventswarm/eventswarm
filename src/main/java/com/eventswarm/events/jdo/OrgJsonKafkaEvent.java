@@ -48,7 +48,7 @@ public class OrgJsonKafkaEvent<K, V> extends OrgJsonEvent implements KafkaEvent<
     }
 
     /**
-     * Create a JSON event from a kafka record using a default header, assuming we can parse the content into a JSON object
+     * Create a JSON event from a kafka record using a default header
      * 
      * @param kafka
      */
@@ -62,29 +62,6 @@ public class OrgJsonKafkaEvent<K, V> extends OrgJsonEvent implements KafkaEvent<
             (int) (kafka.offset() % 1000000), /* offset trimmed to int < 1,000,000 is a good sequence number */
             new JdoSource(sourceString(kafka)), 
             kafkaId(kafka));
-    }
-
-    /**
-     * Deterministically create an unique event id from Kafka metadata so we can catch duplicates
-     * 
-     * Incredibly small chance of creating duplicate IDs if multiple kafka clusters are used
-     * 
-     * @return ID string composed of kafka topic + partition id + offset
-     */
-    private static String kafkaId(ConsumerRecord<? extends Object, ? extends Object> kafka) {
-        return(sourceString(kafka) + ":" + Integer.toString(kafka.partition()) + ":" + Long.toString(kafka.offset()));
-    }
-
-    /**
-     * Deterministically create a source string from Kafka metadata, noting that same timestamp and source implies parallellism
-     * 
-     * Assumes only one kafka cluster is relevant (could have topic names duplicated if multiple)
-     * 
-     * @param kafka ConsumerRecord object
-     * @return source string composed of `kafka:` prefix + topic
-     */
-    private static String sourceString(ConsumerRecord<? extends Object, ? extends Object> kafka) {
-        return "kafka:" + kafka.topic();
     }
 
     public ConsumerRecord<K,V> getConsumerRecord() {
